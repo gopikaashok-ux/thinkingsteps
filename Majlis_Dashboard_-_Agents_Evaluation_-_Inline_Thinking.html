@@ -707,90 +707,73 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .msg{animation:none}.msg.is-new{animation:msgIn .5s cubic-bezier(.2,.8,.2,1) both}.msg--b.is-new{animation-delay:.15s}
 .msg--u.is-new>div{animation:bubIn .5s cubic-bezier(.34,1.4,.64,1) both;transform-origin:100% 100%}:root[dir="rtl"] .msg--u.is-new>div{transform-origin:0 100%}
 @keyframes msgIn{from{opacity:0;transform:translateY(12px)}}@keyframes bubIn{from{opacity:0;transform:scale(.92) translateY(8px)}}
-/* ---------- thinking in the conversation · Majlis reasons on a trunk, hands work off to nested agent cards, every step timed, every error shown ---------- */
-.tt{display:flex;flex-direction:column;align-self:stretch;min-width:0}
-/* header · one line: live status while working, a summary when done; click to fold */
-.tt__h{display:flex;align-items:center;gap:10px;align-self:flex-start;max-width:calc(100% + 6px);min-height:36px;padding:5px 12px 5px 6px;margin-inline-start:-6px;border-radius:99px;font-size:13.5px;line-height:19px;color:var(--ink2);text-align:start;transition:background .2s}
-.tt__h:hover{background:var(--tile)}.tt.is-open .tt__h{align-self:stretch}
-.tt__ic{flex:none;width:24px;height:24px}
-.tt__spin{position:relative;display:block;width:24px;height:24px;border-radius:50%;background:var(--accent-soft)}
-.tt__spin::before{content:'';position:absolute;inset:5px;border-radius:50%;border:2px solid transparent;border-top-color:var(--accent);border-inline-end-color:var(--accent);animation:spin .75s linear infinite}
-.tt__ok{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--dark-ink);flex:none}
-.tt__lbl{flex:0 1 auto;min-width:0}.tt:not(.is-done) .tt__lbl{flex:1 1 auto}
-.tt__lbl b{color:var(--ink);font-weight:600;white-space:nowrap}
+/* ---------- thinking in the conversation · one box: a header that folds, and inside it one collapsible row per stage (Majlis plans, each agent works, Majlis writes) ---------- */
+.tt{align-self:stretch;min-width:0;border-radius:var(--rs);border:1px solid var(--line);background:var(--card);overflow:hidden;transition:border-color .6s,box-shadow .6s}
+.tt:not(.is-done){border-color:color-mix(in srgb,var(--accent) 35%,var(--line));box-shadow:0 0 0 3px var(--accent-soft)}
+/* header and stage rows share one pattern: status, label, meta, time, chevron; the whole row toggles */
+.tt__h,.tt__ph{display:flex;align-items:center;gap:10px;width:100%;padding:8px 14px 8px 12px;font-size:13.5px;line-height:19px;color:var(--ink2);text-align:start;transition:background .2s}
+.tt__h{min-height:46px}.tt__ph{min-height:44px}
+.tt__h:hover,.tt__ph:hover{background:var(--tile)}
+.tt__cv{flex:none;color:var(--ink3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.tt.is-open>.tt__h .tt__cv,.tt__p.is-open>.tt__ph .tt__cv{transform:rotate(180deg)}
+.tt__fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.tt.is-open>.tt__fold,.tt__p.is-open>.tt__fold{grid-template-rows:1fr}
+.tt__fold>div{overflow:hidden;min-height:0}
+.tt__fold>div>*{transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}.tt:not(.is-open)>.tt__fold>div>*,.tt__p:not(.is-open)>.tt__fold>div>*{opacity:0;transform:translateY(-4px)}
+/* header label · live: who is doing what; done: how long, then the run in numbers */
+.tt__lbl{flex:1 1 auto;min-width:0}.tt.is-done .tt__lbl{flex:0 1 auto}
+.tt__lbl b,.tt__pn b{color:var(--ink);font-weight:600;white-space:nowrap}
 .tt__now{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:linear-gradient(90deg,var(--ink2) 0 40%,var(--ink3) 50%,var(--ink2) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
 .tt__x{display:inline-flex;align-items:center;gap:8px;min-width:0;flex:1 1 0}.tt:not(.is-done) .tt__x{display:none}.tt__x.is-in>*{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0) * 70ms + 200ms)}
 .tt__ms{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink3);font-size:12.5px}
-.tt__pl{display:inline-flex;align-items:center;gap:4px;flex:none;height:22px;padding:0 8px;border-radius:99px;font:600 11px/1 var(--font);white-space:nowrap}
-.tt__pl--w{background:var(--warn-soft);color:var(--warn)}.tt__pl--b{background:var(--bad-soft);color:var(--bad)}
-.tt.is-done .tt__t{display:none}.tt__t{flex:none;margin-inline-start:auto;font:500 12px/1 var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}
-.tt__h .chev{flex:none;color:var(--ink3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}.tt.is-open .tt__h .chev{transform:rotate(180deg)}
-.tt__b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}.tt.is-open .tt__b{grid-template-rows:1fr}.tt__b>div{overflow:hidden;min-height:0}
-.tt__in{display:flex;flex-direction:column;padding:8px 0 4px;transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1)}.tt:not(.is-open) .tt__in{opacity:0;transform:translateY(-6px)}
-/* who · the orchestrator's row; its timeline (the trunk) hangs below it */
-.tt__who{display:flex;align-items:center;gap:8px;min-height:24px;font-size:13.5px}.tt__who b{font-weight:600;color:var(--ink)}.tt__who small{font-size:12.5px;color:var(--ink3)}
-.tt__who .orb,.tt__lh>.ag{flex:none}
-/* trunk and lane timelines · a rule on the inline-start side; steps sit on it, notes hang beside it */
-.tt__tr,.tt__ls{position:relative;display:flex;flex-direction:column;margin-inline-start:11px;padding:4px 0 2px 21px;border-inline-start:1.5px solid var(--line2)}
-:root[dir="rtl"] .tt__tr,:root[dir="rtl"] .tt__ls{padding:4px 21px 2px 0}
-.tt .tt__r.is-q,.tt__ln.is-q{display:none}
-.tt__r{position:relative}.tt__r.is-new{animation:fadeUp .45s cubic-bezier(.2,.8,.2,1) both}
-/* notes · the agent's reasoning, Claude-style: plain prose, typed in */
-.tt__n{margin:6px 0;font-size:14px;line-height:21px;color:var(--ink2);max-width:62ch}
-.tt__n .tw-h{visibility:hidden}.tt__n.is-run .tw-v::after{content:'';display:inline-block;width:2px;height:15px;margin-inline-start:2px;vertical-align:-2px;border-radius:1px;background:var(--accent);animation:ttCaret 1s step-end infinite}@keyframes ttCaret{50%{opacity:0}}
-/* steps · dot on the rule, title + detail, source chip, time */
-.tt__s{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:13.5px;line-height:19px}
-.tt__d{position:absolute;inset-inline-start:-28.25px;top:9px;width:13px;height:13px;border-radius:50%;display:grid;place-items:center;background:var(--card-s);box-shadow:inset 0 0 0 1.5px var(--line2);transition:background .3s,box-shadow .3s}
-.tt__d svg{grid-area:1/1;width:9px;height:9px;fill:none;stroke:var(--dark-ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .25s .1s}
-.tt__s.is-done>.tt__d{background:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}.tt__s.is-done>.tt__d .d-ok{opacity:1}
-.tt__s.is-warn>.tt__d{background:var(--warn);box-shadow:inset 0 0 0 1.5px var(--warn)}.tt__s.is-warn>.tt__d .d-w{opacity:1}
-.tt__s.is-fail>.tt__d{background:var(--bad);box-shadow:inset 0 0 0 1.5px var(--bad)}.tt__s.is-fail>.tt__d .d-x{opacity:1}
-.tt__s.is-flip>.tt__d{animation:dotPop .5s cubic-bezier(.34,1.56,.64,1)}@keyframes dotPop{0%{transform:scale(.55)}100%{transform:none}}
-.tt__s.is-run>.tt__d{box-shadow:inset 0 0 0 1.5px var(--accent-soft)}
-.tt__s.is-run>.tt__d::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--accent);border-inline-end-color:var(--accent);animation:spin .75s linear infinite}
-.tt__s.is-run>.tt__d::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:var(--accent-soft);z-index:-1;animation:halo 1.6s ease-in-out infinite}@keyframes halo{50%{transform:scale(1.4);opacity:.25}}
-.tt__s.is-retry>.tt__d::before{border-top-color:var(--warn);border-inline-end-color:var(--warn)}.tt__s.is-retry>.tt__d::after{background:var(--warn-soft)}
+.tt__pill{display:inline-flex;align-items:center;gap:4px;flex:none;height:22px;padding:0 8px;border-radius:99px;font:600 11px/1 var(--font);white-space:nowrap;background:var(--tile);color:var(--ink2)}
+.tt__pill--w{background:var(--warn-soft);color:var(--warn)}.tt__pill--b{background:var(--bad-soft);color:var(--bad)}.tt__pill--a{background:var(--accent-soft);color:var(--accent-ink)}
+.tt__t,.tt__tm{flex:none;font:500 12px/19px var(--font);color:var(--ink3);font-variant-numeric:tabular-nums;text-align:end}.tt__tm{min-width:34px;font-size:11.5px}
+.tt.is-done>.tt__h .tt__t{display:none}
+/* status · one icon for the header, the stages and the steps: spinner, amber spinner on a retry, tick, warning, failure */
+.tt__st{position:relative;display:grid;place-items:center;width:18px;height:18px;flex:none;border-radius:50%;transition:background .3s,color .3s}
+.tt__st>*{grid-area:1/1;display:none}
+.tt__st.is-run>.tt__sp,.tt__st.is-retry>.tt__sp,.tt__st.is-done>.s-ok,.tt__st.is-warn>.s-al,.tt__st.is-fail>.s-al{display:block}
+.tt__sp{width:100%;height:100%;border-radius:50%;border:2px solid var(--accent-soft);border-top-color:var(--accent);animation:spin .75s linear infinite}
+.tt__st.is-retry>.tt__sp{border-color:var(--warn-soft);border-top-color:var(--warn)}
+.tt__st.is-done{background:var(--accent-soft);color:var(--accent)}.tt__st.is-warn{background:var(--warn-soft);color:var(--warn)}.tt__st.is-fail{background:var(--bad-soft);color:var(--bad)}
+.tt__st.is-flip{animation:dotPop .5s cubic-bezier(.34,1.56,.64,1)}@keyframes dotPop{0%{transform:scale(.55)}100%{transform:none}}
+.tt__st--lg{width:24px;height:24px}.tt__st--lg.is-done{background:var(--accent);color:var(--dark-ink)}
+/* stages · a divided list inside the box; a row appears when its stage starts */
+.tt__pl{border-top:1px solid var(--line)}
+.tt__p+.tt__p{border-top:1px solid var(--line)}
+.tt__p.is-q,.tt__r.is-q{display:none}
+.tt__p.is-new,.tt__r.is-new{animation:fadeUp .45s cubic-bezier(.2,.8,.2,1) both}
+.tt__ph>.ag,.tt__ph>.orb{flex:none}.tt__p.is-run>.tt__ph>.ag{animation:agRing 1.8s ease-out infinite}@keyframes agRing{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ag) 45%,transparent)}100%{box-shadow:0 0 0 9px transparent}}
+.tt__pn{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.tt__ps{flex:1 1 auto;min-width:0;font-size:12.5px;color:var(--ink3)}.tt__ps .swp__i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tt__pp{display:inline-flex;gap:6px;flex:none}.tt__pp:empty{display:none}
+/* stage body · capped height, scrolls on its own; content lines up with the stage name */
+.tt__pb{display:flex;flex-direction:column;gap:2px;max-height:264px;overflow:auto;overscroll-behavior:contain;padding:0 14px 12px;padding-inline-start:46px;scrollbar-width:thin}
+.tt__br{display:flex;flex-direction:column;gap:3px;margin:2px 0 6px;padding:8px 12px;border-radius:10px;background:var(--tile);font-size:13px;line-height:19px;color:var(--ink)}
+.tt__br small{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.tt__br q{quotes:'“' '”'}
+/* inside a stage · reasoning prose, compact steps, the result handed back */
+.tt__n{margin:4px 0;font-size:13.5px;line-height:20px;color:var(--ink2)}
+.tt__n .tw-h{visibility:hidden}.tt__n.is-run .tw-v::after{content:'';display:inline-block;width:2px;height:14px;margin-inline-start:2px;vertical-align:-2px;border-radius:1px;background:var(--accent);animation:ttCaret 1s step-end infinite}@keyframes ttCaret{50%{opacity:0}}
+.tt__s{display:flex;align-items:flex-start;gap:10px;padding:5px 0;font-size:13.5px;line-height:19px}.tt__s>.tt__st{margin-top:.5px}
 .tt__m{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.tt__m>b{font-weight:500;color:var(--ink)}.tt__m>small{font-size:12.5px;line-height:17px;color:var(--ink3)}
 .tt__s.is-run .tt__m>b{background:linear-gradient(90deg,var(--ink) 0 40%,var(--ink3) 50%,var(--ink) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
 .tt__src{flex:none;font:500 11px/1 var(--font);padding:5px 8px;border-radius:99px;background:var(--tile);color:var(--ink2)}
-.tt__src--par{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent-ink)}
-.tt__tm{flex:none;min-width:36px;text-align:end;font:500 11.5px/19px var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}
 .tt__s.is-fail .tt__tm{color:var(--bad)}.tt__s.is-warn .tt__tm{color:var(--warn)}
-.tt__s.is-new .tt__src{animation:chipIn .5s .2s cubic-bezier(.34,1.56,.64,1) both}@keyframes chipIn{from{opacity:0;transform:scale(.55)}}
-/* attempts · what went wrong, the retry and how it ended, nested under the step */
-.tt__at{display:flex;flex-direction:column;gap:4px}.tt__at:not(:empty){margin-top:6px}
-.tt__a{display:flex;align-items:flex-start;gap:7px;padding:6px 10px;border-radius:10px;font-size:12.5px;line-height:17px;animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
+.tt__rt{display:flex;align-items:flex-start;gap:10px;margin-top:4px;padding:8px 10px;border-radius:10px;background:var(--ok-soft);font-size:13px;line-height:19px;color:var(--ink)}
+.tt__rt>.i{flex:none;margin-top:2px;color:var(--accent)}.tt__rt b{font-weight:600;color:var(--accent-ink)}:root[data-theme="dark"] .tt__rt:not(.is-part) b{color:var(--accent)}
+.tt__rt.is-part{background:var(--warn-soft)}.tt__rt.is-part>.i,.tt__rt.is-part b{color:var(--warn)}
+/* attempts · what went wrong, the retry and how it ended, under the step */
+.tt__at{display:flex;flex-direction:column;gap:4px}.tt__at:not(:empty){margin-top:5px}
+.tt__a{display:flex;align-items:flex-start;gap:7px;padding:5px 9px;border-radius:9px;font-size:12.5px;line-height:17px;animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
 .tt__a>.i{flex:none;margin-top:1px}.tt__a>span{flex:1;min-width:0}.tt__a b{font-weight:600}
 .tt__a time{flex:none;font-variant-numeric:tabular-nums;opacity:.8}
 .tt__a code{font:600 10.5px/1 var(--font);padding:2px 5px;margin-inline-start:4px;border-radius:5px;background:color-mix(in srgb,currentColor 14%,transparent)}
 .tt__a.is-bad{background:var(--bad-soft);color:var(--bad)}.tt__a.is-warn{background:var(--warn-soft);color:var(--warn)}.tt__a.is-ok{background:var(--ok-soft);color:var(--accent)}
 .tt__a small{display:block;margin-top:2px;color:var(--ink2);font-size:12.5px}
 .tt__a.is-wait span>b{background:linear-gradient(90deg,var(--warn) 0 40%,color-mix(in srgb,var(--warn) 45%,transparent) 50%,var(--warn) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
-/* hand-off · the lanes branch off the trunk; a line from the rule to each agent card lights up while it works */
-.tt__lns{display:flex;flex-direction:column;gap:8px;margin:4px 0 6px}
-.tt__ln{position:relative;border-radius:var(--rs);border:1px solid var(--line);background:var(--card);transition:border-color .5s,box-shadow .5s}
-.tt__ln::before{content:'';position:absolute;inset-inline-start:-22.5px;top:22px;width:22.5px;height:1.5px;background:var(--line2);transition:background .4s}
-.tt__ln.is-run{border-color:color-mix(in srgb,var(--ag) 40%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--ag) 10%,transparent)}.tt__ln.is-run::before{background:var(--ag)}
-.tt__ln.is-new{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both}.tt__ln.is-new>.tt__lh>.ag{animation:avIn .6s cubic-bezier(.34,1.56,.64,1) both}
-.tt__ln.is-run>.tt__lh>.ag{animation:agRing 1.8s ease-out infinite}@keyframes agRing{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ag) 45%,transparent)}100%{box-shadow:0 0 0 9px transparent}}
-.tt__lh{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:var(--rs);text-align:start;transition:background .2s}.tt__lh:hover{background:var(--tile)}
-.tt__lnm{display:flex;flex-direction:column;min-width:0;flex:1}.tt__lnm b{font:600 13.5px/18px var(--font);color:var(--ink)}.tt__lnm small{font-size:12px;line-height:16px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tt__bd{display:grid;flex:none;font:600 11px/1 var(--font);font-style:normal}
-.tt__bd>span{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:99px;opacity:0;transform:translateY(5px) scale(.94);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
-.bd-run{background:var(--accent-soft);color:var(--accent-ink)}.bd-done{color:var(--accent)}.bd-warn{background:var(--warn-soft);color:var(--warn)}
-.tt__ln.is-run .bd-run,.tt__ln.is-done .bd-done,.tt__ln.is-warn .bd-warn{opacity:1;transform:none}
-.bd-dots{display:inline-flex;gap:2px}.bd-dots b{width:3px;height:3px;border-radius:50%;background:currentColor;animation:dot 1s infinite}.bd-dots b:nth-child(2){animation-delay:.15s}.bd-dots b:nth-child(3){animation-delay:.3s}
-.tt__lh .chev{flex:none;color:var(--ink3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}.tt__ln.is-open>.tt__lh .chev{transform:rotate(180deg)}
-.tt__lb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}.tt__ln.is-open>.tt__lb{grid-template-rows:1fr}.tt__lb>div{overflow:hidden;min-height:0;padding:0 12px 10px}
-.tt__br{display:flex;flex-direction:column;gap:4px;margin:0 0 4px;padding:8px 12px;border-radius:10px;background:var(--tile);font-size:13px;line-height:19px;color:var(--ink)}
-.tt__br small{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
-.tt__br q{quotes:'“' '”'}
-/* reported back · the lane's answer to the orchestrator */
-.tt__rt{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;line-height:19px;color:var(--ink2)}
-.tt__rt>.tt__d{background:var(--accent-soft);box-shadow:none;color:var(--accent)}.tt__rt>.tt__d svg{opacity:1;stroke:currentColor}
-.tt__rt b{font-weight:600;color:var(--accent-ink)}:root[data-theme="dark"] .tt__rt b{color:var(--accent)}
-.tt__rt.is-part b{color:var(--warn)}
-:root[dir="rtl"] .tt [dir="auto"]{text-align:right}.tt__rt.is-part>.tt__d{background:var(--warn-soft);color:var(--warn)}
+:root[dir="rtl"] .tt [dir="auto"]{text-align:right}
 /* answers · parts carry a byline per agent; a fresh answer settles in piece by piece */
 .ans-part{display:flex;flex-direction:column;gap:12px}.ans-part+.ans-part{padding-top:18px;border-top:1px solid var(--line)}
 .ans-by{display:inline-flex;align-items:center;gap:8px;font:600 12.5px/1 var(--font);color:var(--ink2)}
@@ -810,7 +793,7 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ae__ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--tile);color:var(--ink2);flex:none}.ans-empty--warn .ae__ic{background:var(--warn-soft);color:var(--warn)}
 .ans-empty b{display:block;font:600 15px/21px var(--font)}.ans-empty p{margin:4px 0 12px;color:var(--ink2);font-size:14px;line-height:21px}.ae__a{display:flex;gap:8px;flex-wrap:wrap}
 @media (max-width:1100px){.chat__h .chat__src{display:none}}
-@media (max-width:760px){.agnow .agnow__tx{display:none}.tt__src{display:none}.tt__lnm small{display:none}.tt__lnm b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+@media (max-width:760px){.agnow .agnow__tx{display:none}.tt__src,.tt__ps,.tt__x .ag-stack{display:none}.tt__pb{padding-inline-start:14px}}
 /* ---------- microinteractions ---------- */
 /* numbers: count-up + change flash with a floating delta chip */
 .cu-up{animation:cuUp 1.4s ease}.cu-dn{animation:cuDn 1.4s ease}@keyframes cuUp{0%,35%{color:var(--accent)}}@keyframes cuDn{0%,35%{color:var(--bad)}}
@@ -2522,21 +2505,20 @@ function grow(el) { if (RM()) return; const h = el.scrollHeight; el.style.height
 function stick(p, ms) { if (!p) return; const end = performance.now() + ms; (function f() { p.scrollTop = p.scrollHeight; if (performance.now() < end) requestAnimationFrame(f); })(); }
 /* ---------- thinking in the conversation · Majlis reasons out loud, briefs each agent (in parallel when the parts are independent),
    the agents work and report back, then Majlis checks and writes. Every step is timed; every error, retry and fallback is shown ---------- */
-_m(TX.en, { tt: { thinking: 'Thinking', thought: 'Thought for {s}', orch: 'Orchestrator', agents: '{n} agents', agent1: '1 agent', steps: '{n} steps', retried: '{n} retried', warned: '{n} with warnings', failed: '{n} failed', parallel: 'In parallel', brief: 'Brief from Majlis', back: 'Reported back', working: 'Working', done: 'Done', partial: 'Partial', reasoning: 'Reasoning', attempt: 'Attempt {i}', retrying: 'Retrying in {s}', recovered: 'Recovered on attempt {i}', running: 'Running' } });
-_m(TX.ar, { tt: { thinking: 'يفكّر', thought: 'فكّر لمدة {s}', orch: 'المنسّق', agents: '{n} وكلاء', agent1: 'وكيل واحد', steps: '{n} خطوات', retried: '{n} أُعيدت', warned: '{n} مع تنبيهات', failed: '{n} فشلت', parallel: 'بالتوازي', brief: 'تكليف من مجلس', back: 'أعاد النتيجة', working: 'يعمل', done: 'تم', partial: 'جزئي', reasoning: 'يفكّر', attempt: 'المحاولة {i}', retrying: 'إعادة المحاولة خلال {s}', recovered: 'نجحت في المحاولة {i}', running: 'قيد التنفيذ' } });
+_m(TX.en, { tt: { thinking: 'Thinking', thought: 'Thought for {s}', orch: 'Orchestrator', agents: '{n} agents', agent1: '1 agent', steps: '{n} steps', retried: '{n} retried', warned: '{n} with warnings', failed: '{n} failed', parallel: 'In parallel', brief: 'Brief from Majlis', back: 'Reported back', working: 'Working', done: 'Done', partial: 'Partial', reasoning: 'Reasoning', attempt: 'Attempt {i}', retrying: 'Retrying in {s}', recovered: 'Recovered on attempt {i}', running: 'Running', plan: 'Plan', write: 'Answer' } });
+_m(TX.ar, { tt: { thinking: 'يفكّر', thought: 'فكّر لمدة {s}', orch: 'المنسّق', agents: '{n} وكلاء', agent1: 'وكيل واحد', steps: '{n} خطوات', retried: '{n} أُعيدت', warned: '{n} مع تنبيهات', failed: '{n} فشلت', parallel: 'بالتوازي', brief: 'تكليف من مجلس', back: 'أعاد النتيجة', working: 'يعمل', done: 'تم', partial: 'جزئي', reasoning: 'يفكّر', attempt: 'المحاولة {i}', retrying: 'إعادة المحاولة خلال {s}', recovered: 'نجحت في المحاولة {i}', running: 'قيد التنفيذ', plan: 'الخطة', write: 'الإجابة' } });
 /* demo faults · keyed by step title so the usual questions show each kind: a retry that recovers, a partial result, and (Power BI / Dynamics) a hard failure with a fallback */
 const FAULTS = {
   'Read the board pack': { k: 'retry', code: '504', msg: 'SharePoint timed out after 4.0s', wait: 1200, why: 'SharePoint timeouts are usually brief, so trying once more before falling back.' },
   'Pulled performance indicators': { k: 'retry', code: '429', msg: 'WANO rate limit reached', wait: 1500, why: 'The data-sharing API asks clients to back off, so waiting and retrying.' },
   'Read #product-launch in Teams': { k: 'warn', msg: '1 private thread skipped · no access', why: 'Carrying on with the 62 messages I can read.' } };
-const XI = '<svg class="d-x" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 4l4 4M8 4 4 8"/></svg>', OKI = CHK.replace('<svg', '<svg class="d-ok"'), WI = WARN.replace('<svg', '<svg class="d-w"');
 const lc1 = s => s.charAt(0).toLowerCase() + s.slice(1), andEn = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1] : a[0] || '', NUM = ['zero', 'one', 'two', 'three', 'four', 'five'];
-/* trace · the plan as a tree: Majlis's lead (understand → reason → hand off), one lane per agent, Majlis's tail (reason → write) */
+/* trace · the plan in stages: Majlis plans (understand → reason → hand off), one stage per agent, Majlis writes (reason → check) */
 function traceFor(q, sel, files) { const P = planFor(q, sel, files), st = P.steps, picked = sel !== 'super'; let n = 0; const id = () => 'i' + n++;
   st.forEach(s => { s.k = 'step'; s.id = id(); const f = s.fail ? { k: 'fail', msg: s.d } : FAULTS[s.t]; if (f) s.err = f; });
   let i = 0; const lead = []; while (i < st.length - 1 && st[i].a === 'majlis') lead.push(st[i++]);
   const tail = st[st.length - 1], lanes = [];
-  st.slice(i, -1).forEach(s => { if (s.a === 'majlis') return lead.push(s); let l = lanes.find(x => x.a === s.a); if (!l) lanes.push(l = { a: s.a, id: 'l' + lanes.length, st: 'q', open: true, items: [] }); l.items.push(s); });
+  st.slice(i, -1).forEach(s => { if (s.a === 'majlis') return lead.push(s); let l = lanes.find(x => x.a === s.a); if (!l) lanes.push(l = { a: s.a, id: 'l' + lanes.length, st: 'q', items: [] }); l.items.push(s); });
   const ho = lead.find(s => /^(Handed off|Sent it to)/.test(s.t)); if (ho) { ho.ho = true; ho.par = lanes.length > 1; }
   const topic = a => P.jobs.filter(j => KIND[j.k][0] === a).map(j => KIND[j.k][1]), names = lanes.map(l => AG[l.a].n);
   const intro = !lanes.length ? 'Nothing here needs a specialist agent, so I will search the connected sources myself.'
@@ -2555,12 +2537,15 @@ function traceFor(q, sel, files) { const P = planFor(q, sel, files), st = P.step
     const fix = bad.length ? ` ${andEn(bad.map(s => s.src || s.t))} couldn't be reached, so I will say what is missing rather than guess.` : rt.length ? ` The ${andEn(rt.map(s => s.src))} retry cost ${secs(rt.reduce((m, s) => m + (s.att ? s.att[0].ms + s.err.wait : 0), 0))}, but nothing is missing.` : '';
     return head + fix + (lanes.length ? ' Cross-checking each figure against its source, then writing one answer.' : ' Writing that up.'); }), tail];
   const all = [...lead, ...lanes.flatMap(l => l.items), ...tl];
-  return { jobs: P.jobs, lead, lanes, tail: tl, all, steps: all.filter(x => x.k === 'step') }; }
+  lanes.forEach(l => { l.par = lanes.length > 1; });
+  const phases = [{ a: 'majlis', id: 'pl', st: 'q', items: lead, lead: 1 }, ...lanes, { a: 'majlis', id: 'pt', st: 'q', items: tl, tail: 1 }];
+  return { jobs: P.jobs, phases, lanes, all, steps: all.filter(x => x.k === 'step') }; }
 const runs = () => S.chat.map(m => m.run).filter(Boolean), runById = id => runs().find(r => r.id === id), fin = s => s.st !== 'q' && s.st !== 'run';
 const cur = r => r.steps.filter(s => s.st === 'run').sort((a, b) => b.t0 - a.t0)[0] || r.steps.find(s => s.st === 'q') || r.steps[r.steps.length - 1];
 const agentsOf = r => [...new Set(r.steps.map(s => s.a))].filter(a => a !== 'majlis'), prog = r => r.steps.filter(fin).length / r.steps.length;
 /* markup · built from state, so a redraw of the thread shows the trace exactly where it is */
-const sig = it => `${it.st}|${it.att ? it.att.length : 0}|${it.wait ? 1 : 0}`;
+const sig = it => `${it.st}|${it.att ? it.att.length : 0}|${it.wait ? 1 : 0}`, stOf = it => it.st === 'run' && it.att ? 'retry' : it.st;
+const stIc = (st, x = '') => `<i class="tt__st is-${st}${x}"><i class="tt__sp"></i>${ico('check', 11, 's-ok')}${ico('alert', 11, 's-al')}</i>`;
 function attHTML(it) { const f = it.err; if (!f) return '';
   if (f.k === 'retry') { if (!it.att) return ''; const [a, b] = it.att;
     return `<span class="tt__a is-bad">${ico('alert', 13)}<span><b>${t('tt.attempt', { i: 1 })}</b> · ${esc(f.msg)}<code>${f.code}</code></span><time>${secs(a.ms)}</time></span>`
@@ -2571,35 +2556,44 @@ function attHTML(it) { const f = it.err; if (!f) return '';
   return ''; }
 function ttItem(it) { const c = `tt__r is-${it.st}`, d = `data-it="${it.id}" data-sig="${sig(it)}"`;
   if (it.k === 'note') { const tx = typeof it.tx === 'function' ? '' : it.tx; return `<p class="${c} tt__n" dir="auto" ${d}><span class="tw-v">${esc(tx)}</span><span class="tw-h"></span></p>`; }
-  if (it.k === 'ret') return `<div class="${c} tt__rt${it.warn ? ' is-part' : ''}" ${d}><i class="tt__d">${ico('reply', 9)}</i><span><b>${t('tt.back')}</b> · <span dir="auto">${esc(it.tx)}</span></span></div>`;
-  const tag = it.par ? `<span class="tt__src tt__src--par">${ico('layout', 11)}${t('tt.parallel')}</span>` : it.src ? `<span class="tt__src">${esc(it.src)}</span>` : '';
-  return `<div class="${c} tt__s${it.st === 'run' && it.att ? ' is-retry' : ''}" ${d}><i class="tt__d">${OKI}${WI}${XI}</i><div class="tt__m"><b dir="auto">${esc(it.t)}</b>${it.d && !(it.err && it.err.k === 'fail') ? `<small dir="auto">${esc(it.d)}</small>` : ''}<div class="tt__at">${attHTML(it)}</div></div>${tag}<time class="tt__tm">${it.dur ? secs(it.dur) : it.st === 'run' ? secs(Date.now() - it.t0) : ''}</time></div>`; }
-const lnBd = () => `<em class="tt__bd"><span class="bd-run">${t('tt.working')}<i class="bd-dots"><b></b><b></b><b></b></i></span><span class="bd-done">${ico('check', 11)}${t('tt.done')}</span><span class="bd-warn">${ico('alert', 11)}${t('tt.partial')}</span></em>`;
-const lnHTML = (r, l) => `<section class="tt__ln is-${l.st}${l.open ? ' is-open' : ''}" data-ln="${l.id}" data-sig="${l.st}" style="--ag:${AG[l.a].c}"><button class="tt__lh" type="button" data-ln-t="${r.id}:${l.id}" aria-expanded="${!!l.open}">${agAv(l.a)}<span class="tt__lnm"><b>${AG[l.a].n}</b><small>${AG[l.a].r}</small></span>${lnBd()}<time class="tt__tm">${l.dur ? secs(l.dur) : l.st === 'run' ? secs(Date.now() - l.t0) : ''}</time>${ico('chevDown', 14, 'chev')}</button>
-  <div class="tt__lb"><div><div class="tt__br"><small>${ico('reply', 12)}${t('tt.brief')}</small><q dir="auto">${esc(l.brief)}</q></div><div class="tt__ls">${l.items.map(ttItem).join('')}</div></div></div></section>`;
+  if (it.k === 'ret') return `<div class="${c} tt__rt${it.warn ? ' is-part' : ''}" ${d}>${ico('reply', 14)}<span><b>${t('tt.back')}</b> · <span dir="auto">${esc(it.tx)}</span></span></div>`;
+  const tag = it.par ? `<span class="tt__pill tt__pill--a">${t('tt.parallel')}</span>` : it.src ? `<span class="tt__src">${esc(it.src)}</span>` : '';
+  return `<div class="${c} tt__s" ${d}>${stIc(stOf(it))}<div class="tt__m"><b dir="auto">${esc(it.t)}</b>${it.d && !(it.err && it.err.k === 'fail') ? `<small dir="auto">${esc(it.d)}</small>` : ''}<div class="tt__at">${attHTML(it)}</div></div>${tag}<time class="tt__tm">${it.dur ? secs(it.dur) : it.st === 'run' ? secs(Date.now() - it.t0) : ''}</time></div>`; }
+/* stages · open while running unless you chose otherwise; a finished stage folds to its one-line result */
+const isOpen = p => p.pin ? !!p.open : p.st === 'run';
+function phSum(p) { if (p.st === 'run') { const x = p.items.filter(i => i.st === 'run').sort((a, b) => b.t0 - a.t0)[0];
+    return x ? `<span class="tt__now">${x.k === 'note' ? t('tt.reasoning') : x.k === 'ret' ? t('tt.back') : esc(x.t)}…</span>` : ''; }
+  const steps = p.items.filter(i => i.k === 'step'), ho = steps.find(i => i.ho), ret = p.items.find(i => i.k === 'ret');
+  return esc(ret ? ret.tx : ho ? (ho.par ? `${ho.t} · ${ho.d}` : ho.t) : (steps[steps.length - 1] || {}).t || ''); }
+function phPills(p) { const n = p.items.filter(i => i.att).length; return (p.par ? `<span class="tt__pill tt__pill--a">${t('tt.parallel')}</span>` : '') + (n ? `<span class="tt__pill tt__pill--w">${ico('reset', 11)}${t('tt.retried', { n })}</span>` : ''); }
+const phName = p => p.a === 'majlis' ? (p.lead ? `Majlis · ${t('tt.plan')}` : `Majlis · ${t('tt.write')}`) : AG[p.a].n;
+const phHTML = (r, p) => `<section class="tt__p is-${p.st}${isOpen(p) ? ' is-open' : ''}" data-ph="${p.id}" data-sig="${p.st}" style="--ag:${p.a === 'majlis' ? 'var(--accent)' : AG[p.a].c}">
+  <button class="tt__ph" type="button" data-ph-t="${r.id}:${p.id}" aria-expanded="${isOpen(p)}" title="${esc(p.a === 'majlis' ? 'Majlis · ' + t('tt.orch') : AG[p.a].n + ' · ' + AG[p.a].r)}">${agAv(p.a)}<span class="tt__pn"><b>${phName(p)}</b>${swHTML('tt__ps', phSum(p))}</span><span class="tt__pp">${phPills(p)}</span>${stIc(p.st)}<time class="tt__tm">${p.dur ? secs(p.dur) : p.st === 'run' ? secs(Date.now() - p.t0) : ''}</time>${ico('chevDown', 16, 'tt__cv')}</button>
+  <div class="tt__fold"><div><div class="tt__pb">${p.brief ? `<div class="tt__br"><small>${ico('reply', 12)}${t('tt.brief')}</small><q dir="auto">${esc(p.brief)}</q></div>` : ''}${p.items.map(ttItem).join('')}</div></div></div></section>`;
 /* header · live: who is doing what; done: how long, how many agents and steps, what went wrong */
-const ttIc = r => r.done ? `<i class="tt__ok">${ico('check', 14)}</i>` : '<i class="tt__spin"></i>';
 function ttLbl(r) { if (r.done) return `<b>${t('tt.thought', { s: secs(r.ms) })}</b>`;
   const live = r.T.all.filter(x => x.st === 'run' && x.k !== 'ret').sort((a, b) => b.t0 - a.t0)[0];
   return `<b>${t('tt.thinking')}</b>${live ? `<span class="tt__now">${AG[live.a].n} · ${live.k === 'note' ? t('tt.reasoning') : esc(live.t)}…</span>` : ''}`; }
 function ttMeta(r) { const u = agentsOf(r), rt = r.steps.filter(s => s.att).length, w = r.steps.filter(s => s.st === 'warn').length, f = r.steps.filter(s => s.st === 'fail').length; let d = 0;
   return `<span class="tt__ms" style="--d:${d++}">· ${u.length ? (u.length === 1 ? t('tt.agent1') : t('tt.agents', { n: u.length })) + ' · ' : ''}${t('tt.steps', { n: r.steps.length })}</span>`
-    + (rt ? `<span class="tt__pl tt__pl--w" style="--d:${d++}">${ico('reset', 11)}${t('tt.retried', { n: rt })}</span>` : '') + (w ? `<span class="tt__pl tt__pl--w" style="--d:${d++}">${ico('alert', 11)}${t('tt.warned', { n: w })}</span>` : '')
-    + (f ? `<span class="tt__pl tt__pl--b" style="--d:${d++}">${ico('alert', 11)}${t('tt.failed', { n: f })}</span>` : '') + `<span class="ag-stack" style="--d:${d}">${u.map(a => agAv(a)).join('')}</span>`; }
-const ttHTML = r => `<div class="tt${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="tt__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}">${swHTML('tt__ic', ttIc(r))}${swHTML('tt__lbl', ttLbl(r))}<span class="tt__x">${r.done ? ttMeta(r) : ''}</span><time class="tt__t" data-run-t="${r.done ? '' : r.id}">${secs(r.done ? r.ms : Date.now() - r.t0)}</time>${ico('chevDown', 16, 'chev')}</button>
-  <div class="tt__b"><div><div class="tt__in"><div class="tt__who">${agAv('majlis')}<b>Majlis</b><small>${t('tt.orch')}</small></div>
-  <div class="tt__tr">${r.T.lead.map(ttItem).join('')}${r.T.lanes.length ? `<div class="tt__lns">${r.T.lanes.map(l => lnHTML(r, l)).join('')}</div>` : ''}${r.T.tail.map(ttItem).join('')}</div></div></div></div></div>`;
+    + (rt ? `<span class="tt__pill tt__pill--w" style="--d:${d++}">${ico('reset', 11)}${t('tt.retried', { n: rt })}</span>` : '') + (w ? `<span class="tt__pill tt__pill--w" style="--d:${d++}">${ico('alert', 11)}${t('tt.warned', { n: w })}</span>` : '')
+    + (f ? `<span class="tt__pill tt__pill--b" style="--d:${d++}">${ico('alert', 11)}${t('tt.failed', { n: f })}</span>` : '') + `<span class="ag-stack" style="--d:${d}">${u.map(a => agAv(a)).join('')}</span>`; }
+const ttHTML = r => `<div class="tt${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="tt__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}">${stIc(r.done ? 'done' : 'run', ' tt__st--lg')}${swHTML('tt__lbl', ttLbl(r))}<span class="tt__x">${r.done ? ttMeta(r) : ''}</span><time class="tt__t" data-run-t="${r.done ? '' : r.id}">${secs(r.done ? r.ms : Date.now() - r.t0)}</time>${ico('chevDown', 16, 'tt__cv')}</button>
+  <div class="tt__fold"><div><div class="tt__pl">${r.T.phases.map(p => phHTML(r, p)).join('')}</div></div></div></div>`;
 /* typing · notes stream in word by word; the untyped rest holds the space so nothing below jumps */
 function typeIn(e, tx, ms) { const v = $('.tw-v', e), h = $('.tw-h', e), w = tx.split(' '); if (RM()) { v.textContent = tx; h.textContent = ''; return; } let k = 0;
   (function f() { k++; v.textContent = w.slice(0, k).join(' '); h.textContent = k < w.length ? ' ' + w.slice(k).join(' ') : ''; if (k < w.length) setTimeout(f, ms / w.length); })(); }
 const noteMs = tx => Math.min(1700, Math.max(600, tx.split(' ').length * 42));
 function ttPatch(el, it) { const e = $(`[data-it="${it.id}"]`, el); if (!e) return; const s = sig(it); if (e.dataset.sig === s) return;
   const was = e.dataset.sig.split('|')[0]; e.dataset.sig = s; ['q', 'run', 'done', 'warn', 'fail'].forEach(c => e.classList.toggle('is-' + c, c === it.st));
-  if (it.k === 'step') { e.classList.toggle('is-retry', it.st === 'run' && !!it.att); $('.tt__at', e).innerHTML = attHTML(it); if (it.dur) $('.tt__tm', e).textContent = secs(it.dur); if (was === 'run' && it.st !== 'run') pulseCls(e, 'is-flip'); }
-  if (was === 'q' && it.st !== 'q') { if (it.k === 'note') { $('.tw-h', e).textContent = it.tx; } pulseCls(e, 'is-new'); grow(e); if (it.k === 'note') typeIn(e, it.tx, noteMs(it.tx) * .85); } }
-function lnPatch(el, l) { const e = $(`[data-ln="${l.id}"]`, el); if (!e) return; e.classList.toggle('is-open', !!l.open); $('.tt__lh', e).setAttribute('aria-expanded', !!l.open); if (e.dataset.sig === l.st) return;
-  const was = e.dataset.sig; e.dataset.sig = l.st; ['q', 'run', 'done', 'warn'].forEach(c => e.classList.toggle('is-' + c, c === l.st)); if (l.dur) $('.tt__lh .tt__tm', e).textContent = secs(l.dur);
-  if (was === 'q') { pulseCls(e, 'is-new'); grow(e); } }
+  if (it.k === 'step') { const ic = $('.tt__st', e); ic.className = 'tt__st is-' + stOf(it); $('.tt__at', e).innerHTML = attHTML(it); if (it.dur) $('.tt__tm', e).textContent = secs(it.dur); if (was === 'run' && it.st !== 'run') pulseCls(ic, 'is-flip'); }
+  if (was === 'q' && it.st !== 'q') { pulseCls(e, 'is-new'); if (it.k === 'note') { $('.tw-h', e).textContent = it.tx; typeIn(e, it.tx, noteMs(it.tx) * .85); } } }
+function phPatch(el, p) { const e = $(`[data-ph="${p.id}"]`, el); if (!e) return; const o = isOpen(p), h = $('.tt__ph', e);
+  e.classList.toggle('is-open', o); h.setAttribute('aria-expanded', o); swap($('.tt__ps', h), phSum(p));
+  if (e.dataset.sig !== p.st) { const was = e.dataset.sig; e.dataset.sig = p.st; ['q', 'run', 'done', 'warn'].forEach(c => e.classList.toggle('is-' + c, c === p.st));
+    const ic = $('.tt__st', h); ic.className = 'tt__st is-' + p.st; if (was === 'run') pulseCls(ic, 'is-flip'); if (p.dur) $('.tt__tm', h).textContent = secs(p.dur); if (was === 'q') pulseCls(e, 'is-new'); }
+  const pp = $('.tt__pp', h), ph = phPills(p); if (pp.dataset.k !== ph) { pp.dataset.k = ph; pp.innerHTML = ph; }
+  if (o && p.st === 'run' && !p.pin) { const b = $('.tt__pb', e); b.scrollTop = b.scrollHeight; } }
 const srcsHTML = src => !src.length ? '' : `<div class="srcs"><small>${t('basedOn')}</small>${src.map(s => `<span>${s}</span>`).join('')}</div>`;
 const botHTML = m => `<div class="msg msg--b" data-m="${m.run.id}">${orb('orb--sm')}<div class="msg__c">${ttHTML(m.run)}${m.ans ? m.ans + srcsHTML(m.src) : ''}</div></div>`;
 function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.firstChild) el.innerHTML = `<i class="agnow__d"></i>${swHTML('agnow__av', '')}${swHTML('agnow__tx', '')}`;
@@ -2607,16 +2601,16 @@ function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.
   swap($('.agnow__av', el), agAv(s.a), true); swap($('.agnow__tx', el), t('th.isWorking', { a: AG[s.a].n })); el.classList.add('is-on'); }
 function paintRun(r) { const p = $('#chatThread'), near = p && p.scrollHeight - p.scrollTop - p.clientHeight < 220, el = $(`[data-tt="${r.id}"]`);
   if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.tt__h', el); h.setAttribute('aria-expanded', !!r.open);
-    swap($('.tt__ic', h), ttIc(r), true); swap($('.tt__lbl', h), ttLbl(r));
+    $('.tt__st', h).className = 'tt__st tt__st--lg is-' + (r.done ? 'done' : 'run'); swap($('.tt__lbl', h), ttLbl(r));
     const x = $('.tt__x', h); if (r.done && !x.childElementCount) { x.innerHTML = ttMeta(r); x.classList.add('is-in'); }
     if (r.done) { const tm = $('.tt__t', h); tm.removeAttribute('data-run-t'); tm.textContent = secs(r.ms); }
-    r.T.all.forEach(it => ttPatch(el, it)); r.T.lanes.forEach(l => lnPatch(el, l)); }
+    r.T.all.forEach(it => ttPatch(el, it)); r.T.phases.forEach(ph => phPatch(el, ph)); }
   paintAgentNow(); applyMood(); if (near && !r.done) stick(p, 500); }
-/* the clock · header, running steps and lanes tick; a retry counts down */
+/* the clock · header, running steps and stages tick; a retry counts down */
 function ttTick(r) { $$(`[data-run-t="${r.id}"]`).forEach(e => { e.textContent = secs(Date.now() - r.t0); }); const el = $(`[data-tt="${r.id}"]`); if (!el) return;
   r.T.all.forEach(it => { if (it.st !== 'run' || it.k !== 'step') return; const e = $(`[data-it="${it.id}"]`, el); if (!e) return; $('.tt__tm', e).textContent = secs(Date.now() - it.t0); const w = $('.tt__wt', e); if (w) w.textContent = secs(Math.max(0, it.wait - Date.now())); });
-  r.T.lanes.forEach(l => { if (l.st === 'run') { const e = $(`[data-ln="${l.id}"] .tt__lh .tt__tm`, el); if (e) e.textContent = secs(Date.now() - l.t0); } }); }
-/* the run · lead in order, lanes side by side, tail in order */
+  r.T.phases.forEach(p => { if (p.st === 'run') { const e = $(`[data-ph="${p.id}"] > .tt__ph .tt__tm`, el); if (e) e.textContent = secs(Date.now() - p.t0); } }); }
+/* the run · Majlis plans, the agents work side by side, Majlis writes */
 const jit = ms => ms * (.8 + Math.random() * .4);
 async function runIt(r, it) { it.st = 'run'; it.t0 = Date.now(); if (typeof it.tx === 'function') it.tx = it.tx(r); paintRun(r); const f = it.err;
   if (it.k === 'note') await sleep(noteMs(it.tx));
@@ -2624,8 +2618,8 @@ async function runIt(r, it) { it.st = 'run'; it.t0 = Date.now(); if (typeof it.t
     it.wait = 0; it.att.push({ t0: Date.now() }); paintRun(r); await sleep(jit(it.ms) * .7); it.att[1].ms = Date.now() - it.att[1].t0; }
   else await sleep(jit(it.ms));
   it.st = f && f.k === 'fail' ? 'fail' : f && f.k === 'warn' ? 'warn' : 'done'; it.dur = Date.now() - it.t0; paintRun(r); }
-async function runLane(r, l, k) { await sleep(k * 260); l.st = 'run'; l.t0 = Date.now(); paintRun(r); for (const it of l.items) await runIt(r, it);
-  l.st = l.items.some(x => x.st === 'fail' || x.st === 'warn') ? 'warn' : 'done'; l.dur = Date.now() - l.t0; paintRun(r); }
+async function runPhase(r, p, k = 0) { await sleep(k * 260); p.st = 'run'; p.t0 = Date.now(); paintRun(r); for (const it of p.items) await runIt(r, it);
+  p.st = p.items.some(x => x.st === 'fail' || x.st === 'warn') ? 'warn' : 'done'; p.dur = Date.now() - p.t0; paintRun(r); }
 function fabSetup() { $('#fabT').textContent = t('th.fabT'); $('#fabS').textContent = t('th.fabS'); $('#fab').setAttribute('aria-label', t('th.fabT')); setTimeout(applyMood); }
 /* a fresh answer settles in block by block, then the thread eases down to it */
 function revealAnswer(m) { S.speakRun = m.run.id; setTimeout(() => { if (S.speakRun === m.run.id) { S.speakRun = null; applyMood(); } }, 2800); applyMood();
@@ -2641,9 +2635,8 @@ async function chatSend(q, opts = {}) { q = (q || '').trim() || (S.att.length ? 
   if (p) $$('.msg', p).slice(-2).forEach(e => e.classList.add('is-new')); if (opts.open) openChat(opts.from); renderHero(); stick(p, 600);
   r.tk = setInterval(() => ttTick(r), 100);
   await sleep(350);
-  for (const it of T.lead) await runIt(r, it);
-  await Promise.all(T.lanes.map((l, k) => runLane(r, l, k)));
-  for (const it of T.tail) await runIt(r, it);
+  const [pl, ...rest] = T.phases, pt = rest.pop();
+  await runPhase(r, pl); await Promise.all(rest.map((p, k) => runPhase(r, p, k))); await runPhase(r, pt);
   clearInterval(r.tk); r.done = true; r.ms = Date.now() - r.t0; paintRun(r);
   const parts = r.jobs.map(j => [j, AN[j.k](j.p)]); item.src = [...new Set(parts.flatMap(([, a]) => a[1]))];
   item.ans = parts.length > 1 ? parts.map(([j, [h]]) => `<section class="ans-part"><small class="ans-by">${agAv(KIND[j.k][0])}${AG[KIND[j.k][0]].n}</small>${h}</section>`).join('') : parts[0][1][0]; if (r.files.length) { item.ans += `<p class="ans-att">${ico('clip', 15)}<span>Also used ${r.files.map(f => `<b>${esc(f.n)}</b>`).join(', ')}</span></p>`; item.src = [...item.src, 'Upload']; }
@@ -3048,10 +3041,10 @@ $('#chatMic').onclick = e => { e.preventDefault(); voice($('#chatIn').closest('.
 /* Esc cancels a recording before anything else hears it; typing takes over from the mic; clearing the box drops the ready state */
 addEventListener('keydown', e => { if (VOICE && e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); voiceStop(true); } }, true);
 document.addEventListener('input', e => { const bx = e.target.closest && e.target.closest('.ask__in'); if (bx && !e.target.value) voiceClear(bx); });
-/* thinking: fold or unfold the whole trace, or one agent's lane inside it */
+/* thinking: fold or unfold the whole box, or one stage inside it */
 document.addEventListener('click', e => { let b;
   if ((b = e.target.closest('[data-tt-t]'))) { const r = runById(b.dataset.ttT); if (r) { r.open = !r.open; r.pin = true; paintRun(r); } }
-  else if ((b = e.target.closest('[data-ln-t]'))) { const [ri, li] = b.dataset.lnT.split(':'), r = runById(ri), l = r && r.T.lanes.find(x => x.id === li); if (l) { l.open = !l.open; paintRun(r); } }
+  else if ((b = e.target.closest('[data-ph-t]'))) { const [ri, pi] = b.dataset.phT.split(':'), r = runById(ri), p = r && r.T.phases.find(x => x.id === pi); if (p) { p.open = !isOpen(p); p.pin = true; paintRun(r); const pb = p.open && $('.tt__pb', b.parentNode); if (pb) pb.scrollTop = 0; } }
   else if (e.target.closest('#fab')) { newChat(); openChat($('#fab')); }
   else if ((b = e.target.closest('[data-goto]'))) { closeChat(); setPage(b.dataset.goto); }
   else if (e.target.closest('#histClear')) { S.hist = []; renderHist(); } });
