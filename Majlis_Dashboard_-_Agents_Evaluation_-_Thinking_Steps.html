@@ -710,10 +710,10 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 /* ---------- thinking in the conversation · a quiet list: header line, one row per stage, steps under the stage name; colour only for problems ---------- */
 .ta{display:flex;flex-direction:column;align-self:stretch;min-width:0}
 /* rows · header and stages share one pattern: full-width hit area, hover tint, focus ring, time on the right */
-.ta__row{display:flex;align-items:center;gap:8px;width:calc(100% + 20px);min-height:32px;padding:6px 10px;margin-inline:-10px;border-radius:10px;font-size:13px;line-height:19px;color:var(--ink2);text-align:start;transition:background .2s}
+.ta__row{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:8px 12px;border-radius:10px;font-size:13px;line-height:19px;color:var(--ink2);text-align:start;transition:background .2s}
 .ta__row:hover{background:var(--tile)}.ta__row:focus-visible{outline:none;box-shadow:0 0 0 2px var(--accent)}
 .ta__h{font-size:13.5px}
-.ta__cv{flex:none;color:var(--ink3);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.ta__h>.ta__cv,.ta__h>.ta__sp{margin-inline:1px}.ta__cv{flex:none;color:var(--ink3);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .ta.is-open>.ta__h .ta__cv,.ta__p.is-open>.ta__row .ta__cv{transform:rotate(90deg)}:root[dir="rtl"] .ta__cv{transform:scaleX(-1)}
 :root[dir="rtl"] .ta.is-open>.ta__h .ta__cv,:root[dir="rtl"] .ta__p.is-open>.ta__row .ta__cv{transform:scaleX(-1) rotate(90deg)}
 .ta__nm{flex:none;font-weight:600;color:var(--ink);white-space:nowrap}
@@ -726,8 +726,8 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ta__dot{display:none;width:6px;height:6px;border-radius:50%;background:var(--warn);flex:none}.ta__p.is-warn>.ta__row>.ta__dot{display:inline-block}
 .ta__ex{display:inline-flex;align-items:center;gap:5px;flex:none;font-size:12.5px;color:var(--warn)}.ta__ex>i{width:6px;height:6px;border-radius:50%;background:currentColor}.ta__ex.is-bad{color:var(--bad)}
 .ta .ag-stack .ag{width:20px;height:20px;border-radius:7px}.ta .ag-stack .ag .i{width:12px;height:12px}.ta .ag-stack>*+*{margin-inline-start:-3px}
-.ta__p .ta__row>.ag{width:16px;height:16px;border-radius:5px;flex:none}.ta__p .ta__row>.ag .i{width:10px;height:10px}
-.ta__p .ta__row>.orb{--s:16px;width:16px;height:16px;flex:none}.ta__p .ta__row>.orb .eyes{transform:scale(.45)}
+.ta__p .ta__row>.ag{width:20px;height:20px;border-radius:6px;flex:none}.ta__p .ta__row>.ag .i{width:12px;height:12px}
+.ta__p .ta__row>.orb{--s:20px;width:20px;height:20px;flex:none}
 .ta__rs{flex:1;min-width:0;color:var(--ink2)}.ta__rs .swp__i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ta__live{background:linear-gradient(90deg,var(--ink2) 0 40%,var(--ink3) 50%,var(--ink2) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
 /* folding · the trace and each stage open the same way */
@@ -735,21 +735,22 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ta.is-open>.ta__fold,.ta__p.is-open>.ta__fold{grid-template-rows:1fr}.ta__fold>div{overflow:hidden;min-height:0}
 .ta__fold>div>*{transition:opacity .3s}.ta:not(.is-open)>.ta__fold>div>*,.ta__p:not(.is-open)>.ta__fold>div>*{opacity:0}
 /* no rule: stages indent under the title; steps indent under the stage name */
-.ta__stages{display:flex;flex-direction:column;gap:2px;padding:2px 0 4px;padding-inline-start:22px}
+.ta__stages{display:flex;flex-direction:column;gap:4px;padding:4px 0 6px;padding-inline-start:24px}
 .ta__p.is-q,.ta__r.is-q,.ta__grp.is-q{display:none}.ta__p.is-new,.ta__r.is-new{animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
 /* parallel agents share one group: one label, one time */
-.ta__grp{display:flex;flex-direction:column;gap:2px;padding:4px 10px 6px;margin-inline:-10px;border-radius:12px;background:var(--tile)}
-.ta__gl{display:flex;align-items:center;font:600 10.5px/18px var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);padding-top:2px}
+.ta__grp{display:flex;flex-direction:column;gap:4px;padding:6px 0;border-radius:12px;background:var(--tile)}
+.ta__gl{display:flex;align-items:center;font:600 10.5px/18px var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);padding:2px 12px 0}
 .ta__gl .ta__tm{margin-inline-start:auto;letter-spacing:0;text-transform:none}
 .ta__grp .ta__row:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
 /* stage body · one reasoning sentence, compact steps; long stages scroll inside */
-.ta__pb{display:flex;flex-direction:column;max-height:216px;overflow:auto;overscroll-behavior:contain;padding:2px 0 8px;padding-inline-start:42px;scrollbar-width:thin}
-.ta__why{margin:0 0 4px;font-size:13px;line-height:19px;color:var(--ink2)}
+.ta__pb{display:flex;flex-direction:column;gap:2px;max-height:232px;overflow:auto;overscroll-behavior:contain;padding:2px 12px 10px;padding-inline-start:64px;scrollbar-width:thin}
+.ta__pb.is-more{-webkit-mask-image:linear-gradient(#000 calc(100% - 32px),transparent);mask-image:linear-gradient(#000 calc(100% - 32px),transparent)}
+.ta__why{margin:0 0 6px;font-size:13px;line-height:20px;color:var(--ink2)}
 .ta__why .tw-h{visibility:hidden}.ta__why.is-run .tw-v::after{content:'';display:inline-block;width:2px;height:13px;margin-inline-start:2px;vertical-align:-2px;border-radius:1px;background:var(--accent);animation:taCaret 1s step-end infinite}@keyframes taCaret{50%{opacity:0}}
-.ta__sl{display:flex;align-items:baseline;gap:8px;padding:3px 0;font-size:12.5px;line-height:18px;color:var(--ink)}.ta__sl>span{flex:1;min-width:0}.ta__sl em{font-style:normal;color:var(--ink3)}
+.ta__sl{display:flex;align-items:baseline;gap:8px;padding:4px 0;font-size:12.5px;line-height:18px;color:var(--ink)}.ta__sl>span{flex:1;min-width:0}.ta__sl em{font-style:normal;color:var(--ink3)}
 .ta__sl>.ta__sp{align-self:center;width:11px;height:11px}.ta__sl .ta__tm{font-size:11.5px;line-height:18px}
 .ta__s.is-run .ta__sl>span{color:var(--ink2)}
-.ta__iss{margin:0;padding:0 0 4px;font-size:12px;line-height:17px;color:var(--warn)}.ta__iss.is-bad{color:var(--bad)}.ta__iss .ta__wt{font-style:normal;font-variant-numeric:tabular-nums}
+.ta__iss{margin:0;padding:0 0 6px;font-size:12px;line-height:17px;color:var(--warn)}.ta__iss.is-bad{color:var(--bad)}.ta__iss .ta__wt{font-style:normal;font-variant-numeric:tabular-nums}
 :root[dir="rtl"] .ta [dir="auto"]{text-align:right}
 /* answers · parts carry a byline per agent; a fresh answer settles in piece by piece */
 .ans-part{display:flex;flex-direction:column;gap:12px}.ans-part+.ans-part{padding-top:18px;border-top:1px solid var(--line)}
@@ -770,7 +771,7 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ae__ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--tile);color:var(--ink2);flex:none}.ans-empty--warn .ae__ic{background:var(--warn-soft);color:var(--warn)}
 .ans-empty b{display:block;font:600 15px/21px var(--font)}.ans-empty p{margin:4px 0 12px;color:var(--ink2);font-size:14px;line-height:21px}.ae__a{display:flex;gap:8px;flex-wrap:wrap}
 @media (max-width:1100px){.chat__h .chat__src{display:none}}
-@media (max-width:760px){.agnow .agnow__tx{display:none}.ta__rs{display:none}.ta__p .ta__nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.ta__pb{padding-inline-start:24px}.ta__stages{padding-inline-start:8px}}
+@media (max-width:760px){.agnow .agnow__tx{display:none}.ta__rs{display:none}.ta__p .ta__nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.ta__pb{padding-inline-start:44px}.ta__stages{padding-inline-start:8px}}
 /* ---------- microinteractions ---------- */
 /* numbers: count-up + change flash with a floating delta chip */
 .cu-up{animation:cuUp 1.4s ease}.cu-dn{animation:cuDn 1.4s ease}@keyframes cuUp{0%,35%{color:var(--accent)}}@keyframes cuDn{0%,35%{color:var(--bad)}}
@@ -2482,8 +2483,8 @@ function grow(el) { if (RM()) return; const h = el.scrollHeight; el.style.height
 function stick(p, ms) { if (!p) return; const end = performance.now() + ms; (function f() { p.scrollTop = p.scrollHeight; if (performance.now() < end) requestAnimationFrame(f); })(); }
 /* ---------- thinking in the conversation · a quiet list: "Thought for 10.1s" folds open to one row per stage
    (Understanding the intent → the agents, grouped when they run in parallel → Answer); each stage opens to one reasoning sentence and its timed steps ---------- */
-_m(TX.en, { tt: { thinking: 'Thinking', thought: 'Thought for {s}', intent: 'Understanding the intent', answer: 'Answer', parallel: 'In parallel', warn1: '1 warning', warnN: '{n} warnings', fail1: '1 failed', failN: '{n} failed', retrying: 'retrying in {s}', retry2: 'retrying…', recovered: 'recovered on retry' } });
-_m(TX.ar, { tt: { thinking: 'يفكّر', thought: 'فكّر لمدة {s}', intent: 'فهم المقصد', answer: 'الإجابة', parallel: 'بالتوازي', warn1: 'تنبيه واحد', warnN: '{n} تنبيهات', fail1: 'فشل واحد', failN: '{n} فشلت', retrying: 'إعادة المحاولة خلال {s}', retry2: 'إعادة المحاولة…', recovered: 'نجحت عند إعادة المحاولة' } });
+_m(TX.en, { tt: { thinking: 'Thinking', thought: 'Thought for {s}', intent: 'Understanding the intent', answer: 'Composing the answer', parallel: 'In parallel', warn1: '1 warning', warnN: '{n} warnings', fail1: '1 failed', failN: '{n} failed', retrying: 'retrying in {s}', retry2: 'retrying…', recovered: 'recovered on retry' } });
+_m(TX.ar, { tt: { thinking: 'يفكّر', thought: 'فكّر لمدة {s}', intent: 'فهم المقصد', answer: 'صياغة الإجابة', parallel: 'بالتوازي', warn1: 'تنبيه واحد', warnN: '{n} تنبيهات', fail1: 'فشل واحد', failN: '{n} فشلت', retrying: 'إعادة المحاولة خلال {s}', retry2: 'إعادة المحاولة…', recovered: 'نجحت عند إعادة المحاولة' } });
 /* demo faults · keyed by step title: a retry that recovers, a partial result, and (Power BI / Dynamics) a hard failure with a fallback */
 const FAULTS = {
   'Read the board pack': { k: 'retry', code: '504', msg: 'SharePoint timed out', wait: 1200 },
@@ -2580,7 +2581,10 @@ function itPatch(el, it) { const e = $(`[data-it="${it.id}"]`, el); if (!e) retu
 function phPatch(el, r, p) { const e = $(`[data-ph="${p.id}"]`, el); if (!e) return; const o = isOpen(p), h = $('.ta__row', e);
   e.classList.toggle('is-open', o); e.classList.toggle('is-warn', pWarn(p)); h.setAttribute('aria-expanded', o); swap($('.ta__rs', h), phSum(p, r));
   if (e.dataset.sig !== p.st) { const was = e.dataset.sig; e.dataset.sig = p.st; ['q', 'run', 'done', 'warn'].forEach(c => e.classList.toggle('is-' + c, c === p.st)); $('.ta__tm', h).textContent = phTime(p); if (was === 'q') pulseCls(e, 'is-new'); }
-  if (o && p.st === 'run' && !p.pin) { const b = $('.ta__pb', e); b.scrollTop = b.scrollHeight; } }
+  const b = $('.ta__pb', e); if (o && p.st === 'run' && !p.pin) b.scrollTop = b.scrollHeight; requestAnimationFrame(() => moreFade(b)); }
+/* a stage that scrolls fades at the bottom edge until you reach its end */
+const moreFade = b => b && b.classList.toggle('is-more', b.scrollHeight - b.scrollTop - b.clientHeight > 4);
+document.addEventListener('scroll', e => { if (e.target.classList && e.target.classList.contains('ta__pb')) moreFade(e.target); }, true);
 const srcsHTML = src => !src.length ? '' : `<div class="srcs"><small>${t('basedOn')}</small>${src.map(s => `<span>${s}</span>`).join('')}</div>`;
 const botHTML = m => `<div class="msg msg--b" data-m="${m.run.id}">${orb('orb--sm')}<div class="msg__c">${ttHTML(m.run)}${m.ans ? m.ans + srcsHTML(m.src) : ''}</div></div>`;
 function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.firstChild) el.innerHTML = `<i class="agnow__d"></i>${swHTML('agnow__av', '')}${swHTML('agnow__tx', '')}`;
