@@ -752,51 +752,67 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ta__s.is-run .ta__sl>span{color:var(--ink2)}
 .ta__iss{margin:0;padding:0 0 6px;font-size:12px;line-height:17px;color:var(--warn)}.ta__iss.is-bad{color:var(--bad)}.ta__iss .ta__wt{font-style:normal;font-variant-numeric:tabular-nums}
 :root[dir="rtl"] .ta [dir="auto"]{text-align:right}
-/* ---------- step cards · one card per step under light stage labels; a card opens to "Why this step" and "What happened" ---------- */
-.tc{display:flex;flex-direction:column;gap:14px;padding:6px 0 4px}
-.tc__sec.is-q{display:none}.tc__sec.is-new{animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
-.tc__sl{display:flex;align-items:center;gap:10px;padding:0 4px 8px;font:600 10.5px/16px var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
-.tc__sl>span{flex:1;min-width:0}.tc__sl .tc__tm{letter-spacing:0;text-transform:none}
-.tc__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-/* card */
-.tc__s{position:relative;border-radius:14px;background:var(--card);border:1px solid var(--line);transition:border-color .4s,box-shadow .4s,background .4s}
+/* ---------- thinking in the conversation · one box: a summary header that opens to one card per piece of work ---------- */
+/* spacing scale: 4 · 8 · 12 · 16; the box pads 16 sideways, cards 14, and every column (status, text, time) lines up down the box */
+.ts{align-self:stretch;min-width:0;border-radius:var(--r);border:1px solid var(--line);background:var(--card);transition:border-color .5s,box-shadow .5s}
+.ts:not(.is-done){border-color:color-mix(in srgb,var(--accent) 35%,var(--line));box-shadow:0 0 0 3px var(--accent-soft)}
+.ts__h{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:12px 16px;border-radius:var(--r);text-align:start;transition:background .2s}
+.ts__h:hover{background:var(--tile)}.ts__h:focus-visible,.tc__h:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
+.ts__st{position:relative;flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--dark-ink);transition:background .35s}
+.ts__st>*{grid-area:1/1}.ts.is-done .ts__st{background:var(--accent)}.ts.is-done .ts__st .tc__sp,.ts:not(.is-done) .ts__st .i{display:none}
+.ts__hl{flex:1;min-width:0;margin:-4px}.ts__hl>.swp__i{gap:12px;padding:4px;flex-wrap:nowrap}
+.ts__nm{flex:none;font:600 14.5px/20px var(--font);color:var(--ink);white-space:nowrap}
+.ts__ms{flex:0 1 auto;min-width:0;margin-inline-start:-4px;font-size:13px;line-height:20px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ts__pill{display:inline-flex;align-items:center;gap:5px;flex:none;height:24px;padding:0 10px;border-radius:99px;font:600 12px/1 var(--font);white-space:nowrap}
+.ts__pill.is-w{background:var(--warn-soft);color:var(--warn)}.ts__pill.is-b{background:var(--bad-soft);color:var(--bad)}
+.ts__stk{flex:none}.ts__stk .ag{width:24px;height:24px;border-radius:8px}.ts__stk .ag .i{width:13px;height:13px}.ts__stk>*{box-shadow:0 0 0 2px var(--card-s)}.ts__stk>*+*{margin-inline-start:-4px}
+.ts__tm{flex:none;font:500 12.5px/1 var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}.ts.is-done .ts__tm{display:none}
+.ts__cv{flex:none;color:var(--ink3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}.ts.is-open .ts__cv{transform:rotate(180deg)}
+.ts__fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}.ts.is-open .ts__fold{grid-template-rows:1fr}.ts__fold>div{overflow:hidden;min-height:0}
+.ts__fold .tc__list{transition:opacity .3s}.ts:not(.is-open) .tc__list{opacity:0}
+/* cards */
+.tc__list{list-style:none;margin:0;padding:4px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.tc__s{border-radius:var(--rs);background:var(--card-s);border:1px solid var(--line);transition:border-color .4s,box-shadow .4s}:root[data-theme="dark"] .tc__s{background:rgba(255,255,255,.04)}
 .tc__s.is-q{display:none}.tc__s.is-new{animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
-.tc__s.is-run,.tc__s.is-retry{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 0 0 3px var(--accent-soft);background:var(--card-s)}
+.tc__s.is-run{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 0 0 3px var(--accent-soft)}
 .tc__s.is-retry{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));box-shadow:0 0 0 3px var(--warn-soft)}
-.tc__h{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:14px;text-align:start;transition:background .2s}
-.tc__h:hover{background:var(--tile)}.tc__h:focus-visible{outline:none;box-shadow:0 0 0 2px var(--accent)}
-/* status · spinner while running (amber on a retry), tick when done, alert when it warned or failed */
-.tc__d{position:relative;flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--tile2);color:var(--ink3);font-style:normal;transition:background .35s,color .35s}
+.tc__h{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 14px;border-radius:var(--rs);text-align:start;transition:background .2s}.tc__h:hover{background:var(--tile)}
+.tc__d{position:relative;flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--tile2);color:var(--ink3);font-style:normal;transition:background .35s,color .35s}
 .tc__d>*{grid-area:1/1;display:none}
 .tc__s.is-done .tc__d{background:var(--accent);color:var(--dark-ink)}.tc__s.is-done .tc__d .s-ok{display:block}
 .tc__s.is-warn .tc__d{background:var(--warn);color:#fff}.tc__s.is-fail .tc__d{background:var(--bad);color:#fff}.tc__s.is-warn .tc__d .s-al,.tc__s.is-fail .tc__d .s-al{display:block}
-.tc__s.is-run .tc__d,.tc__s.is-retry .tc__d{background:var(--pop);box-shadow:inset 0 0 0 2px var(--accent-soft)}
-.tc__sp{width:100%;height:100%;border-radius:50%;border:2px solid transparent;border-top-color:var(--accent);border-inline-end-color:var(--accent);box-sizing:border-box;animation:spin .9s linear infinite}
-.tc__s.is-run .tc__sp,.tc__s.is-retry .tc__sp{display:block}.tc__s.is-retry .tc__d{box-shadow:inset 0 0 0 2px var(--warn-soft)}.tc__s.is-retry .tc__sp{border-top-color:var(--warn);border-inline-end-color:var(--warn)}
+.tc__s.is-run .tc__d,.tc__s.is-retry .tc__d{background:transparent}.tc__s.is-run .tc__d .tc__sp,.tc__s.is-retry .tc__d .tc__sp{display:block}
+.tc__sp{width:100%;height:100%;border-radius:50%;border:2px solid var(--accent-soft);border-top-color:var(--accent);box-sizing:border-box;animation:spin .9s linear infinite}
+.tc__s.is-retry .tc__sp{border-color:var(--warn-soft);border-top-color:var(--warn)}
 .tc__d.is-flip{animation:avIn .5s cubic-bezier(.34,1.56,.64,1)}
-.tc__t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.tc__t b{font:600 14px/19px var(--font);color:var(--ink)}
-.tc__t small{font-size:12.5px;line-height:17px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tc__s.is-run .tc__t b{background:linear-gradient(90deg,var(--ink) 0 40%,var(--ink3) 50%,var(--ink) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
-/* who did it · agent pill */
-.tc__ag{flex:none;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 11px 0 4px;border-radius:99px;background:var(--tile);font:500 12px/1 var(--font);color:var(--ink2);white-space:nowrap}
-.tc__ag .ag,.tc__ag .orb{--s:20px;width:20px;height:20px;flex:none}.tc__ag .ag{border-radius:50%}.tc__ag .ag .i{width:12px;height:12px}
+.tc__t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.tc__t b{font:600 14px/19px var(--font);color:var(--ink)}
+.tc__t small{font-size:12.5px;line-height:17px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tc__t small:empty{display:none}
+.tc__live{background:linear-gradient(90deg,var(--ink2) 0 40%,var(--ink3) 50%,var(--ink2) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
+.tc__s.is-warn .tc__t small{color:var(--ink2)}
+.tc__ag{flex:none;display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px 0 4px;border-radius:99px;background:var(--tile);font:500 12px/1 var(--font);color:var(--ink2);white-space:nowrap}
+.tc__ag .ag,.tc__ag>.orb{--s:20px;width:20px;height:20px;flex:none}.tc__ag .ag{border-radius:50%}.tc__ag .ag .i{width:12px;height:12px}
 .tc__tm{flex:none;min-width:36px;text-align:end;font:500 12px/1 var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}
 .tc__s.is-warn .tc__h .tc__tm{color:var(--warn)}.tc__s.is-fail .tc__h .tc__tm{color:var(--bad)}
 .tc__cv{flex:none;color:var(--ink3);transition:transform .35s cubic-bezier(.2,.8,.2,1)}.tc__s.is-open .tc__cv{transform:rotate(180deg)}
-/* body · why, then the checklist */
+/* card body · text column starts under the title (14 + 24 + 12 = 50px) */
 .tc__b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1)}.tc__s.is-open .tc__b{grid-template-rows:1fr}.tc__b>div{overflow:hidden;min-height:0}
-.tc__in{display:grid;gap:14px;padding:2px 16px 16px;padding-inline-start:52px;opacity:0;transform:translateY(-6px);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1)}.tc__s.is-open .tc__in{opacity:1;transform:none}
-.tc__l{display:block;margin-bottom:6px;font:600 10.5px/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.tc__in{display:grid;gap:16px;padding:4px 14px 16px;padding-inline-start:50px;opacity:0;transform:translateY(-6px);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1)}.tc__s.is-open .tc__in{opacity:1;transform:none}
+.tc__l{display:block;margin-bottom:8px;font:600 10.5px/1 var(--font);letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
 .tc__in p{margin:0;font-size:13.5px;line-height:20px;color:var(--ink2)}
-.tc__acts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.tc__acts li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:19px;color:var(--ink3);transition:color .3s}
-.tc__acts li>i{position:relative;flex:none;display:grid;place-items:center;width:18px;height:18px;margin-top:.5px;border-radius:50%;border:1.5px solid var(--line2);color:transparent;box-sizing:border-box;transition:background .3s,border-color .3s,color .3s}
-.tc__acts li.is-done{color:var(--ink)}.tc__acts li.is-done>i{background:var(--accent);border-color:var(--accent);color:var(--dark-ink)}
-.tc__acts li.is-run{color:var(--ink)}.tc__acts li.is-run>i{border-color:var(--accent-soft)}.tc__acts li.is-run>i::after{content:'';position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);animation:spin .8s linear infinite}
-.tc__acts li.is-warn,.tc__acts li.is-wait{color:var(--warn)}.tc__acts li.is-warn>i,.tc__acts li.is-wait>i{background:var(--warn);border-color:var(--warn);color:#fff}
-.tc__acts li.is-bad{color:var(--bad)}.tc__acts li.is-bad>i{background:var(--bad);border-color:var(--bad);color:#fff}
+.tc__acts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.tc__acts li{display:grid;grid-template-columns:18px minmax(0,1fr) auto;column-gap:10px;align-items:start;font-size:13.5px;line-height:19px;color:var(--ink)}
+.tc__acts li>i{position:relative;display:grid;place-items:center;width:18px;height:18px;margin-top:.5px;border-radius:50%;border:1.5px solid var(--line2);color:transparent;box-sizing:border-box;transition:background .3s,border-color .3s}
+.tc__acts li em{font-style:normal;color:var(--ink3)}.tc__acts li time{font:500 12px/19px var(--font);color:var(--ink3);font-variant-numeric:tabular-nums;min-width:36px;text-align:end}
+.tc__acts li.is-q{color:var(--ink3)}
+.tc__acts li.is-done>i{background:var(--accent);border-color:var(--accent);color:var(--dark-ink)}
+.tc__acts li.is-run>i,.tc__acts li.is-wait>i{border-color:var(--accent-soft)}.tc__acts li.is-run>i::after,.tc__acts li.is-wait>i::after{content:'';position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);animation:spin .8s linear infinite}
+.tc__acts li.is-wait>i{border-color:var(--warn-soft)}.tc__acts li.is-wait>i::after{border-top-color:var(--warn)}
+.tc__acts li.is-warn>i{background:var(--warn);border-color:var(--warn);color:#fff}.tc__acts li.is-fail>i{background:var(--bad);border-color:var(--bad);color:#fff}
+.tc__acts li.is-sub{display:block;margin:-4px 0 0;padding-inline-start:28px;font-size:12.5px;line-height:18px}
+.tc__acts li.is-sub.is-bad{color:var(--bad)}.tc__acts li.is-sub.is-warn{color:var(--warn)}.tc__acts li.is-sub.is-ok{color:var(--accent)}
 .tc__wt{font-weight:600;font-variant-numeric:tabular-nums}
-@media (max-width:760px){.tc__ag{width:28px;padding:0 4px;font-size:0;gap:0}.tc__in{padding-inline-start:16px}.tc__t small{white-space:normal}}
+:root[dir="rtl"] .ts [dir="auto"]{text-align:right}
+@media (max-width:760px){.ts__h{align-items:flex-start;padding:12px}.ts__hl>.swp__i{flex-wrap:wrap;row-gap:8px}.ts__ms{display:none}.ts__st,.ts__cv{margin-top:2px}.tc__list{padding:4px 8px 8px}.tc__h{padding:10px 12px;gap:10px}.tc__ag{width:28px;padding:0 4px;gap:0;justify-content:center}.tc__agn{display:none}.tc__in{padding:4px 12px 14px}.tc__t small{white-space:normal}}
 /* answers · parts carry a byline per agent; a fresh answer settles in piece by piece */
 .ans-part{display:flex;flex-direction:column;gap:12px}.ans-part+.ans-part{padding-top:18px;border-top:1px solid var(--line)}
 .ans-by{display:inline-flex;align-items:center;gap:8px;font:600 12.5px/1 var(--font);color:var(--ink2)}
@@ -2581,96 +2597,67 @@ function traceFor(q, sel, files) { const P = planFor(q, sel, files), picked = se
 const runs = () => S.chat.map(m => m.run).filter(Boolean), runById = id => runs().find(r => r.id === id), fin = s => s.st !== 'q' && s.st !== 'run';
 const cur = r => r.steps.filter(s => s.st === 'run').sort((a, b) => b.t0 - a.t0)[0] || r.steps.find(s => s.st === 'q') || r.steps[r.steps.length - 1];
 const agentsOf = r => [...new Set(r.steps.map(s => s.a))].filter(a => a !== 'majlis'), prog = r => r.steps.filter(fin).length / r.steps.length;
-/* ---------- step cards · every step is a card: status, title, detail, who did it, time; it opens to why it was done and what happened ---------- */
-_m(TX.en, { tc: { why: 'Why this step', what: 'What happened', retrying: 'Retrying in {s}' } });
-_m(TX.ar, { tc: { why: 'لماذا هذه الخطوة', what: 'ما الذي حدث', retrying: 'إعادة المحاولة خلال {s}' } });
-/* elaboration · why each step was done and what it involved, in plain language; generic wording only when nothing specific fits */
-const ELAB = [
-  [/^Understood your question/, s => ({ why: 'Before touching any data I need to know exactly what is being asked. I split the question into parts and decide which specialist should handle each one.', acts: ['Read the question and resolved anything ambiguous', 'Worked out the topic and the data it needs' + (s.d ? ' — ' + s.d.replace(/^About /, '') : ''), 'Checked which of your connected sources can answer it'] })],
-  [/^Sent to /, (s, r) => r.T.lanes.length > 1
-    ? { why: 'The parts don’t depend on each other, so each goes to the agent that owns that data and they work at the same time.', acts: ['Matched each part of the question to the agent that owns that data', 'Passed along the question, context and any attachments', 'Started the agents in parallel'] }
-    : { why: r.sel !== 'super' ? 'You picked this agent in the composer, so the whole question goes to it.' : 'One agent owns all the data this question needs, so it goes straight there.', acts: ['Passed along the question, context and any attachments', 'Kept the brief to what this agent can answer'] }],
-  [/^Read your document|^Read the figures in your image/, s => ({ why: 'You attached a file, so its content is read first and treated as a source alongside your connected data.', acts: ['Opened the attachment and checked the format', 'Read it page by page, keeping tables, figures and headings', 'Indexed the key numbers so they can be cross-checked later'] })],
-  [/^Scoped the question/, () => ({ why: 'You chose a specific agent, so the question is narrowed to what that agent can answer.', acts: ['Compared the question with the agent’s remit', 'Dropped anything outside it'] })],
-  [/^Kept the first two proposals/, () => ({ why: 'The comparison works two proposals at a time, so extra attachments are set aside rather than mixed in.', acts: ['Counted the attached proposals', 'Kept the first two, in the order you attached them'] })],
-  /* finance */
-  [/^Searched Excel/, s => ({ why: 'The forecast model is where actual revenue and cash sit next to the plan, so it is the first place to look.', acts: ['Opened ' + (s.d || 'the forecast model').split(' · ')[0] + ' with your permissions', 'Read the Revenue and Cash tabs for the quarter', 'Took the plan figures from the same file so they match'] })],
-  [/^Read the board pack/, () => ({ why: 'The board pack explains the numbers: what changed, and what management already said about it.', acts: ['Found the latest board pack in SharePoint', 'Read the Finance section (6 pages)', 'Noted the commentary on revenue and cash'] })],
-  [/^Compared actuals with plan/, s => ({ why: 'A figure on its own says little; the gap to plan is what tells you whether things are on track.', acts: ['Lined up actuals against plan for each month', 'Worked out the variance and the cash runway', 'Checked the result against the board pack commentary'] })],
-  [/^Built a revenue and cash chart/, () => ({ why: 'A trend is easier to read as a chart than as a table of months.', acts: ['Took 12 months of revenue and cash', 'Plotted both on one chart with the same scale'] })],
-  /* projects */
-  [/^Checked the project tracker/, () => ({ why: 'The tracker is the single list of projects with owners, dates and progress.', acts: ['Opened the project tracker in Excel', 'Read status, progress and due date for each project', 'Marked the ones that are off track'] })],
-  [/^Read #product-launch/, () => ({ why: 'The tracker shows status; the team channel shows why a project is late.', acts: ['Read the last 48 hours of #product-launch', 'Picked out messages about delays and blockers'] })],
-  [/^Ranked projects by delivery risk/, () => ({ why: 'Ranking shows which project needs attention first.', acts: ['Weighed how late, how far along and how important each project is', 'Ranked them and kept the top two'] })],
-  /* peer benchmarking */
-  [/^Defined the peer group/, () => ({ why: 'A comparison is only fair against plants of the same type and size.', acts: ['Filtered WANO fleets to Gen III+ pressurised-water reactors', 'Kept fleets with four or more units', 'Ended with 7 comparable fleets'] })],
-  [/^Pulled performance indicators/, () => ({ why: 'These five indicators are the standard way the industry compares plant performance.', acts: ['Requested capacity factor, unit capability, forced loss, outage length and dose', 'Took the last 24 months for every fleet'] })],
-  [/^Matched Barakah plant data/, () => ({ why: 'Barakah’s own figures have to cover the same period and units as the peers’.', acts: ['Read the generation log for Units 1–4', 'Aligned the dates with the WANO period'] })],
-  [/^Normalised for refuelling cycles/, () => ({ why: 'A unit in its first fuel cycle behaves differently, so leaving it in would skew the comparison.', acts: ['Found the months where Unit 4 was in its first cycle', 'Left those months out for every indicator'] })],
-  [/^Ranked Barakah against the peers/, () => ({ why: 'A rank and a quartile make the position clear at a glance.', acts: ['Ranked all 7 fleets on each indicator', 'Worked out the median and top quartile'] })],
-  /* institutional memory */
-  [/^Searched the decision log/, () => ({ why: 'Past board and ExCo decisions show what was already agreed and why.', acts: ['Searched minutes and approval memos from 2019 to 2026', 'Kept the decisions related to your question'] })],
-  [/^Checked what is waiting on you/, () => ({ why: 'Open approvals are the decisions you still need to make.', acts: ['Read pending approvals in Outlook', 'Read sign-offs waiting in SharePoint'] })],
-  [/^Linked each to its earlier discussion/, () => ({ why: 'Knowing what was said before makes each decision quicker to take.', acts: ['Matched each open item to earlier minutes', 'Noted where it was discussed and what was agreed'] })],
-  [/^Sorted by deadline/, () => ({ why: 'The most urgent decision should come first.', acts: ['Read the due date on each item', 'Sorted them, soonest first'] })],
-  /* enterprise data query */
-  [/^Turned your question into a query/, () => ({ why: 'The data warehouse answers precise queries, so the question is translated into one first.', acts: ['Picked the measure, the period and the grouping', 'Wrote the query and checked it reads only'] })],
-  [/^Picked the source tables/, () => ({ why: 'Using the governed tables means the figures match finance’s own reports.', acts: ['Found the certified cash tables', 'Joined the ledger with the forecast'] })],
-  [/^Ran the query/, () => ({ why: 'Running it on the warehouse gives the exact figures, not an estimate.', acts: ['Ran the query on the data warehouse', 'Checked the row count looks complete'] })],
-  [/^Checked the totals|^Checked against the register/, () => ({ why: 'A quick reconciliation catches errors before the figures reach you.', acts: ['Compared the totals with the general ledger', 'Confirmed there are no differences'] })],
-  /* answer */
-  [/^Cross-checked figures/, () => ({ why: 'Nothing is shown to you before every number has been traced to its source and the agents’ findings agree.', acts: ['Re-checked every number against its source', 'Reconciled any differences between agents'] })],
-  [/^Wrote the answer/, (s, r) => ({ why: 'The findings are turned into one clear answer, with anything missing said plainly.', acts: ['Wrote the answer in plain language', 'Listed the sources it is based on'].concat(r.steps.some(x => x.st === 'warn' || x.st === 'fail') ? ['Said what could not be read, rather than guessing'] : []) })],
-  /* evaluation */
-  [/^Extracted both offers/, () => ({ why: 'A fair comparison needs both offers in the same shape.', acts: ['Opened both proposals and split them into sections', 'Pulled price, scope, timeline and terms into one table'] })],
-  [/^Aligned the scope/, () => ({ why: 'A price only means something if both offers cover the same work.', acts: ['Mapped each requirement to both offers', 'Found that B leaves out data migration', 'Added an estimate so the costs compare like for like'] })],
-  [/^Scored both on the same 6 criteria|^Scored against the evaluation framework/, () => ({ why: 'The same criteria and weights keep the assessment neutral and easy to defend.', acts: ['Loaded the six weighted criteria', 'Scored each from 1 to 5 using evidence in the documents', 'Added up the weighted totals'] })],
-  [/^Compared five-year cost/, () => ({ why: 'Headline prices hide licences and support; five years of cost is the fair measure.', acts: ['Added licences and the migration estimate', 'Projected five years of cost for each option'] })],
-  [/^Checked vendor references/, () => ({ why: 'References show whether a vendor has delivered something similar in this region.', acts: ['Counted regional references in each bid', 'Compared track record on similar projects'] })],
-  [/^Extracted the key terms/, () => ({ why: 'Everything else rests on the ask, the timeline and the return, so these come first.', acts: ['Found the summary and financial sections', 'Pulled out the amount, timeline and expected return'] })],
-  [/^Re-ran the financial case/, () => ({ why: 'Proposers choose their own assumptions; re-running on company-plan volumes shows whether the return holds.', acts: ['Took the proposal’s cash flows into a model', 'Replaced its volumes with the company plan’s', 'Re-calculated the return'] })],
-  [/^Checked the capital approval policy/, () => ({ why: 'Proposals above a threshold must meet the policy before they can be approved.', acts: ['Checked each mandatory item against the proposal', 'Listed what is missing'] })],
-  [/^Looked for similar past decisions/, () => ({ why: 'Past decisions show how similar projects turned out.', acts: ['Searched SharePoint for comparable approvals', 'Noted the lessons that apply'] })],
-  [/^Wrote the recommendation/, () => ({ why: 'The scores, cost and risks become one recommendation you can act on.', acts: ['Weighed scores, cost and risk together', 'Wrote the verdict with its conditions'] })],
-];
-function elab(s, r) { if (s._el) return s._el; for (const [rx, f] of ELAB) if (rx.test(s.t)) return (s._el = f(s, r));
-  const A = AG[s.a]; return (s._el = { why: s.a === 'majlis' ? 'Majlis coordinates the work and checks it before anything is shown to you.' : `This part of your question belongs to the ${A.n} (${A.r.toLowerCase()}).`,
-    acts: [s.src ? `Opened ${s.src} with your permissions` : 'Used the data already gathered', 'Extracted the figures and wording that matter'] }); }
-/* what happened · the checklist ticks off as the step runs; issues are added in their own colour */
-const actSt = (it, j, n) => it.st === 'q' ? 'q' : it.st !== 'run' ? 'done' : (k => j < k ? 'done' : j === k ? 'run' : 'q')(Math.min(n - 1, Math.floor((Date.now() - it.t0) / Math.max(1, it.ms * (it.att ? 1.8 : 1)) * n)));
-function actsHTML(it, r) { const e = elab(it, r), n = e.acts.length, f = it.err;
-  let h = e.acts.map((x, j) => `<li class="is-${actSt(it, j, n)}"><i>${ico('check', 11)}</i><span dir="auto">${esc(x)}</span></li>`).join('');
+/* ---------- thinking in the conversation · one box: a summary header ("Thought for 10.1s · 2 agents · 4 steps", issues, who took part)
+   that opens to one card per piece of work; a card opens to why it was done and a checklist of what happened, each line timed ---------- */
+_m(TX.en, { tc: { why: 'Why this step', what: 'What happened', steps1: '1 step', stepsN: '{n} steps', agents1: '1 agent', agentsN: '{n} agents', retried: '{n} retried', retrying: 'Retrying in {s}' } });
+_m(TX.ar, { tc: { why: 'لماذا هذه الخطوة', what: 'ما الذي حدث', steps1: 'خطوة واحدة', stepsN: '{n} خطوات', agents1: 'وكيل واحد', agentsN: '{n} وكلاء', retried: '{n} أُعيدت', retrying: 'إعادة المحاولة خلال {s}' } });
+/* each agent's piece of work, named for what it did, and why it is the agent for it */
+const WORK = {
+  finance: ['Checked revenue and cash against plan', 'Revenue and cash sit in the forecast model and the board pack, which the Finance agent reads.'],
+  projects: ['Reviewed project delivery', 'Delivery status lives in the project tracker; the team channel explains the delays.'],
+  inbox: ['Drafted the reply', 'The thread and its attachment are in your inbox, which the Inbox agent handles.'],
+  calendar: ['Prepared your meetings', 'Your calendar and the pre-reads are what the Calendar agent works from.'],
+  risk: ['Reviewed the open risks', 'The risk register and recent incidents are the Risk agent’s area.'],
+  teams: ['Scanned the team channels', 'Recent team conversations are where new issues show up first.'],
+  docs: ['Found and read the documents', 'The files are in SharePoint and OneDrive, which the Documents agent searches.'],
+  approvals: ['Collected the decisions waiting on you', 'Pending approvals and sign-offs are tracked by the Approvals agent.'],
+  bench: ['Benchmarked Barakah against peer fleets', 'A fair comparison needs WANO indicators lined up against Barakah’s own plant data.'],
+  memory: ['Searched past decisions', 'Board and ExCo minutes show what was already agreed, and what is still open.'],
+  edq: ['Queried the data warehouse', 'Exact figures come from the governed data warehouse, checked against the ledger.'],
+  eval: ['Assessed the proposal', 'Every proposal is judged on the same weighted framework, so the result is fair and easy to defend.'] };
+const isOpenP = p => p.pin ? !!p.open : p.st === 'run';
+const pSt = p => p.st === 'q' ? 'q' : p.items.some(i => i.st === 'run' && i.att) ? 'retry' : p.st === 'run' ? 'run' : p.items.some(i => i.st === 'fail') ? 'fail' : p.items.some(i => i.st === 'warn') ? 'warn' : 'done';
+function pTitle(p, r) { if (p.lead) { const n = r.T.lanes.map(l => short(l.a)); return !n.length ? 'Understood the question' : r.sel !== 'super' ? `Understood the question and sent it to ${n[0]}` : `Understood the question and briefed ${andEn(n)}`; }
+  if (p.tail) return 'Checked the figures and wrote the answer';
+  if (p.a === 'eval') return /two|compare/i.test(r.q) || r.files.length > 1 ? 'Compared the two proposals' : 'Assessed the proposal';
+  return (WORK[p.a] || [`${AG[p.a].n} worked on it`])[0]; }
+function pSub(p, r) { if (p.st === 'run') { const x = p.items.filter(i => i.st === 'run').sort((a, b) => b.t0 - a.t0)[0]; return x ? `<span class="tc__live">${esc(x.att && !x.att[1] ? 'Retrying ' + (x.src || 'the step') : x.t)}…</span>` : ''; }
+  if (p.lead) { const u = p.items.find(i => /^Understood/.test(i.t)), nc = r.steps.find(x => x.err && x.err.k === 'fail'); if (u) u.dupe = 1;
+    return esc(nc ? `Needs ${nc.src}, which isn’t connected` : [u && u.d, r.T.lanes.length > 1 ? 'run in parallel' : ''].filter(Boolean).join(' · ')); }
+  if (p.tail) { const f = r.steps.find(s => (s.st === 'warn' || s.st === 'fail') && s.err.flag); return esc(f ? f.err.flag : 'Every figure traced to its source'); }
+  if (p.a === 'eval') return /two|compare/i.test(r.q) || r.files.length > 1 ? 'Both scored on 6 criteria · preferred option chosen' : 'Scored on 6 criteria · recommendation with conditions';
+  return esc(p.res); }
+function pWhy(p, r) { if (p.lead) return r.T.lanes.length > 1 ? 'The question has independent parts, so each goes to the agent that owns that data and they work at the same time.' : r.sel !== 'super' ? 'You picked this agent in the composer, so the whole question goes to it.' : 'Before touching any data, Majlis works out what is being asked and which agent owns the data.';
+  if (p.tail) return 'Nothing is shown to you before every number has been traced to its source and the agents’ findings agree.';
+  return (WORK[p.a] || [, `This part of your question is the ${AG[p.a].n}’s area (${AG[p.a].r.toLowerCase()}).`])[1]; }
+/* checklist · every action the card covers, with its detail and time; a retry or issue sits right under the action it belongs to */
+function subHTML(it) { const f = it.err, st = it.st === 'run' && it.att ? 'wait' : it.st, ic = st === 'warn' || st === 'fail' ? 'alert' : 'check';
+  let h = `<li class="is-${st}"><i>${ico(ic, 11)}</i><span dir="auto">${esc(it.t)}${it.d && !it.ho && !it.dupe && !(f && f.k === 'fail') ? ` <em>· ${esc(it.d)}</em>` : it.src && !it.ho ? ` <em>· ${esc(it.src)}</em>` : ''}</span><time>${it.dur ? secs(it.dur) : it.st === 'run' ? secs(Date.now() - it.t0) : ''}</time></li>`;
   if (f && f.k === 'retry' && it.att) { const [, b] = it.att, head = esc(f.msg) + (f.code ? ` (${f.code})` : '');
-    h += `<li class="is-bad"><i>${ico('alert', 11)}</i><span>${head}</span></li>`;
-    h += it.wait ? `<li class="is-wait"><i>${ico('reset', 11)}</i><span>${t('tc.retrying', { s: `<b class="tc__wt">${secs(Math.max(0, it.wait - Date.now()))}</b>` })}</span></li>`
-      : b && b.ms ? `<li class="is-done"><i>${ico('check', 11)}</i><span>${f.fix ? esc(f.fix[0].toUpperCase() + f.fix.slice(1)) : 'Retried and succeeded'}</span></li>` : `<li class="is-run"><i>${ico('check', 11)}</i><span>Retrying…</span></li>`; }
-  if (f && (it.st === 'warn' || it.st === 'fail')) h += `<li class="is-${it.st === 'fail' ? 'bad' : 'warn'}"><i>${ico('alert', 11)}</i><span dir="auto">${esc(f.msg)}</span></li>`;
+    h += `<li class="is-sub is-bad"><span>${head}</span></li>` + (it.wait ? `<li class="is-sub is-warn"><span>${t('tc.retrying', { s: `<b class="tc__wt">${secs(Math.max(0, it.wait - Date.now()))}</b>` })}</span></li>`
+      : b && b.ms ? `<li class="is-sub is-ok"><span>${f.fix ? esc(f.fix[0].toUpperCase() + f.fix.slice(1)) : 'Retried and succeeded'}</span></li>` : `<li class="is-sub is-warn"><span>Retrying…</span></li>`); }
+  if (f && (it.st === 'warn' || it.st === 'fail')) h += `<li class="is-sub is-${it.st === 'fail' ? 'bad' : 'warn'}"><span dir="auto">${esc(f.msg)}</span></li>`;
   return h; }
-const isOpenS = it => it.pin ? !!it.open : it.st === 'run';
-const sig = it => `${it.st}|${it.att ? it.att.length : 0}|${it.wait ? 1 : 0}`;
-const stCls = it => it.st === 'run' && it.att ? 'retry' : it.st;
-const cardHTML = (it, r) => `<li class="tc__s is-${stCls(it)}${isOpenS(it) ? ' is-open' : ''}" data-it="${it.id}" data-sig="${sig(it)}">
-  <button class="tc__h" type="button" data-st-t="${r.id}:${it.id}" aria-expanded="${isOpenS(it)}"><i class="tc__d"><i class="tc__sp"></i>${ico('check', 14, 's-ok')}${ico('alert', 13, 's-al')}</i>
-  <span class="tc__t"><b dir="auto">${esc(it.t)}</b>${it.d && !it.ho ? `<small dir="auto">${esc(it.d)}</small>` : ''}</span><span class="tc__ag">${agAv(it.a)}${it.a === 'majlis' ? 'Majlis' : esc(short(it.a))}</span>
-  <time class="tc__tm">${it.dur ? secs(it.dur) : it.st === 'run' ? secs(Date.now() - it.t0) : ''}</time>${ico('chevDown', 16, 'tc__cv')}</button>
-  <div class="tc__b"><div><div class="tc__in"><div><small class="tc__l">${t('tc.why')}</small><p dir="auto">${esc(elab(it, r).why)}</p></div><div><small class="tc__l">${t('tc.what')}</small><ol class="tc__acts">${actsHTML(it, r)}</ol></div></div></div></div></li>`;
-/* sections · the stages, as light labels over their cards: intent, the agents (one "In parallel" section when they run together), the answer */
-const secsOf = r => { const [pl, ...rest] = r.T.phases, pt = rest.pop();
-  return [{ id: 'sl', lbl: t('tt.intent'), ph: [pl] }, ...(rest.length > 1 ? [{ id: 'sp', lbl: `${t('tt.parallel')} · ${andEn(rest.map(p => short(p.a)))}`, ph: rest, par: 1 }] : rest.map(p => ({ id: 's' + p.id, lbl: AG[p.a].n, ph: [p] }))), { id: 'st', lbl: t('tt.answer'), ph: [pt] }]; };
-const secTime = (r, s) => { const L = s.ph.filter(p => p.t0); if (!L.length) return ''; const a = Math.min(...L.map(p => p.t0)), e = L.every(p => p.dur) ? Math.max(...L.map(p => p.t0 + p.dur)) : Date.now(); return secs(e - a); };
-const secHTML = (r, s) => `<section class="tc__sec${s.ph.every(p => p.st === 'q') ? ' is-q' : ''}" data-sec="${s.id}"><div class="tc__sl"><span>${esc(s.lbl)}</span><time class="tc__tm">${secTime(r, s)}</time></div>
-  <ol class="tc__list">${s.ph.flatMap(p => p.items).map(it => cardHTML(it, r)).join('')}</ol></section>`;
-/* header · unchanged from the quiet list: spinner and "Thinking" while working, "Thought for" with who and only the exceptions when done */
-const ttStack = r => { const u = agentsOf(r).filter(a => r.done || r.steps.some(s => s.a === a && s.st !== 'q')); return u.length ? `<span class="ag-stack">${u.map(a => agAv(a)).join('')}</span>` : ''; };
-function ttIss(r) { const w = r.steps.filter(s => s.st === 'warn').length, f = r.steps.filter(s => s.st === 'fail').length;
-  return (f ? `<span class="ta__ex is-bad"><i></i>${f === 1 ? t('tt.fail1') : t('tt.failN', { n: f })}</span>` : '') + (w ? `<span class="ta__ex"><i></i>${w === 1 ? t('tt.warn1') : t('tt.warnN', { n: w })}</span>` : ''); }
-const ttHead = r => r.done ? `<b class="ta__nm">${t('tt.thought', { s: secs(r.ms) })}</b>${ttStack(r)}${ttIss(r)}` : `<b class="ta__nm">${t('tt.thinking')}</b>${ttStack(r)}`;
-const SPN = () => '<i class="ta__sp"></i>';
-const ttHTML = r => `<div class="ta${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="ta__row ta__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}">${SPN()}${ico('chevR', 14, 'ta__cv')}${swHTML('ta__hl', ttHead(r))}<time class="ta__tm" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time></button>
-  <div class="ta__fold"><div><div class="tc">${secsOf(r).map(s => secHTML(r, s)).join('')}</div></div></div></div>`;
+const pTime = p => p.dur ? secs(p.dur) : p.st === 'run' ? secs(Date.now() - p.t0) : '';
+const pSig = p => pSt(p) + '|' + p.items.map(i => `${i.st}${i.att ? i.att.length : ''}${i.wait ? 'w' : ''}`).join('');
+const cardHTML = (r, p) => `<li class="tc__s is-${pSt(p)}${isOpenP(p) ? ' is-open' : ''}" data-ph="${p.id}" data-sig="${pSig(p)}">
+  <button class="tc__h" type="button" data-pc-t="${r.id}:${p.id}" aria-expanded="${isOpenP(p)}"><i class="tc__d"><i class="tc__sp"></i>${ico('check', 14, 's-ok')}${ico('alert', 13, 's-al')}</i>
+  <span class="tc__t"><b dir="auto">${esc(pTitle(p, r))}</b><small dir="auto">${pSub(p, r)}</small></span><span class="tc__ag">${agAv(p.a)}<span class="tc__agn">${p.a === 'majlis' ? 'Majlis' : esc(short(p.a))}</span></span>
+  <time class="tc__tm">${pTime(p)}</time>${ico('chevDown', 16, 'tc__cv')}</button>
+  <div class="tc__b"><div><div class="tc__in"><div><small class="tc__l">${t('tc.why')}</small><p dir="auto">${esc(pWhy(p, r))}</p></div><div><small class="tc__l">${t('tc.what')}</small><ol class="tc__acts">${p.items.map(subHTML).join('')}</ol></div></div></div></div></li>`;
+/* header · status, title, "· agents · steps", issue tags, who took part (stacked), time while running, chevron */
+function tsMeta(r) { const u = agentsOf(r), n = r.T.phases.length, rt = r.steps.filter(s => s.att).length, w = r.steps.filter(s => s.st === 'warn').length, f = r.steps.filter(s => s.st === 'fail').length;
+  const parts = [u.length ? (u.length === 1 ? t('tc.agents1') : t('tc.agentsN', { n: u.length })) : '', n === 1 ? t('tc.steps1') : t('tc.stepsN', { n })].filter(Boolean);
+  return `<span class="ts__ms">· ${parts.join(' · ')}</span>` + (rt ? `<span class="ts__pill is-w">${ico('reset', 12)}${t('tc.retried', { n: rt })}</span>` : '')
+    + (w ? `<span class="ts__pill is-w">${ico('alert', 12)}${w === 1 ? t('tt.warn1') : t('tt.warnN', { n: w })}</span>` : '') + (f ? `<span class="ts__pill is-b">${ico('alert', 12)}${f === 1 ? t('tt.fail1') : t('tt.failN', { n: f })}</span>` : '')
+    + (u.length ? `<span class="ag-stack ts__stk">${u.map(a => agAv(a)).join('')}</span>` : ''); }
+const tsHead = r => `<b class="ts__nm">${r.done ? t('tt.thought', { s: secs(r.ms) }) : t('tt.thinking')}</b>${tsMeta(r)}`;
+const ttHTML = r => `<div class="ts${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="ts__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}"><i class="ts__st"><i class="tc__sp"></i>${ico('check', 14)}</i>${swHTML('ts__hl', tsHead(r))}<time class="ts__tm" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time>${ico('chevDown', 18, 'ts__cv')}</button>
+  <div class="ts__fold"><div><ol class="tc__list">${r.T.phases.map(p => cardHTML(r, p)).join('')}</ol></div></div></div>`;
 const noteMs = () => 0;
-function itPatch(el, r, it) { const e = $(`[data-it="${it.id}"]`, el); if (!e) return; const o = isOpenS(it);
-  if (e.dataset.sig !== sig(it)) { const was = e.dataset.sig.split('|')[0]; e.outerHTML = cardHTML(it, r); const n = $(`[data-it="${it.id}"]`, el); if (was === 'q') pulseCls(n, 'is-new'); if (was === 'run' && it.st !== 'run') pulseCls($('.tc__d', n), 'is-flip'); return; }
+function cardPatch(el, r, p) { const e = $(`[data-ph="${p.id}"]`, el); if (!e) return; const o = isOpenP(p);
+  if (e.dataset.sig !== pSig(p)) { const was = e.dataset.sig.split('|')[0], keep = $('.tc__acts', e)?.parentNode.parentNode.scrollTop; e.outerHTML = cardHTML(r, p); const n = $(`[data-ph="${p.id}"]`, el);
+    if (was === 'q' && p.st !== 'q') pulseCls(n, 'is-new'); if ((was === 'run' || was === 'retry') && !['run', 'retry'].includes(pSt(p))) pulseCls($('.tc__d', n), 'is-flip'); return; }
   e.classList.toggle('is-open', o); $('.tc__h', e).setAttribute('aria-expanded', o); }
 const srcsHTML = src => !src.length ? '' : `<div class="srcs"><small>${t('basedOn')}</small>${src.map(s => `<span>${s}</span>`).join('')}</div>`;
 const botHTML = m => `<div class="msg msg--b" data-m="${m.run.id}">${orb('orb--sm')}<div class="msg__c">${ttHTML(m.run)}${m.ans ? m.ans + srcsHTML(m.src) : ''}</div></div>`;
@@ -2678,26 +2665,24 @@ function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.
   const r = runs().find(x => !x.done); if (!r) return el.classList.remove('is-on'); const s = cur(r);
   swap($('.agnow__av', el), agAv(s.a), true); swap($('.agnow__tx', el), t('th.isWorking', { a: AG[s.a].n })); el.classList.add('is-on'); }
 function paintRun(r) { const p = $('#chatThread'), near = p && p.scrollHeight - p.scrollTop - p.clientHeight < 220, el = $(`[data-tt="${r.id}"]`);
-  if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.ta__h', el); h.setAttribute('aria-expanded', !!r.open); swap($('.ta__hl', h), ttHead(r));
-    if (r.done) { const tm = $(':scope > .ta__tm', h); tm.removeAttribute('data-run-t'); tm.textContent = ''; }
-    secsOf(r).forEach(s => { const e = $(`[data-sec="${s.id}"]`, el); if (!e) return; const q = s.ph.every(p => p.st === 'q'); if (e.classList.contains('is-q') && !q) pulseCls(e, 'is-new'); e.classList.toggle('is-q', q); $('.tc__sl .tc__tm', e).textContent = secTime(r, s); });
-    r.T.all.forEach(it => itPatch(el, r, it)); }
+  if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.ts__h', el); h.setAttribute('aria-expanded', !!r.open); swap($('.ts__hl', h), tsHead(r));
+    if (r.done) { const tm = $('.ts__tm', h); tm.removeAttribute('data-run-t'); tm.textContent = ''; }
+    r.T.phases.forEach(ph => cardPatch(el, r, ph)); }
   paintAgentNow(); applyMood(); if (near && !r.done) stick(p, 500); }
-/* the clock · header, sections and running cards tick; the checklist advances; a retry counts down */
+/* the clock · header, running cards and their running lines tick; a retry counts down */
 function ttTick(r) { $$(`[data-run-t="${r.id}"]`).forEach(e => { e.textContent = secs(Date.now() - r.t0); }); const el = $(`[data-tt="${r.id}"]`); if (!el) return;
-  r.T.all.forEach(it => { if (it.st !== 'run') return; const e = $(`[data-it="${it.id}"]`, el); if (!e) return; $('.tc__h .tc__tm', e).textContent = secs(Date.now() - it.t0);
-    const n = elab(it, r).acts.length; $$('.tc__acts li', e).slice(0, n).forEach((li, j) => { const s = actSt(it, j, n); ['q', 'run', 'done'].forEach(c => li.classList.toggle('is-' + c, c === s)); });
-    const w = $('.tc__wt', e); if (w) w.textContent = secs(Math.max(0, it.wait - Date.now())); });
-  secsOf(r).forEach(s => { const e = $(`[data-sec="${s.id}"] .tc__sl .tc__tm`, el); if (e && s.ph.some(p => p.st === 'run')) e.textContent = secTime(r, s); }); }
+  r.T.phases.forEach(p => { if (p.st !== 'run') return; const e = $(`[data-ph="${p.id}"]`, el); if (!e) return; $('.tc__h .tc__tm', e).textContent = pTime(p);
+    const lis = $$('.tc__acts > li:not(.is-sub)', e); p.items.forEach((it, j) => { if (it.st === 'run' && lis[j]) $('time', lis[j]).textContent = secs(Date.now() - it.t0); });
+    const w = $('.tc__wt', e); const it = p.items.find(i => i.wait); if (w && it) w.textContent = secs(Math.max(0, it.wait - Date.now())); }); }
 /* one card open or closed; your choice sticks */
-document.addEventListener('click', e => { const b = e.target.closest('[data-st-t]'); if (!b) return; const [ri, ii] = b.dataset.stT.split(':'), r = runById(ri), it = r && r.T.all.find(x => x.id === ii); if (!it) return;
-  it.open = !isOpenS(it); it.pin = true; const li = b.closest('.tc__s'); li.classList.toggle('is-open', it.open); b.setAttribute('aria-expanded', it.open); });
-/* the run · intent, then the agents side by side, then the answer */
+document.addEventListener('click', e => { const b = e.target.closest('[data-pc-t]'); if (!b) return; const [ri, pi] = b.dataset.pcT.split(':'), r = runById(ri), p = r && r.T.phases.find(x => x.id === pi); if (!p) return;
+  p.open = !isOpenP(p); p.pin = true; const li = b.closest('.tc__s'); li.classList.toggle('is-open', p.open); b.setAttribute('aria-expanded', p.open); });
+/* the run · understand and brief, then the agents side by side, then check and write */
 const jit = ms => ms * (.8 + Math.random() * .4);
 async function runIt(r, it) { it.st = 'run'; it.t0 = Date.now(); paintRun(r); const f = it.err;
   if (f && f.k === 'retry') { await sleep(jit(it.ms)); it.att = [{ ms: Date.now() - it.t0 }]; it.wait = Date.now() + f.wait; paintRun(r); await sleep(f.wait);
     it.wait = 0; it.att.push({ t0: Date.now() }); paintRun(r); await sleep(jit(it.ms) * .7); it.att[1].ms = Date.now() - it.att[1].t0; }
-  else await sleep(jit(it.ms) * 1.25);
+  else await sleep(jit(it.ms) * 1.15);
   it.st = f && f.k === 'fail' ? 'fail' : f && f.k === 'warn' ? 'warn' : 'done'; it.dur = Date.now() - it.t0; paintRun(r); }
 async function runPhase(r, p, k = 0) { await sleep(k * 260); p.st = 'run'; p.t0 = Date.now(); paintRun(r); for (const it of p.items) await runIt(r, it);
   p.st = p.items.some(i => i.st === 'warn' || i.st === 'fail') ? 'warn' : 'done'; p.dur = Date.now() - p.t0; paintRun(r); }
