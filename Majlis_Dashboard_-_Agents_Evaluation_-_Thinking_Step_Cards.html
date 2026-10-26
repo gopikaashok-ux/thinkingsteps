@@ -758,14 +758,16 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .ts:not(.is-done){border-color:color-mix(in srgb,var(--accent) 35%,var(--line));box-shadow:0 0 0 3px var(--accent-soft)}
 .ts__h{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:12px 16px;border-radius:var(--r);text-align:start;transition:background .2s}
 .ts__h:hover{background:var(--tile)}.ts__h:focus-visible,.tc__h:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
-.ts__st{position:relative;flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--dark-ink);transition:background .35s}
-.ts__st>*{grid-area:1/1}.ts.is-done .ts__st{background:var(--accent)}.ts.is-done .ts__st .tc__sp,.ts:not(.is-done) .ts__st .i{display:none}
+.ts__av{flex:none;display:inline-flex;align-items:center}
+.ts__av>.ag{width:28px;height:28px;border-radius:9px}.ts__av>.ag .i{width:15px;height:15px}.ts__av>.orb{--s:28px;width:28px;height:28px;--ag:var(--accent)}
+.ts__av>*{box-shadow:0 0 0 2px var(--card-s);flex:none}.ts__av>*+*{margin-inline-start:-6px}
+.ts:not(.is-done) .ts__av>*{animation:agRing 1.8s ease-out infinite}@keyframes agRing{0%{box-shadow:0 0 0 2px var(--card-s),0 0 0 2px color-mix(in srgb,var(--ag) 45%,transparent)}100%{box-shadow:0 0 0 2px var(--card-s),0 0 0 10px transparent}}
+.ts__av.is-new>*{animation:avIn .55s cubic-bezier(.34,1.56,.64,1) both}
 .ts__hl{flex:1;min-width:0;margin:-4px}.ts__hl>.swp__i{gap:12px;padding:4px;flex-wrap:nowrap}
 .ts__nm{flex:none;font:600 14.5px/20px var(--font);color:var(--ink);white-space:nowrap}
 .ts__ms{flex:0 1 auto;min-width:0;margin-inline-start:-4px;font-size:13px;line-height:20px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ts__pill{display:inline-flex;align-items:center;gap:5px;flex:none;height:24px;padding:0 10px;border-radius:99px;font:600 12px/1 var(--font);white-space:nowrap}
 .ts__pill.is-w{background:var(--warn-soft);color:var(--warn)}.ts__pill.is-b{background:var(--bad-soft);color:var(--bad)}
-.ts__stk{flex:none}.ts__stk .ag{width:24px;height:24px;border-radius:8px}.ts__stk .ag .i{width:13px;height:13px}.ts__stk>*{box-shadow:0 0 0 2px var(--card-s)}.ts__stk>*+*{margin-inline-start:-4px}
 .ts__tm{flex:none;font:500 12.5px/1 var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}.ts.is-done .ts__tm{display:none}
 .ts__cv{flex:none;color:var(--ink3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}.ts.is-open .ts__cv{transform:rotate(180deg)}
 .ts__fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}.ts.is-open .ts__fold{grid-template-rows:1fr}.ts__fold>div{overflow:hidden;min-height:0}
@@ -812,7 +814,7 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 .tc__acts li.is-sub.is-bad{color:var(--bad)}.tc__acts li.is-sub.is-warn{color:var(--warn)}.tc__acts li.is-sub.is-ok{color:var(--accent)}
 .tc__wt{font-weight:600;font-variant-numeric:tabular-nums}
 :root[dir="rtl"] .ts [dir="auto"]{text-align:right}
-@media (max-width:760px){.ts__h{align-items:flex-start;padding:12px}.ts__hl>.swp__i{flex-wrap:wrap;row-gap:8px}.ts__ms{display:none}.ts__st,.ts__cv{margin-top:2px}.tc__list{padding:4px 8px 8px}.tc__h{padding:10px 12px;gap:10px}.tc__ag{width:28px;padding:0 4px;gap:0;justify-content:center}.tc__agn{display:none}.tc__in{padding:4px 12px 14px}.tc__t small{white-space:normal}}
+@media (max-width:760px){.ts__h{align-items:flex-start;padding:12px}.ts__hl>.swp__i{flex-wrap:wrap;row-gap:8px}.ts__ms{display:none}.ts__av,.ts__cv{margin-top:0}.tc__list{padding:4px 8px 8px}.tc__h{padding:10px 12px;gap:10px}.tc__ag{width:28px;padding:0 4px;gap:0;justify-content:center}.tc__agn{display:none}.tc__in{padding:4px 12px 14px}.tc__t small{white-space:normal}}
 /* answers · parts carry a byline per agent; a fresh answer settles in piece by piece */
 .ans-part{display:flex;flex-direction:column;gap:12px}.ans-part+.ans-part{padding-top:18px;border-top:1px solid var(--line)}
 .ans-by{display:inline-flex;align-items:center;gap:8px;font:600 12.5px/1 var(--font);color:var(--ink2)}
@@ -2650,9 +2652,13 @@ function tsMeta(r) { const u = agentsOf(r), n = r.T.phases.length, rt = r.steps.
   const parts = [u.length ? (u.length === 1 ? t('tc.agents1') : t('tc.agentsN', { n: u.length })) : '', n === 1 ? t('tc.steps1') : t('tc.stepsN', { n })].filter(Boolean);
   return `<span class="ts__ms">· ${parts.join(' · ')}</span>` + (rt ? `<span class="ts__pill is-w">${ico('reset', 12)}${t('tc.retried', { n: rt })}</span>` : '')
     + (w ? `<span class="ts__pill is-w">${ico('alert', 12)}${w === 1 ? t('tt.warn1') : t('tt.warnN', { n: w })}</span>` : '') + (f ? `<span class="ts__pill is-b">${ico('alert', 12)}${f === 1 ? t('tt.fail1') : t('tt.failN', { n: f })}</span>` : '')
-    + (u.length ? `<span class="ag-stack ts__stk">${u.map(a => agAv(a)).join('')}</span>` : ''); }
+; }
+/* who is working · the header leads with the agents' own icons (stacked when several), Majlis's mascot until an agent joins */
+const tsAgents = r => agentsOf(r).filter(a => r.done || r.steps.some(s => s.a === a && s.st !== 'q'));
+const tsAvKey = r => tsAgents(r).join(',') || 'majlis';
+const tsAv = r => (tsAgents(r).length ? tsAgents(r) : ['majlis']).map(a => agAv(a)).join('');
 const tsHead = r => `<b class="ts__nm">${r.done ? t('tt.thought', { s: secs(r.ms) }) : t('tt.thinking')}</b>${tsMeta(r)}`;
-const ttHTML = r => `<div class="ts${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="ts__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}"><i class="ts__st"><i class="tc__sp"></i>${ico('check', 14)}</i>${swHTML('ts__hl', tsHead(r))}<time class="ts__tm" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time>${ico('chevDown', 18, 'ts__cv')}</button>
+const ttHTML = r => `<div class="ts${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="ts__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}"><span class="ts__av" data-k="${tsAvKey(r)}">${tsAv(r)}</span>${swHTML('ts__hl', tsHead(r))}<time class="ts__tm" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time>${ico('chevDown', 18, 'ts__cv')}</button>
   <div class="ts__fold"><div><ol class="tc__list">${r.T.phases.map(p => cardHTML(r, p)).join('')}</ol></div></div></div>`;
 const noteMs = () => 0;
 function cardPatch(el, r, p) { const e = $(`[data-ph="${p.id}"]`, el); if (!e) return; const o = isOpenP(p);
@@ -2665,7 +2671,7 @@ function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.
   const r = runs().find(x => !x.done); if (!r) return el.classList.remove('is-on'); const s = cur(r);
   swap($('.agnow__av', el), agAv(s.a), true); swap($('.agnow__tx', el), t('th.isWorking', { a: AG[s.a].n })); el.classList.add('is-on'); }
 function paintRun(r) { const p = $('#chatThread'), near = p && p.scrollHeight - p.scrollTop - p.clientHeight < 220, el = $(`[data-tt="${r.id}"]`);
-  if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.ts__h', el); h.setAttribute('aria-expanded', !!r.open); swap($('.ts__hl', h), tsHead(r));
+  if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.ts__h', el); h.setAttribute('aria-expanded', !!r.open); swap($('.ts__hl', h), tsHead(r)); const av = $('.ts__av', h); if (av.dataset.k !== tsAvKey(r)) { av.dataset.k = tsAvKey(r); av.innerHTML = tsAv(r); pulseCls(av, 'is-new', 700); }
     if (r.done) { const tm = $('.ts__tm', h); tm.removeAttribute('data-run-t'); tm.textContent = ''; }
     r.T.phases.forEach(ph => cardPatch(el, r, ph)); }
   paintAgentNow(); applyMood(); if (near && !r.done) stick(p, 500); }
