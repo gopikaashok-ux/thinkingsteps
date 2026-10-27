@@ -756,8 +756,8 @@ blockquote{margin:0;padding:12px 16px;border-radius:var(--rs);background:var(--t
 /* spacing scale 4 · 8 · 12 · 16; the box pads 16, rows pad 14 top and bottom, every column (icon, text, time) lines up down the box */
 .tb{align-self:stretch;min-width:0;border-radius:var(--r);background:var(--card);border:1px solid var(--line);transition:border-color .5s,box-shadow .5s}
 .tb:not(.is-done){border-color:color-mix(in srgb,var(--accent) 35%,var(--line));box-shadow:0 0 0 3px var(--accent-soft)}
-/* head · who · what · how long, then a thin bar of time by agent */
-.tb__h{display:flex;flex-direction:column;gap:12px;width:100%;padding:14px 16px;border-radius:var(--r);text-align:start;transition:background .2s}
+/* head · who · what · how long */
+.tb__h{display:flex;flex-direction:column;width:100%;padding:14px 16px;border-radius:var(--r);text-align:start;transition:background .2s}
 .tb__h:hover{background:var(--tile)}.tb__h:focus-visible,.tb__more:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--accent)}
 .tb__l{display:flex;align-items:center;gap:12px;width:100%;min-width:0}
 .tb__hl{flex:1;min-width:0;margin:-4px}.tb__hl>.swp__i{gap:12px;padding:4px}
@@ -2590,7 +2590,7 @@ function traceFor(q, sel, files) { const P = planFor(q, sel, files), picked = se
 const runs = () => S.chat.map(m => m.run).filter(Boolean), runById = id => runs().find(r => r.id === id), fin = s => s.st !== 'q' && s.st !== 'run';
 const cur = r => r.steps.filter(s => s.st === 'run').sort((a, b) => b.t0 - a.t0)[0] || r.steps.find(s => s.st === 'q') || r.steps[r.steps.length - 1];
 const agentsOf = r => [...new Set(r.steps.map(s => s.a))].filter(a => a !== 'majlis'), prog = r => r.steps.filter(fin).length / r.steps.length;
-/* ---------- thinking in the conversation · results with time by agent: one line and a thin time bar; opened, a "Time by agent" breakdown
+/* ---------- thinking in the conversation · results with time by agent: one line; opened, a "Time by agent" breakdown
    and one row per piece of work (what was done, what it found, where from, how long), with the individual steps only on request ---------- */
 _m(TX.en, { tb: { tba: 'Time by agent', par: 'In parallel', show: 'Show {n} steps', hide: 'Hide steps', agents1: '1 agent', agentsN: '{n} agents', waiting: 'Waiting for {a}' } });
 _m(TX.ar, { tb: { tba: 'الوقت لكل وكيل', par: 'بالتوازي', show: 'عرض {n} خطوات', hide: 'إخفاء الخطوات', agents1: 'وكيل واحد', agentsN: '{n} وكلاء', waiting: 'بانتظار {a}' } });
@@ -2640,7 +2640,7 @@ function tbSegs(r) { const [pl, ...rest] = r.T.phases, pt = rest.pop(), plan = p
   const m = { a: 'majlis', ms: el(pl) + el(pt), w: (el(pl) || plan(pl)) + (el(pt) || plan(pt)), st: pt.st === 'q' && pl.st !== 'run' ? 'done' : pl.st === 'run' || pt.st === 'run' ? 'run' : 'done' };
   return [m, ...rest.map(p => ({ a: p.a, id: p.id, ms: el(p), w: Math.max(el(p), p.st === 'q' || p.st === 'run' ? plan(p) : 0) || plan(p), st: p.st === 'q' ? 'q' : p.st === 'run' ? 'run' : 'done' }))]; }
 const tbBar = (r, cls = '') => `<div class="tb__bar ${cls}" aria-hidden="true">${tbSegs(r).map(s => `<i class="is-${s.st}" data-seg="${s.a}" style="--w:${(s.w / 1000).toFixed(2)};--c:${COL(s.a)}"></i>`).join('')}</div>`;
-const tbTba = r => `<div class="tb__tba"><span class="tb__lbl">${t('tb.tba')}</span>${tbBar(r, 'is-lg')}<div class="tb__lg">${tbSegs(r).map(s => `<span style="--c:${COL(s.a)}"><i></i>${s.a === 'majlis' ? 'Majlis' : esc(AG[s.a].n)}<em>${secs(s.ms)}</em></span>`).join('')}</div></div>`;
+const tbTba = r => `<div class="tb__tba"><span class="tb__lbl">${t('tb.tba')}</span>${tbBar(r, 'is-lg')}<div class="tb__lg">${tbSegs(r).map(s => `<span style="--c:${COL(s.a)}"><i></i>${s.a === 'majlis' ? 'Majlis' : esc(AG[s.a].n)}<em data-lg="${s.a}">${secs(s.ms)}</em></span>`).join('')}</div></div>`;
 /* header · who, what, how long; exceptions only when there are some */
 const tbWho = r => agentsOf(r).filter(a => r.done || r.steps.some(s => s.a === a && s.st !== 'q'));
 const tbAv = r => { const u = tbWho(r); return `<span class="ag-stack tb__av">${(u.length ? u : ['majlis']).map(a => agAv(a)).join('')}</span>`; };
@@ -2651,8 +2651,8 @@ function tbEx(r) { const w = r.steps.filter(s => s.st === 'warn').length, f = r.
   return (f ? `<span class="tb__ex is-bad"><i></i>${f === 1 ? t('tt.fail1') : t('tt.failN', { n: f })}</span>` : '') + (w ? `<span class="tb__ex"><i></i>${w === 1 ? t('tt.warn1') : t('tt.warnN', { n: w })}</span>` : ''); }
 const tbHead = r => `${tbAv(r)}<span class="tb__tt"><b>${r.done ? t('tt.thought', { s: secs(r.ms) }) : t('tt.thinking')}</b><span>${tbSub(r)}</span></span>${tbEx(r)}`;
 const ttHTML = r => `<div class="tb${r.open ? ' is-open' : ''}${r.done ? ' is-done' : ''}" data-tt="${r.id}"><button class="tb__h" type="button" data-tt-t="${r.id}" aria-expanded="${!!r.open}">
-  <span class="tb__l">${swHTML('tb__hl', tbHead(r))}<time class="tb__t" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time>${ico('chevDown', 16, 'tb__cv')}</span>${tbBar(r)}</button>
-  <div class="tb__fold"><div><div class="tb__b">${r.done ? tbTba(r) : ''}<div class="tb__rows">${r.T.phases.map(p => rowHTML(p, r)).join('')}</div></div></div></div></div>`;
+  <span class="tb__l">${swHTML('tb__hl', tbHead(r))}<time class="tb__t" data-run-t="${r.done ? '' : r.id}">${r.done ? '' : secs(Date.now() - r.t0)}</time>${ico('chevDown', 16, 'tb__cv')}</span></button>
+  <div class="tb__fold"><div><div class="tb__b">${tbTba(r)}<div class="tb__rows">${r.T.phases.map(p => rowHTML(p, r)).join('')}</div></div></div></div></div>`;
 const noteMs = () => 0;
 const srcsHTML = src => !src.length ? '' : `<div class="srcs"><small>${t('basedOn')}</small>${src.map(s => `<span>${s}</span>`).join('')}</div>`;
 const botHTML = m => `<div class="msg msg--b" data-m="${m.run.id}">${orb('orb--sm')}<div class="msg__c">${ttHTML(m.run)}${m.ans ? m.ans + srcsHTML(m.src) : ''}</div></div>`;
@@ -2662,15 +2662,14 @@ function paintAgentNow() { const el = $('#chatAgent'); if (!el) return; if (!el.
 function paintRun(r) { const p = $('#chatThread'), near = p && p.scrollHeight - p.scrollTop - p.clientHeight < 220, el = $(`[data-tt="${r.id}"]`);
   if (el) { el.classList.toggle('is-open', !!r.open); el.classList.toggle('is-done', !!r.done); const h = $('.tb__h', el); h.setAttribute('aria-expanded', !!r.open); swap($('.tb__hl', h), tbHead(r));
     if (r.done) { const tm = $('.tb__t', h); tm.removeAttribute('data-run-t'); tm.textContent = ''; }
-    const bar = $(':scope > .tb__bar', h); bar.outerHTML = tbBar(r);
-    const b = $('.tb__b', el); if (r.done && !$('.tb__tba', b)) { b.insertAdjacentHTML('afterbegin', tbTba(r)); pulseCls($('.tb__tba', b), 'is-new'); }
+    const tba = $('.tb__tba', el), k = tbSegs(r).map(x => x.st).join(); if (tba.dataset.k !== k) { tba.outerHTML = tbTba(r); $('.tb__tba', el).dataset.k = k; }
     r.T.phases.forEach(ph => { const e = $(`.tb__row[data-ph="${ph.id}"]`, el); if (!e || e.dataset.sig === rowSig(ph, r)) return; const wasHid = e.classList.contains('is-hid'); e.outerHTML = rowHTML(ph, r);
       if (wasHid && rowVis(ph, r)) pulseCls($(`.tb__row[data-ph="${ph.id}"]`, el), 'is-new'); }); }
   paintAgentNow(); applyMood(); if (near && !r.done) stick(p, 500); }
 /* the clock · header time, running rows and the running parts of the bar */
 function ttTick(r) { $$(`[data-run-t="${r.id}"]`).forEach(e => { e.textContent = secs(Date.now() - r.t0); }); const el = $(`[data-tt="${r.id}"]`); if (!el) return;
   r.T.phases.forEach(p => { if (p.st === 'run') { const e = $(`[data-tbt="${p.id}"]`, el); if (e) e.textContent = pTm(p); } });
-  tbSegs(r).forEach(s => { const e = $(`.tb__h > .tb__bar [data-seg="${s.a}"]`, el); if (e) e.style.setProperty('--w', (s.w / 1000).toFixed(2)); }); }
+  tbSegs(r).forEach(s => { const e = $(`.tb__tba [data-seg="${s.a}"]`, el), g = $(`.tb__tba [data-lg="${s.a}"]`, el); if (e) e.style.setProperty('--w', (s.w / 1000).toFixed(2)); if (g) g.textContent = secs(s.ms); }); }
 /* steps on request */
 document.addEventListener('click', e => { const b = e.target.closest('[data-tb-s]'); if (!b) return; const [ri, pi] = b.dataset.tbS.split(':'), r = runById(ri), p = r && r.T.phases.find(x => x.id === pi); if (!p) return;
   p.show = !p.show; paintRun(r); });
