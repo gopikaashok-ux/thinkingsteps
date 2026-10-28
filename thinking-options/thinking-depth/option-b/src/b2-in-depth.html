@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="b.css">
+<style>
+.cols{display:grid;grid-template-columns:700px 700px;gap:30px;align-items:start}
+.frame{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.hdr{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink-2)}
+.hdr .depth{margin-left:auto}
+.rail{position:relative;padding-left:30px;display:flex;flex-direction:column;gap:4px}
+.rail::before{content:"";position:absolute;left:10px;top:12px;bottom:12px;width:2px;background:var(--line)}
+.node{position:relative;padding:7px 10px;border-radius:10px}
+.node .dot{position:absolute;left:-28px;top:9px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;background:#fff;border:2px solid var(--line-2);color:var(--ink-3)}
+.node.done .dot{background:var(--green);border-color:var(--green);color:#fff}
+.node.act .dot{border-color:var(--eval);box-shadow:0 0 0 4px var(--eval-soft);background:#fff}
+.node .h{display:flex;gap:8px;align-items:baseline;font-size:14px}
+.node .h b{font-weight:600}
+.node .h .t{margin-left:auto;color:var(--ink-3);font-size:12px}
+.node .s{color:var(--ink-3);font-size:13px}
+.node.pend .h{color:var(--ink-3)}
+.node.act{background:var(--eval-soft);border:1px solid #ddd4ff;padding:10px 12px}
+.say{font-size:14px;color:var(--ink);margin:6px 0 2px}
+.opts{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.opt{font-size:13px;padding:6px 12px;border-radius:9px;background:#fff;border:1px solid #d6ccff}
+.opt.rec{border-color:var(--eval);font-weight:600}
+.timer{height:3px;border-radius:2px;background:#ddd4ff;margin-top:10px;overflow:hidden}.timer i{display:block;height:100%;width:62%;background:var(--eval)}
+.auto{font-size:11.5px;color:#6a5bb0;margin-top:5px}
+.peek{margin:8px 0 2px;display:grid;grid-template-columns:150px 70px 30px 1fr;gap:4px 10px;font-size:12.5px;align-items:center;color:var(--ink-2)}
+.strip{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:12.5px}
+.strip span{padding:3px 9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2)}
+.strip span.u{background:var(--eval-soft);border-color:#ddd4ff;color:#5b41c9;font-weight:600}
+.strip em{color:var(--ink-3);font-style:normal}
+.answer li{position:relative}
+.hl{background:linear-gradient(transparent 60%,#e6defd 60%)}
+.pop{--ax:250px;margin:10px 0 6px 18px;width:560px}
+.pop .ph{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650;margin-bottom:8px}
+.pop .ph .pill{margin-left:auto}
+.chain{border-left:2px solid #ddd4ff;padding-left:12px;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--ink-2)}
+.chain .so{color:var(--eval);font-weight:600}
+.pop .pf{display:flex;gap:6px;margin-top:10px;align-items:center;flex-wrap:wrap}
+.btn2{font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:99px;border:1px solid var(--line-2);color:var(--ink)}
+.meter{display:inline-flex;gap:2px}.meter b{width:14px;height:6px;border-radius:2px;background:var(--amber)}.meter b.o{background:#eadfc9}
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 26px;margin-top:26px;width:1430px}
+</style></head><body><div class="page" style="width:1510px">
+<div class="title"><h1>Option B · Case 2 · In-depth reasoning</h1><span class="tag">REASONING RAIL → “WHY” ON EACH CLAIM</span></div>
+<p class="sub">Option A interleaves blocks and sends the full reasoning to a modal. Here the reasoning is a <b>single vertical rail</b>: only the current step is open, finished steps fold to one line on their own, so the view never jumps. When done, the reasoning <b>moves onto the answer</b>: every claim has a <span class="why">1</span> marker that opens the reasoning <b>for that claim only</b>. No modal, no leaving the answer.</p>
+
+<div class="cols">
+ <div class="frame">
+  <div class="frame-lbl"><i>While running</i> Rail · one step open at a time</div>
+  <div class="prompt" style="align-self:flex-end"><div>Evaluate this vendor proposal. Should we approve it?</div>
+    <div class="meta"><span class="chip">📎 Vendor proposal.pdf</span><span class="chip eval"><i class="pie"></i> Evaluation agent</span></div></div>
+  <div class="hdr"><span class="ic ev"><i class="pie"></i></span>Reasoning · 6s<span class="depth"><span>Brief</span><span class="on">Reasoning</span><span>Trace</span></span></div>
+  <div class="rail">
+    <div class="node done"><span class="dot">✓</span><div class="h"><b>Planned</b><span class="s">Decision hinges on cost, return and policy fit</span><span class="t">1.2s</span></div></div>
+    <div class="node done"><span class="dot">✓</span><div class="h"><b>Scored on 6 criteria</b><span class="s">4 strong · 2 to watch</span><span class="t">3.1s</span></div>
+      <div class="peek"><span>Financial return</span><span class="bar" style="width:70px"><i style="width:60%;background:var(--amber)"></i></span><b>60</b><span class="dim">depends on volume</span>
+      <span>Policy fit</span><span class="bar" style="width:70px"><i style="width:50%;background:var(--amber)"></i></span><b>50</b><span class="dim">40% upfront vs 20% cap</span></div></div>
+    <div class="node act"><span class="dot"></span><div class="h" style="color:#5b41c9"><b>Need your call</b><span class="t" style="color:#6a5bb0">paused</span></div>
+      <div class="say">Return depends on volume growth. On the vendor's 18%, payback is 2.1 years; on our plan's 9%, 3.4 years. Which should I use?</div>
+      <div class="opts"><span class="opt rec">Our plan · 9% ✦</span><span class="opt">Vendor · 18%</span><span class="opt">Run both</span></div>
+      <div class="timer"><i></i></div><div class="auto">Going with “Our plan” in 8s · <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> to pick</div></div>
+    <div class="node pend"><span class="dot"></span><div class="h"><b>Weigh trade-offs</b></div></div>
+    <div class="node pend"><span class="dot"></span><div class="h"><b>Check figures and write</b></div></div>
+  </div>
+  <div class="ghost" style="display:flex;flex-direction:column;gap:8px;padding:4px 2px"><i style="display:block;width:40%;height:14px;border-radius:5px;background:#eef1ec"></i><i style="display:block;width:90%;height:9px;border-radius:5px;background:#eef1ec"></i></div>
+ </div>
+
+ <div class="frame">
+  <div class="frame-lbl"><i>Done</i> Rail folds to a strip · tap <span class="why on" style="margin:0">1</span> on a claim</div>
+  <div class="hdr"><span class="ic ev"><i class="pie"></i></span>Reasoning · 9.4s<span class="depth"><span>Brief</span><span class="on">Reasoning</span><span>Trace</span></span></div>
+  <div class="strip"><span>Plan</span><em>›</em><span>6 criteria</span><em>›</em><span class="u">You chose 9%</span><em>›</em><span>3 trade-offs</span><em>›</em><span>9 figures checked</span></div>
+  <div class="answer" style="box-shadow:none;padding:16px 18px">
+    <div class="verdict">Approve with 3 conditions <span class="pill amber">71 / 100</span></div>
+    <ul>
+      <li><b>Cut upfront payment</b> from 40% to 20% to meet policy §2.1.<span class="why">1</span></li>
+      <li><b>Add a 6-month break clause</b>, capping exposure at AED 1.1M.<span class="why">2</span></li>
+      <li><b>Index fees to actual volume.</b> <span class="hl">On our 9% plan, return is 13% vs the 15% hurdle.</span><span class="why on">3</span></li>
+    </ul>
+    <div class="pop">
+      <div class="ph"><span class="why on" style="margin:0">3</span>Why index fees to volume<span class="pill amber">Medium</span></div>
+      <div class="chain">
+        <p>Vendor assumes 18% growth; our FY27 plan says 9% <span class="so">→ so</span> I used 9%, as you chose.</p>
+        <p>At 9%, return is 13%, below the 15% hurdle <span class="so">→ so</span> a fixed fee doesn't pay back in time.</p>
+        <p>Indexing fees to volume moves the risk to the vendor <span class="so">→ so</span> return holds at 15–16%.</p>
+      </div>
+      <div class="pf"><span class="chip src">Company plan FY27</span><span class="chip src">Proposal p.9</span><span class="btn2" style="margin-left:auto">↺ Try vendor's 18%</span></div>
+    </div>
+    <div class="conf"><span class="lbl">Confidence</span><span class="meter"><b></b><b></b><b></b><b class="o"></b><b class="o"></b></span><span>Medium</span><span class="dim">· 2 gaps: no SLA references; volume isn't contracted</span></div>
+    <div class="foot"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Capital policy v3</span><span class="chip src">Jeddah hub, 2023</span></div>
+  </div>
+ </div>
+</div>
+
+<div class="legend">
+  <div class="note"><b>1–3 · Prompt, thinking, plan</b>Become the first rail node, “Planned”. The plan is its one-line caption.</div>
+  <div class="note"><b>4 · Action + evidence</b>Rail node. While active it streams; when done it folds to “4 strong · 2 to watch” and shows only the scores that matter.<span class="ux">Auto-fold, one open at a time</span></div>
+  <div class="note"><b>Engage · Checkpoint</b>Becomes the active node with a visible countdown, keyboard shortcuts and a recommended pick ✦. Never covers the content.</div>
+  <div class="note"><b>5–6 · Found, weighed, summary</b>Later rail nodes. A ghost of the answer is already holding its space underneath.</div>
+  <div class="note"><b>Rail → strip</b>When the answer lands, the rail folds into a one-line strip. Your choice stays highlighted, so you can see the answer depends on it.</div>
+  <div class="note"><b>7 · “Why” on each claim</b>Reasoning is attached to the sentence it supports, in an anchored popover. The user reads one claim's reasoning, not all of it.<span class="ux">Popover replaces A's modal</span></div>
+  <div class="note"><b>Re-ask in place</b>“Try vendor's 18%” re-runs from the checkpoint; only the claims that change re-stream and flash.</div>
+  <div class="note"><b>Phone</b>Rail stays the same; the “why” popover becomes a half-height sheet you can swipe away.</div>
+</div>
+</div></body></html>

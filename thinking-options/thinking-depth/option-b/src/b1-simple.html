@@ -1,0 +1,74 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="b.css">
+<style>
+.grid{row-gap:16px}
+.frame{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.status{display:flex;align-items:center;gap:10px;height:40px;padding:0 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14.5px}
+.status .r{margin-left:auto;display:flex;align-items:center;gap:10px;color:var(--ink-3);font-size:12.5px}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid #d3d9d0;border-top-color:var(--eval)}
+.ghost{display:flex;flex-direction:column;gap:8px;padding:4px 2px}
+.ghost i{display:block;height:9px;border-radius:5px;background:#eef1ec}
+.fade{display:flex;gap:6px}
+.fade .chip{opacity:.55}
+.stamp{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:3px 10px 3px 4px}
+.stamp.on{border-color:var(--ink-2)}
+.ahead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ahead .depth{margin-left:auto}
+.pop{width:400px;margin-top:10px;--ax:30px}
+.pop .r{display:flex;gap:9px;align-items:center;font-size:13.5px;padding:4px 0;color:var(--ink-2)}
+.pop .r b{font-weight:550;color:var(--ink)}
+.pop .more{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:12.5px;color:var(--green);font-weight:600}
+</style></head><body><div class="page" style="width:1400px">
+<div class="title"><h1>Option B · Case 1 · Simple</h1><span class="tag">ONE LIVE LINE → STAMP + POPOVER</span></div>
+<p class="sub">Option A stacks a block for every step. Here <b>all the thinking lives in one fixed-height line that updates in place</b>, so nothing jumps while the agent works. The engaging bits (what I'll do, what I found) are spoken <b>in that same line</b>. When the answer arrives, the line shrinks into a <b>stamp</b> on the answer; tap it for a popover.</p>
+
+<div class="grid">
+  <div class="frame">
+    <div class="frame-lbl"><i>0–1s</i> Starts</div>
+    <div class="prompt" style="align-self:flex-end"><div>Evaluate this vendor proposal. Should we approve it?</div>
+      <div class="meta"><span class="chip">📎 Vendor proposal.pdf</span><span class="chip eval"><i class="pie"></i> Evaluation agent</span></div></div>
+    <div class="status"><span class="spin"></span><span class="shimmer">I'll score it on 6 criteria and check the approval policy</span><span class="r"><span class="dots"><b class="a"></b><b></b><b></b></span></span></div>
+    <div class="ghost"><i style="width:40%;height:14px"></i><i style="width:92%"></i><i style="width:78%"></i></div>
+  </div>
+  <div class="note"><b>1–3 · Prompt, thinking, plan in one line</b>The first thing the line says is the plan, in plain words. A ghost outline of the answer appears right away, so the space is already held.<span class="ux">Fixed 40px line · no layout shift</span></div>
+
+  <div class="frame">
+    <div class="frame-lbl"><i>1–3s</i> Working</div>
+    <div class="status"><span class="spin"></span><span>Reading <b>Vendor proposal.pdf</b> <span class="dim">· p.9 of 15</span></span><span class="r"><span class="dots"><b class="d"></b><b class="a"></b><b></b></span>2s</span></div>
+    <div class="fade"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Evaluation framework</span><span class="chip src">Capital policy v3</span></div>
+  </div>
+  <div class="note"><b>4 · Action + sources</b>The line's text cross-fades to the current action; source chips fade in underneath as they're touched. Dots show step 2 of 3, so progress is visible without a list.</div>
+
+  <div class="frame">
+    <div class="frame-lbl"><i>3–4s</i> Teaser</div>
+    <div class="status" style="background:var(--green-soft);border-color:#bfe2d3"><span class="ic ok">✓</span><span><b>74/100</b>, one gap in the payment terms. Writing it up…</span><span class="r"><span class="dots"><b class="d"></b><b class="d"></b><b class="a"></b></span>3s</span></div>
+  </div>
+  <div class="note"><b>5–6 · What I found + summary</b>The headline lands in the line before the answer streams. The summary step isn't shown separately: it's this sentence.</div>
+
+  <div class="frame" style="gap:0">
+    <div class="frame-lbl" style="margin-bottom:12px"><i>Done</i> Line becomes a stamp</div>
+    <div class="answer" style="box-shadow:none">
+      <div class="ahead"><span class="stamp"><span class="ic ok" style="width:18px;height:18px;font-size:10px">✓</span>3 steps · 4s ⌄</span><span class="depth"><span class="on">Brief</span><span>Reasoning</span><span>Trace</span></span></div>
+      <div class="verdict" style="margin-top:4px">Approve with conditions <span class="pill green">74 / 100</span></div>
+      <ul>
+        <li><b>Cost and delivery</b> are within plan; the vendor has done this scope before.</li>
+        <li><b>Payment terms</b> ask for 40% upfront. Policy caps it at 20%. Negotiate first.</li>
+        <li><b>Return</b> of 16% clears the 15% hurdle on the vendor's figures.</li>
+      </ul>
+      <div class="conf"><span class="ic ok" style="width:16px;height:16px;font-size:9px">✓</span><span class="lbl">High confidence</span><span class="dim">· 1 gap: payment terms</span></div>
+      <div class="foot"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Capital policy v3</span></div>
+    </div>
+  </div>
+  <div class="note"><b>7 · Final answer</b>The answer streams into the ghost's place. The live line shrinks into the <strong>3 steps · 4s</strong> stamp at the top of the card.<span class="ux">Stamp tap → popover</span><br><br><b>Depth switch</b>Brief · Reasoning · Trace on the same run. “See the reasoning” switches to Reasoning without re-running.</div>
+  <div class="frame" style="gap:0">
+    <div class="frame-lbl" style="margin-bottom:12px"><i>Tap</i> Stamp opens a popover over the answer</div>
+    <span class="stamp on" style="align-self:flex-start"><span class="ic ok" style="width:18px;height:18px;font-size:10px">✓</span>3 steps · 4s ⌃</span>
+      <div class="pop">
+        <div class="r"><span class="ic ok" style="width:15px;height:15px;font-size:8px">✓</span><b>Read your document</b><span class="dim">· 15 pages</span></div>
+        <div class="r"><span class="ic ok" style="width:15px;height:15px;font-size:8px">✓</span><b>Scored on 6 criteria</b><span class="dim">· 74/100</span></div>
+        <div class="r"><span class="ic ok" style="width:15px;height:15px;font-size:8px">✓</span><b>Checked approval policy</b><span class="dim">· 1 gap</span></div>
+        <div class="more">See the reasoning →</div>
+      </div>
+  </div>
+  <div class="note"><b>Popover, not inline</b>Floats over the answer instead of pushing it down; closes on tap outside or Esc. Max 3–5 rows.<span class="ux">Anchored popover</span></div>
+</div>
+</div></body></html>

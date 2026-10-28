@@ -1,0 +1,124 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="b.css">
+<style>
+.app{width:1430px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+.chat{padding:22px 40px 18px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.left{display:flex;flex-direction:column;gap:10px}
+.b{position:relative}
+.b > .n{position:absolute;left:-14px;top:-8px;box-shadow:0 0 0 3px var(--bg)}
+.line{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.line .r{margin-left:auto;color:var(--ink-3)}
+.fig{border-bottom:1.5px dashed var(--eval);cursor:pointer}
+.fig.on{background:var(--eval-soft);border-bottom-style:solid;border-radius:3px 3px 0 0}
+.hov{position:absolute;font-size:12px;background:#151a17;color:#e6ece8;border-radius:8px;padding:6px 9px;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(0,0,0,.5)}
+.hov .mono{color:#a8e6b8}
+.dock{background:#fff;border-top:1px solid var(--line-2);box-shadow:0 -12px 30px -18px rgba(20,40,30,.35)}
+.grip{height:14px;display:grid;place-items:center}.grip i{width:44px;height:4px;border-radius:2px;background:#d3d9d0}
+.dh{display:flex;align-items:center;gap:12px;padding:0 18px 0;border-bottom:1px solid var(--line)}
+.dh h3{font-size:14px;font-weight:650;display:flex;gap:8px;align-items:center}
+.tabs{display:flex;gap:2px;margin-left:12px}
+.tab{font-size:13px;padding:9px 10px;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ink);font-weight:600;border-color:var(--ink)}
+.dh .r{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:12px;color:var(--ink-3)}
+.dh .r b{color:var(--ink)}
+.gantt{padding:12px 18px 8px;border-bottom:1px solid var(--line)}
+.axis{display:grid;grid-template-columns:150px 1fr;font-size:11px;color:var(--ink-3);margin-bottom:4px}
+.axis div{display:flex;justify-content:space-between}
+.lane{display:grid;grid-template-columns:150px 1fr;align-items:center;height:26px;font-size:12.5px}
+.lane .nm{display:flex;gap:7px;align-items:center;color:var(--ink-2)}
+.tr{position:relative;height:18px;background:repeating-linear-gradient(90deg,#f3f5f2 0 1px,transparent 1px 10%)}
+.seg{position:absolute;top:2px;height:14px;border-radius:4px;font-family:var(--mono);font-size:10.5px;color:#fff;padding:0 6px;line-height:14px;white-space:nowrap;overflow:hidden}
+.seg.m{background:#7d9a8e}.seg.e{background:var(--eval)}.seg.w{background:var(--amber)}.seg.u{background:#d9d2fb;color:#5b41c9}
+.seg.sel{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--amber)}
+.split{display:grid;grid-template-columns:520px 1fr;min-height:280px}
+.calls{border-right:1px solid var(--line);font-size:12.5px}
+.calls .hd,.calls .rw{display:grid;grid-template-columns:18px 1fr 56px 56px 50px;gap:8px;padding:7px 14px;align-items:center}
+.calls .hd{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--line)}
+.calls .rw{border-bottom:1px solid #f0f2ef;font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.calls .rw span:nth-child(n+3){text-align:right;color:var(--ink-3)}
+.calls .rw.sel{background:var(--amber-soft)}
+.st{width:9px;height:9px;border-radius:50%;background:var(--green)}.st.w{background:var(--amber)}.st.u{background:#b8a8f5}
+.code{padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.code .top{display:flex;gap:8px;align-items:center;font-size:12.5px}
+.code .top .sm{margin-left:0}
+.sm{font-size:11px;font-weight:600;border:1px solid var(--line-2);border-radius:6px;padding:1px 7px;color:var(--ink-2);background:#fff}
+.sub2{display:flex;gap:2px;font-size:12px}
+.sub2 span{padding:3px 9px;border-radius:6px;color:var(--ink-2)}.sub2 span.on{background:#151a17;color:#fff}
+pre{font-family:var(--mono);font-size:11.5px;line-height:1.6;background:#151a17;color:#d8e2dc;padding:10px 12px;border-radius:8px;white-space:pre;margin:0}
+pre .k{color:#9cc8ff} pre .s{color:#a8e6b8} pre .c{color:#6f7d75} pre .kw{color:#d6a8ff} pre .hl{background:#3a3354;border-radius:3px}
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 26px;margin-top:26px;width:1430px}
+.legend .note b{display:flex;gap:7px;align-items:center}
+</style></head><body><div class="page" style="width:1510px">
+<div class="title"><h1>Option B · Case 3 · Show everything (code-level)</h1><span class="tag">BOTTOM DOCK · DEVTOOLS STYLE</span></div>
+<p class="sub">Option A opens a side panel that squeezes the chat. Here the trace lives in a <b>resizable bottom dock</b>, like browser dev tools: the chat keeps its full width, the timeline gets the full screen width, and calls and code sit <b>side by side</b>. Every figure in the answer is <b>linked to the call that produced it</b>: hover a number, the dock jumps to its source.</p>
+
+<div class="app">
+ <div class="chat">
+  <div class="left">
+   <div class="b prompt" style="align-self:flex-start;max-width:none"><span class="n">1</span><div>Evaluate this vendor proposal. Should we approve it?</div>
+     <div class="meta"><span class="chip">📎 Vendor proposal.pdf</span><span class="chip eval"><i class="pie"></i> Evaluation agent</span><span class="chip mono">run_8f2c</span></div></div>
+   <div class="b line"><span class="n">2</span><span class="ic brain">✳</span>Planned 6 tool calls · ran 7 · 1 retry<span class="r mono">9.4s · 12.8k tok</span></div>
+   <div class="b line" style="background:var(--eval-soft);border-color:#ddd4ff;color:#5b41c9"><span class="n">5</span><span class="ic ev">?</span>You chose <b>Our plan · 9%</b> at the checkpoint<span class="r" style="color:#6a5bb0">change</span></div>
+   <div class="note" style="border:none;padding:0;font-size:12.5px"><span class="n" style="margin-right:6px">3</span><span class="n" style="margin-right:6px">4</span><span class="n" style="margin-right:6px">6</span>The plan, actions and summary are rows in the dock below, not chat blocks.</div>
+  </div>
+  <div class="b answer" style="padding:16px 18px"><span class="n">7</span>
+    <div style="display:flex;align-items:center;margin-bottom:6px"><div class="verdict" style="font-size:16px;margin:0">Approve with 3 conditions <span class="pill amber">71 / 100</span></div><span class="depth" style="margin-left:auto"><span>Brief</span><span>Reasoning</span><span class="on">Trace</span></span></div>
+    <ul style="font-size:14px">
+      <li><b>Upfront</b> <span class="fig">40%</span> → 20% (policy §2.1)</li>
+      <li><b>Break clause</b> at 6 months, caps exposure at <span class="fig">AED 1.1M</span></li>
+      <li style="position:relative"><b>Fees indexed</b> to volume: return <span class="fig on">13%</span> vs <span class="fig">15%</span> hurdle
+        <span class="hov" style="left:230px;top:26px">from <span class="mono">sql.company_plan_fy27</span> · <span class="mono">irr</span></span></li>
+    </ul>
+    <div class="conf" style="margin-top:10px;padding-top:10px"><span class="pill amber">Medium</span><span class="lbl">Confidence and gaps</span><span class="dim">· 2 gaps · 9/9 figures linked</span></div>
+  </div>
+ </div>
+
+ <div class="dock">
+  <div class="grip"><i></i></div>
+  <div class="dh"><h3><span class="ic ev"><i class="pie"></i></span>Trace · run_8f2c</h3>
+    <div class="tabs"><span class="tab on">Timeline</span><span class="tab">Prompt</span><span class="tab">Data · 4</span><span class="tab">Logs</span><span class="tab">Raw JSON</span></div>
+    <div class="r"><span><b>9.4s</b></span><span><b>12.8k</b> tok</span><span><b>1</b> retry</span><span class="kbd">⌘J</span><span>⤢</span><span>✕</span></div></div>
+  <div class="gantt">
+   <div class="axis"><span></span><div><span>0s</span><span>2s</span><span>4s</span><span>6s</span><span>8s</span><span>9.4s</span></div></div>
+   <div class="lane"><span class="nm"><span class="ic brain">✳</span>Orchestrator</span><div class="tr"><span class="seg m" style="left:0;width:22%">plan · 2.1s</span><span class="seg m" style="left:78%;width:22%">cross_check · compose</span></div></div>
+   <div class="lane"><span class="nm"><span class="ic ev"><i class="pie"></i></span>Evaluation</span><div class="tr"><span class="seg e" style="left:22%;width:10%">read_pdf</span><span class="seg e" style="left:32%;width:15%">score_framework</span><span class="seg e" style="left:57%;width:7%">policy</span></div></div>
+   <div class="lane"><span class="nm"><span class="ic" style="background:var(--amber-soft);color:var(--amber)">⛁</span>Data</span><div class="tr"><span class="seg w sel" style="left:32%;width:24%">sql.company_plan_fy27 · retry</span></div></div>
+   <div class="lane"><span class="nm"><span class="ic ev">?</span>You</span><div class="tr"><span class="seg u" style="left:64%;width:14%">checkpoint · 1.3s</span></div></div>
+  </div>
+  <div class="split">
+   <div class="calls">
+    <div class="hd"><span></span><span>Call</span><span>Time</span><span>Tokens</span><span>Rows</span></div>
+    <div class="rw"><span class="st"></span><span>plan</span><span>2.1s</span><span>1.2k</span><span>—</span></div>
+    <div class="rw"><span class="st"></span><span>read_pdf(proposal.pdf)</span><span>0.9s</span><span>6.4k</span><span>15p</span></div>
+    <div class="rw"><span class="st"></span><span>score_framework(v2)</span><span>1.4s</span><span>2.1k</span><span>6</span></div>
+    <div class="rw sel"><span class="st w"></span><span>sql.company_plan_fy27</span><span>2.3s</span><span>—</span><span>214</span></div>
+    <div class="rw"><span class="st"></span><span>policy_check(v3)</span><span>0.6s</span><span>0.8k</span><span>1</span></div>
+    <div class="rw"><span class="st u"></span><span>checkpoint(volume)</span><span>1.3s</span><span>—</span><span>—</span></div>
+    <div class="rw"><span class="st"></span><span>cross_check · compose</span><span>2.1s</span><span>2.3k</span><span>9</span></div>
+   </div>
+   <div class="code">
+    <div class="top"><span class="st w"></span><b class="mono">sql.company_plan_fy27</b><span class="dim">· 2.3s · retry 1/2 · 214 rows</span><span style="margin-left:auto" class="sub2"><span>Request</span><span class="on">Response</span><span>Log</span></span><span class="sm">Copy</span><span class="sm">Re-run</span></div>
+<pre><span class="c">// response · fields used in the answer are highlighted</span>
+{
+  <span class="k">"scenario"</span>: <span class="s">"base"</span>,
+  <span class="k">"growth_yoy"</span>: <span class="s">0.09</span>,          <span class="c">// vendor assumes 0.18</span>
+  <span class="k">"payback_years"</span>: <span class="s">3.4</span>,
+  <span class="hl"><span class="k">"irr"</span>: <span class="s">0.13</span></span>,                 <span class="c">// → answer: "return 13%"</span>
+  <span class="k">"hurdle"</span>: <span class="s">0.15</span>,
+  <span class="k">"rows"</span>: <span class="s">214</span>, <span class="k">"bytes"</span>: <span class="s">38912</span>, <span class="k">"cache"</span>: <span class="s">"miss"</span>
+}</pre>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="legend">
+  <div class="note"><b><span class="n">1</span>Prompt + run id</b>Same as A. Run id in the prompt so the trace can be shared.</div>
+  <div class="note"><b><span class="n">2</span>Thinking = one summary row</b>The whole run in one line in the chat. Every step is in the dock, so the chat stays readable.</div>
+  <div class="note"><b><span class="n">3</span><span class="n">4</span><span class="n">6</span>Plan, actions, summary</b>Rows in the dock's call table and bars in the timeline. One lane per agent shows what ran in parallel.<span class="ux">Bottom dock</span></div>
+  <div class="note"><b><span class="n">5</span>Checkpoint</b>Stays in the chat, where the user can change it. In the timeline it's the “You” lane.</div>
+  <div class="note"><b><span class="n">7</span>Figures linked to calls</b>Hover a dashed number → tooltip names the call; click → the dock selects it and highlights the exact field.<span class="ux">Answer ↔ trace sync</span></div>
+  <div class="note"><b>Why a bottom dock</b>Timelines are horizontal and code needs width. A dock gives both the full width without narrowing the answer.</div>
+  <div class="note"><b>Smooth by habit</b>Drag to resize, <span class="kbd">⌘J</span> to toggle, height and tab remembered per user. Stays open across messages.</div>
+  <div class="note"><b>Phone</b>The dock becomes a full-screen sheet with the timeline as a vertical list. Dashed figures still link in.</div>
+</div>
+</div></body></html>

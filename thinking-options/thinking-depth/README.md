@@ -1,4 +1,4 @@
-# Thinking steps at three depths: Evaluation agent
+# Thinking steps at three depths: Evaluation agent (Option A)
 
 Query in all three cases: *"Evaluate this vendor proposal. Should we approve it?"* with `Vendor proposal.pdf` attached and the **Evaluation agent** picked.
 
@@ -38,3 +38,7 @@ All three keep the same order from the lo-fi: **prompt → thinking → message 
 | `case-3-full-trace.png` | Split view: compact chat + trace side panel |
 
 HTML sources are in `src/`. To re-render, screenshot the `.page` element of each file at 2× with Playwright.
+
+## Option B
+
+A second take on the same three cases, built around a smooth experience: one live line instead of stacked blocks, a reasoning rail with "why" popovers on each claim instead of a modal, and a bottom dock instead of a side panel. See [`option-b/README.md`](option-b/README.md).
