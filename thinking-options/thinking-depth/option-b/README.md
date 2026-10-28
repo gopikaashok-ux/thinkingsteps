@@ -31,3 +31,14 @@ Same query, agent and seven-step order as Option A (`../README.md`). Option B ch
 | `b3-full-trace.png` | Chat above, bottom dock with per-agent timeline, call table and response viewer |
 
 HTML sources are in `src/` (they import `../../src/base.css`).
+
+## Built: Case 1 in the Majlis dashboard
+
+`/Option B - Simple.html` (repo root) is the Majlis Agents Evaluation · Orchestration dashboard with Case 1 working for real. Pick the **Evaluation** agent, attach a proposal (or use a Try chip) and send:
+
+- The thinking block and the auto-opening orchestration modal are replaced by **one live line**: plan → current action → teaser ("70/100, proceed with conditions…"), with phase dots, a progress ring and a ghost of the answer underneath.
+- When the answer lands, the line **shrinks into a `✓ 3 steps · 11s` stamp**; tapping it opens a popover with the three phases.
+- The chat header has **Thinking: Simple · In-depth · Extensive** tabs, with Simple selected; the other two say which Option B case they belong to.
+- Built only from the file's own tokens (`--accent`, `--c4`, `--tile`, `--pop`…) and motion (`swap`, `shimmer`, `chipIn`, `barRun`); light, dark, RTL-safe and phone layouts. Other agents are unchanged.
+
+Screenshots: `majlis-simple/`.
