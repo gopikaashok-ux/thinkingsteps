@@ -1,0 +1,89 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.grid{row-gap:14px}
+.think.open{background:var(--surface);border:1px solid var(--line)}
+.reason{margin:10px 0 2px 26px;display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--ink-2)}
+.reason p b{color:var(--ink);font-weight:600}
+.reason .k{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:6px}
+.chain{border-left:2px solid #ddd4ff;padding-left:12px;display:flex;flex-direction:column;gap:6px}
+.chain .so{color:var(--eval);font-weight:600}
+.crit{display:grid;grid-template-columns:200px 100px 40px 1fr;gap:6px 12px;align-items:center;margin:10px 0 0 26px;font-size:13.5px}
+.crit .s{font-weight:600;font-variant-numeric:tabular-nums}
+.crit .why{color:var(--ink-3);font-size:12.5px}
+.ask{background:var(--eval-soft);border:1px solid #ddd4ff;border-radius:14px;padding:14px 16px}
+.ask .q{font-weight:600;margin:2px 0 4px}
+.ask .opts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.opt{font-size:13.5px;padding:7px 13px;border-radius:10px;background:#fff;border:1px solid #d6ccff;color:var(--ink)}
+.opt.sel{background:var(--eval);border-color:var(--eval);color:#fff;font-weight:600}
+.opt small{opacity:.7;margin-left:4px}
+.ask .auto{font-size:12px;color:#6a5bb0;margin-top:8px}
+.gaps{margin:8px 0 0 0;display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--ink-2)}
+.gaps span::before{content:"◌ ";color:var(--amber)}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:99px;background:var(--ink);color:#fff}
+</style></head><body><div class="page" style="width:1400px">
+<div class="title"><h1>Case 2 · In-depth reasoning</h1><span class="tag">INLINE EXPAND + FOCUS MODAL</span></div>
+<p class="sub">Same query. Here the <b>reasoning is part of the answer</b>: why each score, what was assumed, what changed the verdict. It stays <b>inline</b> (read in the flow, open by default while running), the agent <b>stops to ask</b> when an assumption decides the outcome, and the full reasoning opens in a <b>modal</b> for focused, read-once review.</p>
+
+<div class="grid">
+  <div class="prompt"><div>Evaluate this vendor proposal. Should we approve it?</div>
+    <div class="meta"><span class="chip">📎 Vendor proposal.pdf · 15 pages</span><span class="chip eval"><i class="pie"></i> Evaluation agent</span></div></div>
+  <div class="note"><b>1 · User prompt</b>Same as case 1.</div>
+
+  <div class="think open"><div class="think-h"><span class="ic brain">✳</span>Thought for 8s <span class="car">⌃</span></div>
+    <div class="reason">
+      <p><span class="k">Goal</span>Approve / reject a 15-page proposal. The decision hinges on <b>cost, payback and policy fit</b>, not on delivery detail.</p>
+      <p><span class="k">Plan</span>1 Pull the key terms → 2 Score on 6 weighted criteria → 3 Stress-test the financial case → 4 Check policy.</p>
+      <p><span class="k">Watch for</span>Vendor's volume figure looks high against our plan. If payback depends on it, I'll ask.</p>
+    </div></div>
+  <div class="note"><b>2 · Thinking, opened by default</b>Structured as Goal / Plan / Watch for, not a raw monologue. Auto-collapses to one line once the answer lands.<span class="ux">Inline accordion</span></div>
+
+  <div class="msg">I'll score the proposal on the 6 weighted criteria first, then test whether the numbers hold on our own volumes.</div>
+  <div class="note"><b>3 · What I'll do next</b>Says the plan in one sentence so the user can stop it early if it's wrong.</div>
+
+  <div class="action"><div class="think-h"><span class="ic ev"><i class="pie"></i></span>Scored against the evaluation framework <span class="t">· 6 criteria · 3s</span> <span class="car">⌃</span></div>
+    <div class="crit">
+      <span>Cost vs budget · 25%</span><span class="bar"><i style="width:82%"></i></span><span class="s">82</span><span class="why">AED 4.2M, 6% under the line</span>
+      <span>Delivery track record · 20%</span><span class="bar"><i style="width:88%"></i></span><span class="s">88</span><span class="why">3 similar projects delivered</span>
+      <span>Financial return · 20%</span><span class="bar"><i style="width:60%;background:var(--amber)"></i></span><span class="s">60</span><span class="why">Depends on volume, see next</span>
+      <span>Policy fit · 15%</span><span class="bar"><i style="width:50%;background:var(--amber)"></i></span><span class="s">50</span><span class="why">40% upfront vs 20% cap</span>
+    </div>
+    <div class="chips"><span class="chip src">Vendor proposal.pdf p.4, p.9</span><span class="chip src">Evaluation framework</span><span class="chip src">Capital policy v3 §2.1</span><span class="chip">+2 more</span></div></div>
+  <div class="note"><b>4 · Action with its evidence</b>Each score shows its reason and the page it came from. Amber flags the two that could change the verdict.<span class="ux">Expands inline, max 6 rows</span></div>
+
+  <div class="ask">
+    <div class="think-h" style="color:#5b41c9"><span class="ic ev">?</span>Need your call · 1 question</div>
+    <div class="q">Payback is 2.1 years on the vendor's 18% volume growth, but 3.4 years on our plan's 9%. Which should I use?</div>
+    <div class="opts"><span class="opt">Our plan · 9% <small>recommended</small></span><span class="opt">Vendor · 18%</span><span class="opt sel">Run both</span></div>
+    <div class="auto">Continuing with “Our plan” in 20s if no answer.</div>
+  </div>
+  <div class="note"><b>Engage · Checkpoint</b>Only when one assumption flips the verdict. Recommended option first, a timeout default so the run never stalls.<span class="ux">Inline, never a modal</span></div>
+
+  <div class="msg">Ran both. On our volumes the return drops below the 15% hurdle, so the verdict moves from “approve” to <b>“approve with conditions”</b>.</div>
+  <div class="note"><b>5 · What I found, what's next</b>States what changed and why, before the answer.</div>
+
+  <div class="think open"><div class="think-h"><span class="ic brain">✳</span>Thought for 4s <span class="t">· weighing it up</span> <span class="car">⌃</span></div>
+    <div class="reason"><div class="chain">
+      <p>Return is 13% on our plan, below the 15% hurdle <span class="so">→ so</span> approving as-is needs a policy exception.</p>
+      <p>A 6-month break clause caps the downside at AED 1.1M <span class="so">→ so</span> the risk is acceptable if the clause is added.</p>
+      <p>Upfront payment breaks the 20% cap <span class="so">→ so</span> it's a condition, not a deal-breaker.</p>
+    </div></div></div>
+  <div class="note"><b>Thinking again · Trade-offs</b>Second reasoning block written as a because → so chain. This is the content case 1 hides.<span class="ux">Inline accordion</span></div>
+
+  <div class="think" style="background:var(--surface);border:1px dashed var(--line-2)"><div class="think-h"><span class="ic brain">≡</span>Quick summary <span class="t">· 2s</span> <span class="car">⌄</span></div>
+    <div class="think-line">3 conditions, 1 open risk, confidence medium.</div></div>
+  <div class="note"><b>6 · Summary step</b>Collapsed. Opening it shows the score table again, in final form.</div>
+
+  <div class="answer">
+    <div class="verdict">Approve with 3 conditions <span class="pill amber">71 / 100</span></div>
+    <ul>
+      <li><b>Cut upfront payment</b> from 40% to 20% to meet policy §2.1.</li>
+      <li><b>Add a 6-month break clause.</b> Caps exposure at AED 1.1M.</li>
+      <li><b>Index fees to actual volume.</b> At our 9% plan, return is 13% vs the 15% hurdle.</li>
+    </ul>
+    <div class="conf"><span class="pill amber">Medium confidence</span><span class="lbl">Confidence and gaps</span></div>
+    <div class="gaps"><span>No references for the vendor's SLA history</span><span>Volume forecast is our plan, not a contract</span></div>
+    <div class="foot" style="align-items:center"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Capital policy v3</span><span class="chip src">Jeddah hub, 2023</span><span class="btn">View full reasoning ↗</span></div>
+  </div>
+  <div class="note"><b>7 · Final answer</b>Verdict, conditions, confidence <i>with the gaps named</i>, sources. “View full reasoning” opens the modal.<span class="ux">Modal</span></div>
+</div>
+</div></body></html>

@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.grid{row-gap:14px}
+.mini{margin:8px 0 0 26px;padding:8px 12px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--ink-2)}
+.mini span{display:flex;justify-content:space-between;width:520px}
+.mini .dim{font-size:12.5px}
+.lab{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;margin:4px 0 -4px}
+</style></head><body><div class="page" style="width:1400px">
+<div class="title"><h1>Case 1 · Simple</h1><span class="tag">INLINE ONLY</span></div>
+<p class="sub">Same query, Evaluation agent picked. The thinking is a <b>status trail, not content</b>: one line per step, collapsed by default, expands <b>in place</b>. No modal, no panel. The answer is the hero.</p>
+
+<div class="grid">
+  <div class="prompt"><div>Evaluate this vendor proposal. Should we approve it?</div>
+    <div class="meta"><span class="chip">📎 Vendor proposal.pdf · 15 pages</span><span class="chip eval"><i class="pie"></i> Evaluation agent</span></div></div>
+  <div class="note"><b>1 · User prompt</b>Attachment and picked agent shown as chips so the user can see what the run is scoped to.</div>
+
+  <div class="think"><div class="think-h"><span class="ic brain">✳</span>Thought for 3s <span class="car">⌄</span></div>
+    <div class="think-line">Reading the proposal, then scoring it against the evaluation framework.</div></div>
+  <div class="note"><b>2 · Thinking, collapsed</b>One plain sentence. No chain-of-thought text, no timings per step.<span class="ux">Tap ⌄ expands inline</span></div>
+
+  <div class="msg">I'll score the proposal on the 6 criteria and check it against the approval policy.</div>
+  <div class="note"><b>3 · What I'll do next</b>One sentence, written to the user, not to itself.</div>
+
+  <div class="action"><div class="think-h"><span class="ic ok">✓</span>Checked 3 sources <span class="t">· 4s</span></div>
+    <div class="chips"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Evaluation framework</span><span class="chip src">Capital policy v3</span></div></div>
+  <div class="note"><b>4 · Action + sources</b>Verb in past tense, count of sources, chips only. Chip tap opens the source, nothing else.</div>
+
+  <div class="msg">Scores <b>74/100</b>. One gap in the payment terms. Writing it up.</div>
+  <div class="note"><b>5 · What I found</b>The headline number lands before the answer, so the wait feels useful.</div>
+
+  <div class="think" style="padding-top:4px;padding-bottom:4px"><div class="think-h"><span class="ic brain">≡</span>Summarised <span class="t">· 1s</span></div></div>
+  <div class="note"><b>6 · Summary step</b>Shrinks to a single label. Not expandable: nothing in it the answer doesn't say.</div>
+
+  <div class="answer">
+    <div class="verdict">Approve with conditions <span class="pill green">74 / 100</span></div>
+    <ul>
+      <li><b>Cost and delivery</b> are within plan and the vendor has done this scope before.</li>
+      <li><b>Payment terms</b> ask for 40% upfront. Policy caps it at 20%. Negotiate this before signing.</li>
+      <li><b>Return</b> of 16% clears the 15% hurdle on the vendor's figures.</li>
+    </ul>
+    <div class="conf"><span class="ic ok" style="width:16px;height:16px;font-size:9px">✓</span><span class="lbl">High confidence</span><span class="dim">· 1 gap: payment terms</span></div>
+    <div class="foot"><span class="chip src">Vendor proposal.pdf</span><span class="chip src">Capital policy v3</span></div>
+  </div>
+  <div class="note"><b>7 · Final answer</b>Verdict first, 3 bullets, one confidence line, sources. No “View details”: there's nothing deeper to show in this mode.</div>
+
+  <div class="lab" style="grid-column:1">Step 2 tapped · expands in place, pushes content down</div><div></div>
+  <div class="think" style="background:var(--surface);border:1px dashed var(--line-2)"><div class="think-h"><span class="ic brain">✳</span>Thought for 3s <span class="car">⌃</span></div>
+    <div class="mini">
+      <span>✓ Read your document</span>
+      <span>✓ Scored against the evaluation framework</span>
+      <span>✓ Checked the capital approval policy</span>
+    </div></div>
+  <div class="note"><b>Expanded state</b>Max 3–5 rows, one level deep. Rows aren't tappable. If a user needs more than this, they're in the wrong mode.</div>
+</div>
+</div></body></html>

@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.stage{position:relative;width:1320px;height:700px;border-radius:18px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+.behind{padding:40px 60px;filter:blur(1.5px);opacity:.55}
+.behind .answer{width:780px}
+.scrim{position:absolute;inset:0;background:rgba(20,28,24,.38)}
+.modal{position:absolute;left:50%;top:44px;transform:translateX(-50%);width:880px;background:#fff;border-radius:18px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);overflow:hidden}
+.mh{display:flex;align-items:center;gap:10px;padding:18px 22px 0}
+.mh h2{font-size:18px;font-weight:650}
+.mh .x{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2)}
+.tabs{display:flex;gap:4px;padding:14px 22px 0;border-bottom:1px solid var(--line)}
+.tab{font-size:13.5px;padding:8px 12px;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ink);font-weight:600;border-color:var(--ink)}
+.mb{padding:18px 22px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:0 8px 8px}
+td{padding:10px 8px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+td:first-child{color:var(--ink);font-weight:550}
+td .s{font-weight:650;color:var(--ink)}
+.mf{display:flex;align-items:center;gap:10px;padding:14px 22px;border-top:1px solid var(--line);background:var(--surface-2);font-size:13px;color:var(--ink-2)}
+.mf .btn{margin-left:auto;font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;background:var(--ink);color:#fff}
+.mf .btn2{font-size:13px;font-weight:600;padding:7px 14px;border-radius:99px;border:1px solid var(--line-2);color:var(--ink)}
+.side{position:absolute;right:-330px;top:0;width:300px}
+.wrap{display:flex;gap:30px;align-items:flex-start}
+.notes{width:300px;display:flex;flex-direction:column;gap:18px;padding-top:40px}
+</style></head><body><div class="page" style="width:1720px">
+<div class="title"><h1>Case 2 · “View full reasoning” opened</h1><span class="tag">FOCUS MODAL</span></div>
+<p class="sub">The full reasoning is a <b>read-once, decide-and-close</b> job. A modal gives it full width and focus, and closing it puts the user back on the answer exactly where they left.</p>
+<div class="wrap">
+<div class="stage">
+  <div class="behind"><div class="answer"><div class="verdict">Approve with 3 conditions <span class="pill amber">71 / 100</span></div>
+    <ul><li><b>Cut upfront payment</b> from 40% to 20% to meet policy §2.1.</li><li><b>Add a 6-month break clause.</b> Caps exposure at AED 1.1M.</li><li><b>Index fees to actual volume.</b></li></ul>
+    <div class="conf"><span class="pill amber">Medium confidence</span></div></div>
+    <div class="answer" style="margin-top:20px;height:300px"></div></div>
+  <div class="scrim"></div>
+  <div class="modal">
+    <div class="mh"><span class="ic ev" style="width:26px;height:26px;font-size:14px"><i class="pie"></i></span><h2>How the Evaluation agent reached this</h2><span class="pill amber">71 / 100 · Medium</span><span class="x">✕</span></div>
+    <div class="tabs"><span class="tab on">Scoring</span><span class="tab">Assumptions · 3</span><span class="tab">Counter-arguments · 2</span><span class="tab">Gaps · 2</span></div>
+    <div class="mb"><table>
+      <tr><th>Criterion · weight</th><th>Score</th><th>Why</th><th>Evidence</th><th>Confidence</th></tr>
+      <tr><td>Cost vs budget · 25%</td><td><span class="s">82</span></td><td>AED 4.2M, 6% under budget line</td><td><span class="chip src">Proposal p.4</span></td><td><span class="pill green">High</span></td></tr>
+      <tr><td>Delivery track record · 20%</td><td><span class="s">88</span></td><td>3 similar projects, all on time</td><td><span class="chip src">Proposal p.11</span></td><td><span class="pill amber">Medium</span></td></tr>
+      <tr><td>Financial return · 20%</td><td><span class="s">60</span></td><td>13% on our 9% volume plan, below 15% hurdle</td><td><span class="chip src">Company plan FY27</span></td><td><span class="pill amber">Medium</span></td></tr>
+      <tr><td>Risk and exit · 10%</td><td><span class="s">70</span></td><td>No break clause; exposure AED 4.2M</td><td><span class="chip src">Proposal p.9</span></td><td><span class="pill green">High</span></td></tr>
+      <tr><td>Policy fit · 15%</td><td><span class="s">50</span></td><td>40% upfront vs 20% cap</td><td><span class="chip src">Policy v3 §2.1</span></td><td><span class="pill green">High</span></td></tr>
+      <tr><td>Strategic fit · 10%</td><td><span class="s">80</span></td><td>Matches the logistics plan; similar to Jeddah hub</td><td><span class="chip src">Jeddah hub, 2023</span></td><td><span class="pill amber">Medium</span></td></tr>
+    </table></div>
+    <div class="mf"><span>You chose: <b>Run both</b> volume cases</span><span class="btn2">Change assumption</span><span class="btn">Back to answer</span></div>
+  </div>
+</div>
+<div class="notes">
+  <div class="note"><b>Why a modal, not inline</b>A 6-row, 5-column matrix plus 3 more tabs would push the answer off-screen in the chat column.</div>
+  <div class="note"><b>Why a modal, not a side panel</b>No need to cross-reference while reading: the user reads it, decides, closes it. A panel would stay open with nothing to do.</div>
+  <div class="note"><b>Tabs = the parts of the reasoning</b>Scoring, Assumptions, Counter-arguments, Gaps. Human words only, no tool names or code.</div>
+  <div class="note"><b>Engagement continues here</b>“Change assumption” re-runs from the checkpoint. The modal closes and the new run streams inline.</div>
+  <div class="note"><b>Phone</b>Same content as a full-height bottom sheet, tabs scroll sideways.</div>
+</div>
+</div>
+</div></body></html>
