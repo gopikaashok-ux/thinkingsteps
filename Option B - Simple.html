@@ -3936,6 +3936,7 @@ window.OM = OM;
 .obs-pop ol{list-style:none;margin:0;padding:0}
 .obs-pop li{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:10px}
 .obs-pop li>i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;flex:none;margin-top:1px;background:var(--tile2);color:var(--ink3)}
+.obs-pop li.is-new{animation:fadeUp .45s cubic-bezier(.2,.8,.2,1) both}.obs-pop li.is-new small{animation:wipe .8s .2s cubic-bezier(.2,.8,.2,1) both}
 .obs-pop li.is-done>i{background:var(--accent);color:var(--dark-ink)}.obs-pop li.is-run>i{background:color-mix(in srgb,var(--c4) 18%,var(--pop));color:var(--c4)}
 .obs-pop li span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.obs-pop li b{font:500 13.5px/19px var(--font);color:var(--ink)}.obs-pop li.is-q b{color:var(--ink3)}
 .obs-pop li small{font-size:12px;line-height:16px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -3973,8 +3974,9 @@ const OBS = (() => {
   /* the popover · three rows, one per phase */
   const LBL = { one: ['Read your proposal', 'Assessed it against 6 criteria', 'Wrote the recommendation'], two: ['Read both proposals', 'Scored both on the same criteria', 'Wrote the recommendation'], need: ['Understood your question', 'Checked what you sent', 'Explained what I need'], draft: ['Understood your question', 'Collected the open questions', 'Drafted the message'], path: ['Understood your question', 'Compared each criterion', 'Wrote the route to approve'] };
   function popRows(r) { const m = modeOf(r);
-    return phases(r).map(p => { const det = p.k === 0 ? (p.s.find(s => /^(Read |Extract|Looked)/.test(s.t)) || p.s[0]).d : p.k === 2 && m === 'need' ? 'Asked you to attach a proposal' : p.k === 1 ? `${p.s.length} checks${p.s.some(s => s.src) ? ' · ' + [...new Set(p.s.map(s => s.src).filter(Boolean))].join(', ') : ''}` : p.s[0].d;
-      return `<li class="is-${p.st}"><i>${p.st === 'done' ? ico('check', 12) : `<b style="font:600 10.5px/1 var(--font)">${p.k + 1}</b>`}</i><span><b>${LBL[m][p.k]}</b>${det ? `<small>${esc(det)}</small>` : ''}</span><time>${p.st === 'done' ? secs(p.ms) : p.st === 'run' ? '…' : ''}</time></li>`; }).join(''); }
+    const P = phases(r).filter(p => p.st !== 'q'); if (!P.length) return `<li class="is-q"><i>${ico('clock', 12)}</i><span><b>Getting started…</b></span></li>`;
+    return P.map(p => { const det = p.k === 0 ? (p.s.find(s => /^(Read |Extract|Looked)/.test(s.t)) || p.s[0]).d : p.k === 2 && m === 'need' ? 'Asked you to attach a proposal' : p.k === 1 ? `${p.s.filter(s => s.st !== 'q').length} check${p.s.filter(s => s.st !== 'q').length > 1 ? 's' : ''}${p.s.some(s => s.src && s.st !== 'q') ? ' · ' + [...new Set(p.s.filter(s => s.st !== 'q').map(s => s.src).filter(Boolean))].join(', ') : ''}` : p.s[0].d;
+      return `<li class="is-${p.st}" data-p="${p.k}"><i>${p.st === 'done' ? ico('check', 12) : `<b style="font:600 10.5px/1 var(--font)">${p.k + 1}</b>`}</i><span><b>${LBL[m][p.k]}</b>${det ? `<small>${esc(det)}</small>` : ''}</span><time>${p.st === 'done' ? secs(p.ms) : p.st === 'run' ? '…' : ''}</time></li>`; }).join(''); }
   const popHTML = r => `<div class="obs-pop" role="dialog" aria-label="How the Evaluation agent got here"><div class="obs-pop__h"><span>${r.done ? 'How I got here' : 'Working on it'}</span><span>${agAv('eval')}</span></div><ol>${popRows(r)}</ol><div class="obs-pop__f"><small>${AG.eval.n}</small></div></div>`;
   const ghostHTML = () => `<div class="obs-ghost" aria-hidden="true"><i></i><div class="obs-ghost__r"><i></i><div><i style="--w:88%"></i><i style="--w:72%"></i><i style="--w:80%"></i></div></div><i style="--w:94%"></i><i style="--w:60%"></i></div>`;
   function lineHTML(r) { const [tx, sh, te] = say(r);
@@ -3989,7 +3991,7 @@ const OBS = (() => {
     const ring = $('.obs__ring', b); ring && ring.style.setProperty('--pp', prog(r)); b.classList.toggle('is-tease', !!te);
     const D = $('.obs__dots', b), P = phases(r); if (D.children.length !== P.length) D.innerHTML = dotsHTML(r); else P.forEach((p, i) => setSt(D.children[i], p.st));
     const S2 = $('.obs__src', w); srcList(r).forEach(k => { if (!$(`[data-k="${CSS.escape(k)}"]`, S2)) S2.insertAdjacentHTML('beforeend', `<span data-k="${esc(k)}">${ico(SIC[k] || 'file', 12)}${k}</span>`); });
-    const pop = $('.obs-pop', w); if (pop) { $('ol', pop).innerHTML = popRows(r); $('.obs-pop__h span', pop).textContent = r.done ? 'How I got here' : 'Working on it'; }
+    const pop = $('.obs-pop', w); if (pop) { const ol = $('ol', pop), n = $$('li[data-p]', ol).length; ol.innerHTML = popRows(r); $$('li[data-p]', ol).slice(n).forEach(li => { li.classList.add('is-new'); if (!RM()) grow(li); }); $('.obs-pop__h span', pop).textContent = r.done ? 'How I got here' : 'Working on it'; }
     if (r.done && !w.classList.contains('is-done')) shrink(w, b, r); }
   /* the line shrinks into the stamp: measure, switch, then animate the width between the two */
   function shrink(w, b, r) { const w0 = b.offsetWidth; w.classList.add('is-done'); const tm = $('.obs__t', b); tm.removeAttribute('data-run-t'); tm.textContent = secs(r.ms); if (RM()) return;
