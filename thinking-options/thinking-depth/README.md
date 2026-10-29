@@ -42,3 +42,19 @@ HTML sources are in `src/`. To re-render, screenshot the `.page` element of each
 ## Option B
 
 A second take on the same three cases, built around a smooth experience: one live line instead of stacked blocks, a reasoning rail with "why" popovers on each claim instead of a modal, and a bottom dock instead of a side panel. See [`option-b/README.md`](option-b/README.md).
+
+## Built: Option A · Case 2 in the Majlis dashboard (Peer Benchmarking)
+
+`/Option A - In-depth.html` (repo root) is the Majlis dashboard with Option A's in-depth format working for the **Peer Benchmarking** agent. Pick Peer Benchmarking, ask one of its questions (or use a Try chip) and send. Blocks appear in the thread as the work happens, in the lo-fi order:
+
+1. **Thinking**, open while running: Goal, Plan, Watch for.
+2. **Message**: what I'll do next.
+3. **Action card**: each indicator lands with Barakah's value, a bar against the peer median, its rank, why, and the sources.
+4. **Need your call**, inline: the run pauses on the one assumption that changes the result (e.g. count Unit 4's first fuel cycle: forced loss 1.9% vs 2.3%). Recommended first, keys 1–3, 20s countdown.
+5. **Message**: what I found, reflecting your choice.
+6. **Thinking again**: the trade-offs as because → so lines.
+7. **Quick summary**, collapsed (expands to the table), then the **answer**, with a note when your choice differs from its figures, and **Confidence and gaps** with **View full reasoning**: a focus modal with Evidence / Assumptions / Counter-arguments / Gaps tabs.
+
+When the answer lands the thinking blocks and the action card fold to one line. Content covers all four Peer Benchmarking questions (fleet comparison, forced loss by unit, refuelling outages, value of closing the gap). Header tabs **Simple · In-depth · Extensive** with In-depth selected. Light, dark and phone layouts; other agents unchanged.
+
+Screenshots: `majlis-option-a-indepth/`.
