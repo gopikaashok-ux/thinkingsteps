@@ -3983,17 +3983,20 @@ window.OM = OM;
 .xp-log .t{color:#6e7f76}.xp-log .lv{display:inline-block;min-width:42px}.xp-log .lv-i{color:#8fc7ff}.xp-log .lv-w{color:#ffcf7a}.xp-log .lv-o{color:#a6e3b8}
 .chat.is-xp .chat__h .chat__src,.chat.is-xp .chat__h .agnow,.chat.is-xp .tv small{display:none}#chatTitle{white-space:nowrap}
 /* the compact agent card in the chat */
-.xc{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:var(--r);background:var(--card);border:1px solid var(--cardline);box-shadow:var(--shadow);transition:border-color .4s,box-shadow .4s}
+.xc{display:flex;flex-direction:column;gap:8px;padding:9px 9px 9px 14px;border-radius:var(--r);background:var(--card);border:1px solid var(--cardline);box-shadow:var(--shadow);transition:border-color .4s,box-shadow .4s}
 .xc.is-run{border-color:color-mix(in srgb,var(--c4) 35%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--c4) 12%,transparent)}
-.xc__h{display:flex;align-items:center;gap:12px}.xc__h b{flex:1;font:600 15px/20px var(--font);color:var(--ink)}.xc__h time{font:500 12.5px/1 var(--font);color:var(--ink3);font-variant-numeric:tabular-nums}
-.xc__s{display:flex;align-items:center;gap:10px;padding-inline-start:4px;font-size:13.5px;color:var(--ink2);min-height:22px}
-.xc__dot{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 2px var(--accent);color:var(--accent)}
-.xc.is-run .xc__dot{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--c4) 25%,transparent);position:relative}.xc.is-run .xc__dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--c4);animation:spin .8s linear infinite}
-.xc__tx{flex:1;min-width:0}.xc__tx>.swp__i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xc__row{display:flex;align-items:center;gap:10px;min-height:38px}
+.xc__dot{position:relative;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;flex:none;background:var(--accent);color:var(--dark-ink)}
+.xc.is-run .xc__dot{background:none;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--c4) 25%,transparent)}.xc.is-run .xc__dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:var(--c4);animation:spin .8s linear infinite}
+.xc__t{flex:none;font:600 14.5px/20px var(--font);color:var(--ink);white-space:nowrap}.xc__t time{margin-inline-start:6px;font-weight:500;color:var(--ink3);font-variant-numeric:tabular-nums}
+.xc__sep{flex:none;width:1px;height:18px;background:var(--line2)}
+.xc__ag{flex:none;display:inline-flex;align-items:center;gap:8px;font:500 13.5px/1 var(--font);color:var(--ink2);white-space:nowrap}
+.xc__tx{flex:1;min-width:0;font-size:13px;color:var(--ink3)}.xc__tx>.swp__i{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .xc.is-run .xc__tx .swp__i{background:linear-gradient(90deg,var(--ink2) 0 40%,var(--ink3) 50%,var(--ink2) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
-.xc__bar{height:4px;border-radius:99px;background:var(--tile2);overflow:hidden}.xc__bar i{display:block;height:100%;background:var(--c4);border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}.xc:not(.is-run) .xc__bar{display:none}
-.xc__go{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:12px;background:color-mix(in srgb,var(--c2) 14%,var(--card-s));font:600 13px/1 var(--font);color:color-mix(in srgb,var(--c2) 70%,var(--ink));transition:background .2s}
+.xc__bar{height:3px;margin:0 5px 2px 0;border-radius:99px;background:var(--tile2);overflow:hidden}.xc__bar i{display:block;height:100%;background:var(--c4);border-radius:inherit;transition:width .6s cubic-bezier(.2,.8,.2,1)}.xc:not(.is-run) .xc__bar{display:none}
+.xc__go{flex:none;margin-inline-start:auto;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:12px;background:color-mix(in srgb,var(--c2) 14%,var(--card-s));font:600 13px/1 var(--font);color:color-mix(in srgb,var(--c2) 70%,var(--ink));white-space:nowrap;transition:background .2s}
 .xc__go:hover{background:color-mix(in srgb,var(--c2) 24%,var(--card-s))}.xc__go .i:last-child{transition:transform .25s}.xc__go:hover .i:last-child{transform:translateX(3px)}
+@media (max-width:760px){.xc__row{flex-wrap:wrap;gap:8px}.xc__tx,.xc__sep{display:none}.xc__ag::before{content:"·";margin-inline-end:2px;color:var(--ink3)}.xc__t{font-size:14px}.xc__go{width:100%;justify-content:center;margin-inline-start:0}}
 .chat.is-xp .xc.is-sel .xc__go{box-shadow:0 0 0 2px color-mix(in srgb,var(--c2) 45%,transparent)}
 .xc-ghost{display:flex;flex-direction:column;gap:10px;padding:18px 20px;border-radius:var(--r);background:var(--card);border:1px solid var(--cardline)}
 .xc-ghost i{display:block;height:10px;width:var(--w,90%);border-radius:5px;background:linear-gradient(90deg,var(--tile2),var(--tile),var(--tile2)) 0 0/200% 100%;animation:barRun 2s linear infinite}.xc-ghost>i:first-child{height:16px;width:46%}
@@ -4089,14 +4092,14 @@ const OCX = (() => {
   function openPanel(r, tab) { shell(); if (P.run !== r) { P.run = r; P.oc = {}; P.os = {}; P.seenS = P.seenC = P.seenL = 0; P.touched = false; } if (tab) P.tab = tab; P.open = true; $('#chat').classList.add('is-xp'); paint(); }
   function closePanel() { P.open = false; $('#chat').classList.remove('is-xp'); $$('.xc').forEach(c => c.classList.remove('is-sel')); }
   /* ---------- the compact agent card in the chat ---------- */
-  const cardTx = r => { const s = r.steps.find(x => x.st === 'run'), n = r.steps.filter(x => x.st === 'done').length; return r.done ? 'Completed evaluation' : s ? `Step ${n + 1} of ${r.steps.length} · ${esc(s.t)}` : 'Starting…'; };
-  const cardHTML = r => `<div class="xc${r.done ? '' : ' is-run'}" data-xc="${r.id}"><div class="xc__h">${agAv('eval', true)}<b>${AG.eval.n}</b><time ${r.done ? '' : `data-run-t="${r.id}"`}>${secs(totalMs(r))}</time></div>
-    <div class="xc__s"><i class="xc__dot">${r.done ? ico('check', 12) : ''}</i>${swHTML('xc__tx', cardTx(r))}</div><div class="xc__bar"><i style="width:${(prog(r) * 100).toFixed(0)}%"></i></div>
-    <button type="button" class="xc__go" data-xp-open="${r.id}">${ico('layout', 15)}View detailed process${ico('arrowRight', 15)}</button></div>${r.done || r.ans ? '' : '<div class="xc-ghost" aria-hidden="true"><i></i><i style="--w:92%"></i><i style="--w:80%"></i><i style="--w:86%"></i><i style="--w:64%"></i></div>'}`;
+  const cardTx = r => { const s = r.steps.find(x => x.st === 'run'), n = r.steps.filter(x => x.st === 'done').length; return r.done ? '' : s ? `Step ${n + 1} of ${r.steps.length} · ${esc(s.t)}` : 'Starting…'; };
+  const cardRow = r => `<div class="xc__row"><i class="xc__dot">${r.done ? ico('check', 13) : ''}</i><b class="xc__t">${r.done ? `Thought for ${Math.max(1, Math.round(r.ms / 1000))}s` : `Thinking<time data-run-t="${r.id}">${secs(totalMs(r))}</time>`}</b><i class="xc__sep" aria-hidden="true"></i><span class="xc__ag">${agAv('eval')}${AG.eval.n}</span>${swHTML('xc__tx', cardTx(r))}<button type="button" class="xc__go" data-xp-open="${r.id}">${ico('layout', 15)}View detailed process${ico('arrowRight', 15)}</button></div><div class="xc__bar"><i style="width:${(prog(r) * 100).toFixed(0)}%"></i></div>`;
+  const cardHTML = r => `<div class="xc${r.done ? '' : ' is-run'}" data-xc="${r.id}">${cardRow(r)}</div>${r.done || r.ans ? '' : '<div class="xc-ghost" aria-hidden="true"><i></i><i style="--w:92%"></i><i style="--w:80%"></i><i style="--w:86%"></i><i style="--w:64%"></i></div>'}`;
   function mount(r) { const c = $(`[data-m="${r.id}"] .msg__c`); if (!c) return null; let w = $(`[data-xc="${r.id}"]`, c); if (w) return w;
     const tk = $(`[data-tk="${r.id}"], [data-rl="${r.id}"]`, c); tk ? tk.insertAdjacentHTML('afterend', cardHTML(r)) : c.insertAdjacentHTML('afterbegin', cardHTML(r)); tk && tk.remove(); return $(`[data-xc="${r.id}"]`, c); }
-  function patchCard(r) { const w = mount(r); if (!w) return; w.classList.toggle('is-run', !r.done); swap($('.xc__tx', w), cardTx(r)); $('.xc__bar i', w).style.width = (prog(r) * 100).toFixed(0) + '%';
-    if (r.done) { const t = $('.xc__h time', w); t.removeAttribute('data-run-t'); t.textContent = secs(r.ms); $('.xc__dot', w).innerHTML = ico('check', 12); } }
+  function patchCard(r) { const w = mount(r); if (!w) return;
+    if (r.done) { if (w.classList.contains('is-run')) { w.classList.remove('is-run'); w.innerHTML = cardRow(r); w.classList.toggle('is-sel', P.open && P.run === r); } return; }
+    swap($('.xc__tx', w), cardTx(r)); $('.xc__bar i', w).style.width = (prog(r) * 100).toFixed(0) + '%'; }
   /* ---------- the send flow for this view · same as the dashboard's; no checkpoint, the assumption is logged ---------- */
   async function send(q, opts = {}) { q = (q || '').trim() || (S.att.length ? 'Give me a detailed assessment of this proposal.' : ''); if (!q) { if (opts.open) openChat(opts.from); return; }
     S.lastQ = q; if (!S.hist.includes(q)) S.hist.unshift(q); const files = S.att.splice(0), sel = 'eval', mu = msgUser(q, files, sel); cmpPaint();
@@ -4117,10 +4120,11 @@ const OCX = (() => {
     await sleep(RM() ? 0 : 650); r.open = false; paintRun(r); revealAnswer(item); }
   /* ---------- thinking view tabs in the chat header ---------- */
   function tabs() { const h = $('.chat__h'); if (!h) return; let el = $('#obTabs');
-    if (!el) { h.insertAdjacentHTML('beforeend', `<div class="tv" id="obTabs" role="tablist" aria-label="Thinking view"><small>Thinking</small><i class="tv__th"></i>${TABS.map(([k, l, ti]) => `<button type="button" role="tab" data-obv="${k}" title="${ti}"${k === VIEW ? '' : ' data-soon'}>${l}</button>`).join('')}</div>`); el = $('#obTabs'); h.insertBefore(el, $('#chatPin')); }
+    if (!el) { h.insertAdjacentHTML('beforeend', `<div class="tv" id="obTabs" role="tablist" aria-label="Thinking view"><small>Thinking</small><i class="tv__th"></i>${TABS.map(([k, l, ti]) => `<button type="button" role="tab" data-obv="${k}" title="${ti}"${k === VIEW ? '' : ' data-soon'}>${l}</button>`).join('')}</div>`); el = $('#obTabs'); h.insertBefore(el, $('#chatPin')); if (window.ResizeObserver) new ResizeObserver(() => thumbAt(el)).observe(el); }
     el.hidden = !(S.agent === 'eval' || runs().some(r => r.xp));
     $$('[data-obv]', el).forEach(b => { b.classList.toggle('is-on', b.dataset.obv === VIEW); b.setAttribute('aria-selected', b.dataset.obv === VIEW); });
-    if (!el.hidden) requestAnimationFrame(() => { const o = $('.is-on', el), th = $('.tv__th', el); if (o) { th.style.width = o.offsetWidth + 'px'; th.style.transform = `translateX(${o.offsetLeft}px)`; } }); }
+    if (!el.hidden) requestAnimationFrame(() => thumbAt(el)); }
+  const thumbAt = el => { const o = $('.is-on', el), th = $('.tv__th', el); if (o && o.offsetWidth) { th.style.width = o.offsetWidth + 'px'; th.style.transform = `translateX(${o.offsetLeft}px)`; } };
   /* ---------- hooks into the dashboard's own pipeline ---------- */
   { const o = chatSend; chatSend = function (q, opts = {}) { if (!on()) return o.apply(this, arguments);
     if (CHAT_OPEN || !((q || '').trim() || S.att.length)) return send(q, opts); freshChat(); FRESH_SKIP = true; try { return send(q, opts); } finally { FRESH_SKIP = false; } }; }

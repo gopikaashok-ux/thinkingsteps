@@ -63,7 +63,7 @@ Screenshots: `majlis-option-a-indepth/`.
 
 `/Option C - Extensive.html` (repo root) follows the "Case 3: Show all information" reference: the chat stays focused on the result and the full orchestration lives in a side panel. Pick the **Evaluation** agent, attach one proposal (or use the "1 sample proposal" Try chip) and send:
 
-- **Chat**: a compact agent card ("Evaluation agent · Step 6 of 10 · Re-ran the financial case" → "Completed evaluation", with **View detailed process**), then the dashboard's full assessment.
+- **Chat**: a one-line card: **Thinking 6.0s** · Evaluation agent · current step while running, then **Thought for 11s** · Evaluation agent, with **View detailed process** on the right; then the dashboard's full assessment.
 - **Side panel**, a real third column so the chat narrows instead of being covered. It opens on its own when the run starts and follows it live on **Steps**; when the run finishes it moves to **Overview** unless you picked a tab.
   - **Overview**: total time, agents involved, tools used, data sources, assumptions applied (company plan 7% volume growth, logged rather than asked), final result.
   - **Steps**: 10 numbered steps; the running one is open with Agent / Tool / Input / Output, each done step has **View sample data** and **View logs**.
