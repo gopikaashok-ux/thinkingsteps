@@ -3947,7 +3947,7 @@ window.OM = OM;
 @media (prefers-reduced-motion:reduce){.obs__sh,.obs__dots i.is-run,.obs-ghost i{animation:none!important}}
 /* ---------- "How I got here" · three containers for the same steps: modal, right panel, bottom sheet ---------- */
 /* the demo switch, under the chat header */
-.svt-w{position:relative;z-index:50;display:flex;justify-content:center;padding:0 32px 6px}.svt-w[hidden]{display:none!important}
+.svt-w{position:relative;display:flex;justify-content:center;padding:0 32px 6px}.svt-w[hidden]{display:none!important}
 .svt{position:relative;display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:99px;background:color-mix(in srgb,var(--c4) 10%,var(--tile));border:1px dashed color-mix(in srgb,var(--c4) 35%,var(--line))}
 .svt small{padding:0 8px 0 10px;font:600 11px/1 var(--font);letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--c4) 70%,var(--ink3))}
 .svt__th{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:99px;background:var(--card-s);box-shadow:var(--shadow);transition:transform .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1)}:root[data-theme="dark"] .svt__th{background:rgba(255,255,255,.14)}
@@ -3969,7 +3969,8 @@ window.OM = OM;
 .sv-s p{margin:4px 0 0;font-size:13.5px;line-height:20px;color:var(--ink2)}
 .sv-s p.is-run{background:linear-gradient(90deg,var(--ink2) 0 40%,var(--ink3) 50%,var(--ink2) 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 2s linear infinite}
 .sv-docs{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.sv-doc{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:var(--rs);background:var(--tile);text-align:start;transition:background .2s;animation:chipIn .5s cubic-bezier(.34,1.56,.64,1) both}
+.sv-doc{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:var(--rs);background:var(--tile);text-align:start;transition:background .2s}
+.sv-doc.is-new{animation:chipIn .5s cubic-bezier(.34,1.56,.64,1) both}
 .sv-doc:hover{background:var(--tile2)}.sv-doc>.i{flex:none;color:var(--c4)}
 .sv-doc span{display:flex;flex-direction:column;gap:1px;min-width:0}.sv-doc b{font:500 13px/17px var(--font);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sv-doc small{font-size:12px;line-height:16px;color:var(--ink3)}
 .sv__f{display:flex;align-items:center;gap:8px;padding:12px 20px;border-top:1px solid var(--line);background:var(--tile);font-size:12px;color:var(--ink3)}.sv__f .i{flex:none}
@@ -4069,7 +4070,7 @@ const OBS = (() => {
     if (!e.target.closest('.obs-pop')) closeAll(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('.obs-a.is-pop')) { e.stopPropagation(); closeAll(); } }, true);
   /* ---------- "How I got here" · opened from the stamp as a modal, a right panel or a bottom sheet (demo switch at the top) ---------- */
-  const SV = { mode: 'modal', open: false, run: null, seen: 0 };
+  const SV = { mode: 'modal', open: false, run: null, seen: 0, docs: new Set() };
   const SVM = [['modal', 'Modal', 'layout'], ['panel', 'Right panel', 'layout'], ['sheet', 'Bottom sheet', 'layout']];
   const fname = r => i => r.files[i] ? esc(r.files[i].n) : 'Proposal.pdf';
   /* what each step did, in one or two lines, and the documents it read (each document appears once the step that read it is done) */
@@ -4092,7 +4093,7 @@ const OBS = (() => {
       return `<li class="sv-s is-${p.st}${i >= SV.seen ? ' is-new' : ''}"><i class="sv-s__d">${p.st === 'done' ? ico('check', 13) : `<b>${i + 1}</b>`}</i><div class="sv-s__m">
         <div class="sv-s__h"><b>${LBL[m][p.k]}</b><time>${p.st === 'done' ? secs(p.ms) : 'Working…'}</time></div>
         <p class="${p.st === 'run' ? 'is-run' : ''}">${p.st === 'done' || !cur ? why : `Now: ${esc(cur.t)}${cur.d ? ' · ' + esc(cur.d) : ''}…`}</p>
-        ${docs.length ? `<div class="sv-docs">${docs.map(([ic, n, loc]) => `<button type="button" class="sv-doc" data-sv-doc="${esc(n)}">${ico(ic, 14)}<span><b>${n}</b><small>${loc}</small></span></button>`).join('')}</div>` : ''}</div></li>`; }).join(''); }
+        ${docs.length ? `<div class="sv-docs">${docs.map(([ic, n, loc]) => `<button type="button" class="sv-doc${SV.docs.has(p.k + n) ? '' : ' is-new'}" data-sv-doc="${esc(n)}">${ico(ic, 14)}<span><b>${n}</b><small>${loc}</small></span></button>`).join('')}</div>` : ''}</div></li>`; }).join(''); }
   const svHead = r => `<span class="sv__av">${agAv('eval', true)}</span><div class="sv__t"><h3>How I got here</h3><small>${AG.eval.n} · ${r.done ? `${phases(r).length} steps · ${secs(r.ms)}` : `working on it · <time data-run-t="${r.id}">${secs(Date.now() - r.t0)}</time>`}</small></div><button type="button" class="ic-btn ic-btn--flat" data-sv-x aria-label="Close">${ico('x', 18)}</button>`;
   const svInner = r => `<header class="sv__h">${svHead(r)}</header><ol class="sv__b">${svRows(r)}</ol><footer class="sv__f">${ico('shield', 14)}<span>Documents are shown where a step read them. Tap one to open it at that page.</span></footer>`;
   function svHost(mode) { const main = $('.chat__main'), chat = $('#chat');
@@ -4102,8 +4103,8 @@ const OBS = (() => {
     return el; }
   function svPaint(fresh) { const r = SV.run; if (!r || !SV.open) return; const host = svHost(SV.mode), box = SV.mode === 'panel' ? $('.svp__in', host) : $('.sv__c', host);
     if (fresh || !$('.sv__b', box)) box.innerHTML = svInner(r); else { $('.sv__h', box).innerHTML = svHead(r); const ol = $('.sv__b', box), h = svRows(r); if (ol.innerHTML !== h) { ol.innerHTML = h; $$('.sv-s.is-new', ol).forEach(li => { if (!RM()) grow(li); }); } }
-    SV.seen = phases(r).filter(p => p.st !== 'q').length; }
-  function svOpen(r) { if (!r) return; if (SV.open) svClose(true); SV.run = r; SV.open = true; SV.seen = 0; svPaint(true); const host = svHost(SV.mode);
+    SV.seen = phases(r).filter(p => p.st !== 'q').length; phases(r).forEach(p => stepInfo(r, p).docs.forEach(d => SV.docs.add(p.k + d[1]))); }
+  function svOpen(r) { if (!r) return; if (SV.open) svClose(true); SV.run = r; SV.open = true; SV.seen = 0; SV.docs = new Set(); svPaint(true); const host = svHost(SV.mode);
     if (SV.mode === 'panel') $('#chat').classList.add('is-svp'); else { host.classList.add('is-on'); host.setAttribute('aria-hidden', 'false'); }
     $$('.obs').forEach(b => b.setAttribute('aria-expanded', b.dataset.obsT === r.id)); setTimeout(() => $('[data-sv-x].ic-btn', host)?.focus({ preventScroll: true }), 80); }
   function svClose(quiet) { if (!SV.open) return; SV.open = false; $('#chat').classList.remove('is-svp'); ['#svModal', '#svSheet'].forEach(s => { const el = $(s); if (el) { el.classList.remove('is-on'); el.setAttribute('aria-hidden', 'true'); } });
@@ -4125,5 +4126,9 @@ const OBS = (() => {
   tabs();
   return { get view() { return VIEW; }, tabs };
 })();
+</script>
+<script>
+/* ---------- demo start · the home screen opens with the Evaluation agent picked and the sample proposal ready to assess ---------- */
+(() => { if (S.agent) return; agPick('eval'); renderHero(); const b = $('#heroAsk [data-evtry="single"]'); if (b) b.click(); if (document.activeElement) document.activeElement.blur(); })();
 </script>
 </body></html>

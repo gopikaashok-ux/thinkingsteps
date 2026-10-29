@@ -65,4 +65,6 @@ Screenshots: `majlis-indepth/`.
 
 Each step has a title, a one- or two-line explanation of what it did, and the **documents it read**, with page or section (e.g. *Capital approval policy v3 · §4.2 independent cost review*). Documents appear as the step that read them finishes, and steps appear only once started. Esc, the close button, the scrim or tapping the stamp again closes it. On phones the right panel is full screen and the switch hides while it is open.
 
+The home screen opens with the **Evaluation** agent picked, the sample proposal attached and *Give me a detailed assessment of this proposal.* filled in, so the demo starts with one tap. The demo switch sits behind the modal and sheet blur (switch views with the container closed, or with the right panel open). Document chips animate once, when they first appear.
+
 Screenshots: `majlis-simple-modified/`.
