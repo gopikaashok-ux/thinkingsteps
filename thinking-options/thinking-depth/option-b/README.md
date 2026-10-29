@@ -54,3 +54,15 @@ Screenshots: `majlis-simple/`.
 - Header tabs **Simple · In-depth · Extensive**, with In-depth selected. Same tokens and motion as Case 1; light, dark and phone layouts. Other agents are unchanged.
 
 Screenshots: `majlis-indepth/`.
+
+## Built: Case 1, modified · three ways to open "How I got here"
+
+`/Option B-Simple modified.html` (repo root) is `Option B - Simple.html` with the stamp popover replaced. Tapping the `✓ 3 steps` stamp opens **How I got here**, and a demo switch under the chat header (**Modal · Right panel · Bottom sheet**) picks the container; switching while it is open moves the steps to the new container.
+
+- **Modal**: centred dialog, the chat dims and blurs behind it.
+- **Right panel**: a third grid column, so the chat narrows and stays readable next to the steps.
+- **Bottom sheet**: slides up with a grab handle and a light scrim.
+
+Each step has a title, a one- or two-line explanation of what it did, and the **documents it read**, with page or section (e.g. *Capital approval policy v3 · §4.2 independent cost review*). Documents appear as the step that read them finishes, and steps appear only once started. Esc, the close button, the scrim or tapping the stamp again closes it. On phones the right panel is full screen and the switch hides while it is open.
+
+Screenshots: `majlis-simple-modified/`.
