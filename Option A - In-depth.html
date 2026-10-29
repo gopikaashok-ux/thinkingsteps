@@ -3980,6 +3980,8 @@ window.OM = OM;
 .oa-ghost{display:flex;flex-direction:column;gap:10px;padding:18px 20px;border-radius:var(--r);background:var(--card);border:1px solid var(--cardline)}
 .oa-ghost i{display:block;height:10px;width:var(--w,90%);border-radius:5px;background:linear-gradient(90deg,var(--tile2),var(--tile),var(--tile2)) 0 0/200% 100%;animation:barRun 2s linear infinite}.oa-ghost>i:first-child{height:16px;width:50%}
 
+/* "Go deeper" always closes the response, after confidence and sources */
+.msg__c>.bm-next,.msg__c>.ans-rv>.bm-next{order:99}
 /* the focus modal · the full reasoning, read once and closed */
 .oam{position:absolute;inset:0;z-index:45;display:grid;place-items:center;padding:24px;visibility:hidden;transition:visibility 0s .45s}
 .oam.is-on{visibility:visible;transition-delay:0s}
