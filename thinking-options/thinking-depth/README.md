@@ -58,3 +58,18 @@ A second take on the same three cases, built around a smooth experience: one liv
 When the answer lands the thinking blocks and the action card fold to one line. Content covers all four Peer Benchmarking questions (fleet comparison, forced loss by unit, refuelling outages, value of closing the gap). Header tabs **Simple · In-depth · Extensive** with In-depth selected. Light, dark and phone layouts; other agents unchanged.
 
 Screenshots: `majlis-option-a-indepth/`.
+
+## Built: Option C · Extensive in the Majlis dashboard (Evaluation agent, side panel)
+
+`/Option C - Extensive.html` (repo root) follows the "Case 3: Show all information" reference: the chat stays focused on the result and the full orchestration lives in a side panel. Pick the **Evaluation** agent, attach one proposal (or use the "1 sample proposal" Try chip) and send:
+
+- **Chat**: a compact agent card ("Evaluation agent · Step 6 of 10 · Re-ran the financial case" → "Completed evaluation", with **View detailed process**), then the dashboard's full assessment.
+- **Side panel**, a real third column so the chat narrows instead of being covered. It opens on its own when the run starts and follows it live on **Steps**; when the run finishes it moves to **Overview** unless you picked a tab.
+  - **Overview**: total time, agents involved, tools used, data sources, assumptions applied (company plan 7% volume growth, logged rather than asked), final result.
+  - **Steps**: 10 numbered steps; the running one is open with Agent / Tool / Input / Output, each done step has **View sample data** and **View logs**.
+  - **Tool calls**: every call with status, time, request and response JSON.
+  - **Data**: the five datasets read, each with a sample table and the steps that used it.
+  - **Code & logs**: run configuration or the selected step's invocation, plus a live log stream filterable by warnings or step; copy and export.
+- Header tabs **Simple · In-depth · Extensive** with Extensive selected. No question to the user in this view. Light and dark; on phones the panel opens from the card as a full-screen sheet. Other agents unchanged.
+
+Screenshots: `majlis-option-c-extensive/`.
