@@ -84,3 +84,15 @@ Screenshots: `majlis-option-c-extensive/`.
 The home screen opens with the **Evaluation** agent picked, the sample proposal attached and *Give me a detailed assessment of this proposal.* filled in, so one tap starts the demo.
 
 Screenshots: `majlis-option-c-extensive-modified/`.
+
+## Built: Option A · In-depth, modified (Evaluation agent, one block format)
+
+`/Option A in depth modified.html` (repo root) opens with the **Evaluation** agent picked, the sample proposal attached and *Give me a detailed assessment of this proposal.* filled in. It replaces the mix of formats in the in-depth thread with **one block format** used for every step:
+
+- **Header, one line:** icon · title · one-line summary · time · chevron. Thinking blocks read **Thought for 1.3s**; work blocks use a verb (**Read the proposal**, **Scored on 6 criteria**); the question reads **Need your call**, then **You chose: …**. A small green tick marks a finished block.
+- **Body, always the same rows:** `LABEL | value + short explanation | source chip`. Goal / Plan / Watch for, the six criterion scores, the financial re-run, the policy gaps, the trade-offs, the summary, the confidence gaps and every tab of the **View full reasoning** modal all use it.
+- **Behaviour:** a block opens while it runs (rows arrive one by one with the step that produces them) and folds to its header when it finishes, so a finished answer reads as a short list of one-liners; tap any header to reopen it.
+
+Thread order: Thought for … → message → Read the proposal → Scored on 6 criteria → Need your call (company plan 7% / proposal 12% / both; keys 1–3, 20s default) → Re-ran the financial case → Checked policy and precedent → message → Thought for … → Summary → answer → Confidence and gaps. Peer Benchmarking keeps its existing in-depth view.
+
+Screenshots: `majlis-option-a-indepth-modified/`.
