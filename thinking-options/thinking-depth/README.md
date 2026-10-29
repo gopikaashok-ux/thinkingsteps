@@ -81,4 +81,6 @@ Screenshots: `majlis-option-c-extensive/`.
 - **Tabs**: Overview · Steps · Tool calls (Data and Code & logs removed). Each data source in Overview links to the step that read it.
 - **Steps**, redesigned. Each step shows its title and time, then a **one- or two-line line in plain words on what the step did**, then **chips** instead of "Agent / Tool" text: the agent (Majlis orb or the Evaluation agent's own icon), the tool (with an icon) and the documents it read, with page or section. Tapping a step opens its **Result**, drawn for that step: 42 pages / 6 tables / 18.4k words, key terms with page tags, score bars with the 70/100 verdict, IRR 17.2% → 13.1%, the policy clauses met or missing, the Jeddah hub precedent, 14 of 14 figures traced. Under it, a quiet *Asked* line with the exact input and **View tool call →**, which opens that call in the Tool calls tab.
 
+The home screen opens with the **Evaluation** agent picked, the sample proposal attached and *Give me a detailed assessment of this proposal.* filled in, so one tap starts the demo.
+
 Screenshots: `majlis-option-c-extensive-modified/`.

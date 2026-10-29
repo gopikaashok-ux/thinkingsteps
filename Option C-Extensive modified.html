@@ -4225,4 +4225,8 @@ const OCX = (() => {
   return { open: openPanel, close: closePanel };
 })();
 </script>
+<script>
+/* ---------- demo start · the home screen opens with the Evaluation agent picked and the sample proposal ready to assess ---------- */
+(() => { if (S.agent) return; agPick('eval'); renderHero(); const b = $('#heroAsk [data-evtry="single"]'); if (b) b.click(); if (document.activeElement) document.activeElement.blur(); })();
+</script>
 </body></html>
